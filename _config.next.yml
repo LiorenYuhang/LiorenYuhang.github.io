@@ -41,7 +41,7 @@ site_state: true
 # 社交链接
 social:
   GitHub: https://github.com/LiorenYuhang || fab fa-github
-  E-Mail: mailto:liorenyuhang@example.com || fa fa-envelope
+  E-Mail: mailto:liu999yh@qq.com || fa fa-envelope
 
 social_icons:
   enable: true
@@ -58,10 +58,10 @@ toc:
 
 # 页脚
 footer:
-  since: 2025
+  since: 2026
   powered:
     enable: true
-  copyright: true
+  copyright: LiorenYuhang
 
 # 文章元信息
 post_meta:
