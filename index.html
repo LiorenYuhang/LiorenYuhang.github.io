@@ -225,7 +225,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2026-06-10 18:03:07 / 修改时间：22:00:08" itemprop="dateCreated datePublished" datetime="2026-06-10T18:03:07+08:00">2026-06-10</time>
+      <time title="创建时间：2026-06-10 18:03:07 / 修改时间：22:02:21" itemprop="dateCreated datePublished" datetime="2026-06-10T18:03:07+08:00">2026-06-10</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -313,17 +313,16 @@
 </noscript>
 <script src="/js/click-effect.js"></script>
 <script>
-// 把顶部菜单移到侧边栏-统计之后、社交链接之前
+// 把顶部菜单移到侧边栏-社交链接之前
 (function() {
   var menu = document.querySelector('.site-nav');
   var overview = document.querySelector('.site-overview-wrap');
   if (menu && overview) {
-    // 给菜单加侧边栏样式
     menu.classList.add('sidebar-menu');
-    // 菜单插到统计数据之后、社交链接之前
-    var state = overview.querySelector('.site-state-wrap');
-    if (state) {
-      state.after(menu);
+    // 菜单插到社交链接之前（统计已隐藏，直接找社交链接）
+    var social = overview.querySelector('.links-of-author');
+    if (social) {
+      social.before(menu);
     } else {
       overview.appendChild(menu);
     }
