@@ -1461,7 +1461,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #38ff00;
+    background: #ff7f13;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -3177,6 +3177,16 @@ code {
 /* ========================================
    侧边栏定制样式
    ======================================== */
+/* --- 隐藏顶部菜单栏 --- */
+.header-inner .menu,
+.site-nav,
+.menu {
+  display: none !important;
+}
+/* --- 隐藏重复的头像/作者区域 --- */
+.site-overview-wrap .site-author {
+  display: none !important;
+}
 /* --- 侧边栏菜单 --- */
 .sidebar-menu {
   margin-top: 16px;
