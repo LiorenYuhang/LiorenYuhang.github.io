@@ -6,7 +6,7 @@ type: about
 
 ## 👋 你好！
 
-我是 **[你的名字]**，欢迎来到我的个人网站。
+我是 **LiorenYuhang**，欢迎来到我的个人网站。
 
 ### 关于我
 
@@ -21,5 +21,5 @@ type: about
 
 ### 联系我
 
-- 🐙 GitHub：[你的用户名](https://github.com/你的用户名)
-- 📧 邮箱：your_email@example.com
+- 🐙 GitHub：[LiorenYuhang](https://github.com/LiorenYuhang)
+- 📧 邮箱：liorenyuhang@example.com

@@ -20,8 +20,8 @@ menu:
 
 # 社交链接
 social:
-  fab fa-github: https://github.com/你的用户名 || Github || '#24292e'
-  fas fa-envelope: mailto:你的邮箱@example.com || Email || '#4a7dbe'
+  fab fa-github: https://github.com/LiorenYuhang || Github || '#24292e'
+  fas fa-envelope: mailto:liorenyuhang@example.com || Email || '#4a7dbe'
 
 # 代码块
 code_blocks:
@@ -132,7 +132,7 @@ aside:
       enable: true
       icon: fab fa-github
       text: Follow Me
-      link: https://github.com/你的用户名
+      link: https://github.com/LiorenYuhang
   card_announcement:
     enable: true
     content: 欢迎来到我的个人网站！🎉

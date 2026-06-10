@@ -7,14 +7,13 @@ title: 我的个人网站
 subtitle: ''
 description: '欢迎来到我的个人网站！记录学习、思考与成长。'
 keywords:
-author: 你的名字
+author: LiorenYuhang
 language: zh-CN
 timezone: 'Asia/Shanghai'
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-# 部署到 GitHub Pages 后替换为 https://你的用户名.github.io
-url: http://localhost:4000
+url: https://liorenyuhang.github.io
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -103,5 +102,5 @@ theme: butterfly
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: https://github.com/你的用户名/你的用户名.github.io.git
+  repo: https://github.com/LiorenYuhang/LiorenYuhang.github.io.git
   branch: gh-pages
