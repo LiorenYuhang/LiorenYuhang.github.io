@@ -1,4 +1,5 @@
 {#- 自定义侧边栏：头像+名字+简介+菜单 -#}
+<div class="custom-sidebar-wrap">
 <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
   {%- if theme.avatar.url %}
     <img class="site-author-image" itemprop="image" alt="{{ author }}"
@@ -80,3 +81,5 @@
     {%- endfor %}
   </div>
 {%- endif %}
+</div>
+{#- end custom-sidebar-wrap -#}
