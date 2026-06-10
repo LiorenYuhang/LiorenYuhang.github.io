@@ -285,6 +285,18 @@
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
 </noscript>
 <script src="/js/click-effect.js"></script>
+<script>
+// 把顶部菜单移到侧边栏站点概览区域的最前面
+(function() {
+  var menu = document.querySelector('.site-nav');
+  var overview = document.querySelector('.site-overview-wrap');
+  if (menu && overview) {
+    // 给菜单加侧边栏样式
+    menu.classList.add('sidebar-menu');
+    overview.insertBefore(menu, overview.firstChild);
+  }
+})();
+</script>
 
 </body>
 </html>
