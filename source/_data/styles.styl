@@ -6,8 +6,17 @@
 /* --- 霞鹜文楷字体 --- */
 @import url('https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/style.css');
 
+/* --- 页面背景灰黑渐变 --- */
 body {
   font-family: "LXGW WenKai", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: linear-gradient(180deg, #f0f0f0 0%, #e8e8e8 15%, #ffffff 40%);
+  background-attachment: fixed;
+}
+
+/* --- 暗色模式下渐变 --- */
+[data-theme="dark"] body {
+  background: linear-gradient(180deg, #1a1a2e 0%, #16213e 30%, #0f0f23 100%);
+  background-attachment: fixed;
 }
 
 /* --- 代码保持等宽 --- */
