@@ -96,7 +96,7 @@ back2top:
 reading_progress:
   enable: true
   position: top
-  color: "#4a90d9"
+  color: "#555"
   height: 3px
 
 # 书签
