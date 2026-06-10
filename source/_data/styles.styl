@@ -88,16 +88,16 @@ code {
   display: none !important;
 }
 
-/* --- 顶部标题区只显示副标题大字体 --- */
+/* --- 顶部标题：大字显示副标题内容 --- */
 .site-title {
-  display: none !important;
+  font-size: 22px !important;
+  font-weight: 600;
+  line-height: 1.8;
+  text-align: center;
 }
 
 .site-subtitle {
-  font-size: 20px !important;
-  font-weight: 600;
-  text-align: center;
-  line-height: 1.6;
+  display: none !important;
 }
 
 /* --- 顶部黑色区域 --- */
@@ -107,15 +107,16 @@ code {
 
 .header-inner {
   background: #222 !important;
-  padding: 30px 0 !important;
+  padding: 25px 0 !important;
 }
 
 .site-meta {
   background: #222 !important;
 }
 
-.header .site-subtitle {
-  color: #ccc !important;
+.header .site-title,
+.header .site-title a {
+  color: #ddd !important;
 }
 
 /* --- 侧边栏标签交换位置：站点概览在左，文章目录在右 --- */
