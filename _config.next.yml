@@ -5,6 +5,10 @@
 scheme: Gemini
 darkmode: true
 
+# 自定义文件
+custom_file_path:
+  style: source/_data/styles.styl
+
 favicon:
   small: /images/favicon-16x16-next.png
   medium: /images/favicon-32x32-next.png
@@ -27,6 +31,7 @@ sidebar:
   display: post
 
 avatar:
+  url: /images/avatar.png
   rounded: true
   rotated: false
 
@@ -91,7 +96,7 @@ back2top:
 reading_progress:
   enable: true
   position: top
-  color: "#37c6c0"
+  color: "#4a90d9"
   height: 3px
 
 # 书签
