@@ -8,7 +8,6 @@ darkmode: true
 # 自定义文件
 custom_file_path:
   style: source/_data/styles.styl
-  sidebar: source/_data/sidebar.njk
   bodyEnd: source/_data/body-end.njk
 
 favicon:
