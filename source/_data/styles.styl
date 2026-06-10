@@ -24,9 +24,17 @@ code, pre, .highlight {
   font-family: "Fira Code", "Cascadia Code", "Consolas", "Courier New", monospace;
 }
 
-/* --- 头像变圆形 --- */
+/* --- 头像强制正方形+圆形 --- */
 .site-author-image {
+  width: 100px !important;
+  height: 100px !important;
   border-radius: 50% !important;
+  object-fit: cover;
+}
+
+/* --- 隐藏日志/分类/标签统计 --- */
+.site-state-wrap {
+  display: none !important;
 }
 
 /* --- 卡片微调 --- */
