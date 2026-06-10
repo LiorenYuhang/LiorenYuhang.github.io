@@ -61,8 +61,7 @@ footer:
   since: 2025
   powered:
     enable: true
-  copyright:
-    enable: true
+  copyright: true
 
 # 文章元信息
 post_meta:
