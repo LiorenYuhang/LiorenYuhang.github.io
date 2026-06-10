@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>我的第一篇博客</title>
+      <link href="/2026/06/10/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/"/>
+      <url>/2026/06/10/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/</url>
+      
+        <content type="html"><![CDATA[<h2 id="你好，世界！"><a href="#你好，世界！" class="headerlink" title="你好，世界！"></a>你好，世界！</h2><p>这是我的第一篇博客文章 🎉</p><p>今天我开始用 <strong>Hexo + Butterfly</strong> 搭建自己的个人网站，托管在 GitHub Pages 上。</p><h2 id="为什么要建个人网站？"><a href="#为什么要建个人网站？" class="headerlink" title="为什么要建个人网站？"></a>为什么要建个人网站？</h2><ul><li>📝 记录学习和成长</li><li>🚀 展示项目和作品</li><li>🌐 拥有自己的互联网角落</li></ul><h2 id="搭建过程"><a href="#搭建过程" class="headerlink" title="搭建过程"></a>搭建过程</h2><ol><li>安装 Node.js 和 Hexo</li><li>选择 Butterfly 主题</li><li>写第一篇文章（就是这篇！）</li><li>部署到 GitHub Pages</li></ol><blockquote><p>这只是开始，后面会慢慢完善网站内容和样式。</p></blockquote><p>​<code>javascript console.log(&quot;Hello, World!&quot;); console.log(&quot;欢迎来到我的博客！&quot;); ​</code></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 博客 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 随笔 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
+</search>
