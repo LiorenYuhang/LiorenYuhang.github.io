@@ -1461,7 +1461,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #ffffac;
+    background: #05ff14;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -3184,14 +3184,33 @@ code {
 .menu-item {
   display: none !important;
 }
-/* --- 隐藏原始侧边栏内容（保留自定义 .custom-sidebar-wrap） --- */
-.site-overview-wrap > .site-author,
-.site-overview-wrap > .site-description,
-.site-overview-wrap > .site-state-wrap,
-.site-overview-wrap > .links-of-author,
-.site-overview-wrap > .sidebar-button,
-.site-overview-wrap > .cc-license {
+/* --- 隐藏原始侧边栏的所有内容，只保留自定义的 --- */
+.site-overview-wrap > *:not(.custom-sidebar-wrap) {
   display: none !important;
+}
+/* --- 顶部标题区只显示副标题大字体 --- */
+.site-title {
+  display: none !important;
+}
+.site-subtitle {
+  font-size: 20px !important;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.6;
+}
+/* --- 顶部黑色区域 --- */
+.header {
+  background: #222 !important;
+}
+.header-inner {
+  background: #222 !important;
+  padding: 30px 0 !important;
+}
+.site-meta {
+  background: #222 !important;
+}
+.header .site-subtitle {
+  color: #ccc !important;
 }
 /* --- 侧边栏菜单 --- */
 .sidebar-menu {
