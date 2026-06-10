@@ -122,10 +122,16 @@ code {
 /* --- 侧边栏标签：站点概览在左，文章目录在右 --- */
 .sidebar-nav {
   display: flex !important;
+  flex-direction: row !important;
   width: 100% !important;
 }
 
+.sidebar-nav-overview {
+  order: 1 !important;
+}
+
 .sidebar-nav-toc {
+  order: 2 !important;
   margin-left: auto !important;
 }
 
