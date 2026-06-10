@@ -293,7 +293,13 @@
   if (menu && overview) {
     // 给菜单加侧边栏样式
     menu.classList.add('sidebar-menu');
-    overview.insertBefore(menu, overview.firstChild);
+    // 菜单插到统计数据之后、社交链接之前
+    var state = overview.querySelector('.site-state-wrap');
+    if (state) {
+      state.after(menu);
+    } else {
+      overview.appendChild(menu);
+    }
   }
 })();
 </script>

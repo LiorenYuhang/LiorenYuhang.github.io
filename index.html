@@ -242,7 +242,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2026-06-10 18:03:07 / 修改时间：20:55:05" itemprop="dateCreated datePublished" datetime="2026-06-10T18:03:07+08:00">2026-06-10</time>
+      <time title="创建时间：2026-06-10 18:03:07 / 修改时间：20:59:37" itemprop="dateCreated datePublished" datetime="2026-06-10T18:03:07+08:00">2026-06-10</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -337,7 +337,13 @@
   if (menu && overview) {
     // 给菜单加侧边栏样式
     menu.classList.add('sidebar-menu');
-    overview.insertBefore(menu, overview.firstChild);
+    // 菜单插到统计数据之后、社交链接之前
+    var state = overview.querySelector('.site-state-wrap');
+    if (state) {
+      state.after(menu);
+    } else {
+      overview.appendChild(menu);
+    }
   }
 })();
 </script>
