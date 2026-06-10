@@ -8,6 +8,7 @@ darkmode: true
 # 自定义文件
 custom_file_path:
   style: source/_data/styles.styl
+  bodyEnd: source/_data/body-end.njk
 
 favicon:
   small: /images/favicon-16x16-next.png
