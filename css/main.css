@@ -1461,7 +1461,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #961dff;
+    background: #70cfa2;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -3137,7 +3137,37 @@ pre,
 }
 /* --- 卡片微调 --- */
 .post-block {
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  transition: box-shadow 0.3s ease;
+}
+.post-block:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+/* --- 侧边栏卡片 --- */
+.sidebar-inner .sidebar-nav,
+.sidebar-inner .sidebar-panel,
+.links-of-blogroll,
+.links-of-author {
+  border-radius: 10px;
+}
+/* --- 文章标题 --- */
+.posts-expand .post-title {
+  font-weight: 600;
+}
+.posts-expand .post-title-link {
+  transition: color 0.2s ease;
+}
+/* --- 分割线 --- */
+hr {
+  background: linear-gradient(90deg, transparent, #ddd, #ddd, transparent);
+  height: 1px;
+  border: none;
+}
+/* --- 图片圆角 --- */
+.post-body img {
   border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 /* --- 行内代码 --- */
 code {
