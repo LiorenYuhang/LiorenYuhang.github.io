@@ -1461,7 +1461,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #94fff5;
+    background: #117e0a;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -3194,15 +3194,13 @@ code {
 .header .site-title a {
   color: #ddd !important;
 }
-/* --- 侧边栏标签交换位置：站点概览在左，文章目录在右 --- */
+/* --- 侧边栏标签：站点概览在左，文章目录在右 --- */
 .sidebar-nav {
   display: flex !important;
+  justify-content: space-between !important;
 }
 .sidebar-nav-toc {
-  order: 2 !important;
-}
-.sidebar-nav-overview {
-  order: 1 !important;
+  margin-left: auto !important;
 }
 /* --- 侧边栏菜单 --- */
 .sidebar-menu {
