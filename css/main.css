@@ -1461,7 +1461,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #ff954b;
+    background: #aaba81;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -3231,4 +3231,30 @@ code {
 [data-theme="dark"] .sidebar-menu a:hover {
   background: #2a2a2a;
   color: #ddd;
+}
+/* --- 邮箱复制提示 --- */
+.email-copied-toast {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(34,34,34,0.92);
+  color: #fff;
+  padding: 4px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  white-space: nowrap;
+  z-index: 10;
+  pointer-events: none;
+  animation: toast-fade 0.25s ease;
+}
+@keyframes toast-fade {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
 }

@@ -231,7 +231,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-06-14 16:35:53" itemprop="dateModified" datetime="2026-06-14T16:35:53+08:00">2026-06-14</time>
+      <time title="修改时间：2026-06-14 16:53:46" itemprop="dateModified" datetime="2026-06-14T16:53:46+08:00">2026-06-14</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -333,6 +333,28 @@
       overview.appendChild(menu);
     }
   }
+})();
+</script>
+
+<script>
+// 邮箱点击复制到剪贴板
+(function() {
+  var emailLink = document.querySelector('.links-of-author-item a[href^="mailto:"]');
+  if (!emailLink) return;
+  var email = emailLink.getAttribute('href').replace('mailto:', '');
+  var item = emailLink.closest('.links-of-author-item');
+
+  emailLink.addEventListener('click', function(e) {
+    e.preventDefault();
+    navigator.clipboard.writeText(email).then(function() {
+      var toast = document.createElement('span');
+      toast.className = 'email-copied-toast';
+      toast.textContent = '已复制';
+      item.style.position = 'relative';
+      item.appendChild(toast);
+      setTimeout(function() { toast.remove(); }, 5000);
+    });
+  });
 })();
 </script>
 

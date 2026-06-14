@@ -285,5 +285,27 @@
 })();
 </script>
 
+<script>
+// 邮箱点击复制到剪贴板
+(function() {
+  var emailLink = document.querySelector('.links-of-author-item a[href^="mailto:"]');
+  if (!emailLink) return;
+  var email = emailLink.getAttribute('href').replace('mailto:', '');
+  var item = emailLink.closest('.links-of-author-item');
+
+  emailLink.addEventListener('click', function(e) {
+    e.preventDefault();
+    navigator.clipboard.writeText(email).then(function() {
+      var toast = document.createElement('span');
+      toast.className = 'email-copied-toast';
+      toast.textContent = '已复制';
+      item.style.position = 'relative';
+      item.appendChild(toast);
+      setTimeout(function() { toast.remove(); }, 5000);
+    });
+  });
+})();
+</script>
+
 </body>
 </html>
