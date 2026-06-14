@@ -12,7 +12,7 @@ cover:
 
 这是一句工科生熟悉的不能再熟悉的话 
 
-我用 **Hexo + NexT** 搭建了一个自己的个人网站，通过 GitHub Pages 和 Netlify 双线托管。
+我用 **Hexo + NexT** 搭建了一个自己的个人网站，通过 GitHub Pages 托管。
 
 ## 为什么要建个人网站？
 
@@ -143,16 +143,6 @@ jobs:
 
 然后去 GitHub 仓库 → Settings → Pages → Source 选 `gh-pages` 分支 → Save。1 分钟后网站就在 `https://你的用户名.github.io` 上线了。
 
-**Netlify 双线托管**（可选，获得短域名）：
-
-```bash
-npm install -g netlify-cli
-netlify login
-netlify deploy --prod
-```
-
-得到一个 `xxx.netlify.app` 短域名，在后台可改名。
-
 ### 7. 日常使用
 
 ```bash
@@ -162,7 +152,7 @@ npx hexo server                                 # 本地预览
 git add -A && git commit -m "新文章" && git push # 发布
 ```
 
-推送后 GitHub Actions 和 Netlify 自动构建部署，全程免费。
+推送后 GitHub Actions 自动构建部署，全程免费。
 
 > 这只是开始，后面会慢慢完善网站内容和样式。一个机器人方向的博士生的科研。
 
