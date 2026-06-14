@@ -28,7 +28,7 @@
 <meta property="og:description" content="从零开始，一步步教你用 Hexo + NexT + GitHub Pages 搭建免费个人网站">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-06-10T10:03:07.000Z">
-<meta property="article:modified_time" content="2026-06-11T05:01:01.140Z">
+<meta property="article:modified_time" content="2026-06-14T07:12:35.689Z">
 <meta property="article:author" content="刘宇杭">
 <meta property="article:tag" content="GitHub Pages">
 <meta property="article:tag" content="Hexo">
@@ -238,7 +238,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-06-11 13:01:01" itemprop="dateModified" datetime="2026-06-11T13:01:01+08:00">2026-06-11</time>
+      <time title="修改时间：2026-06-14 15:12:35" itemprop="dateModified" datetime="2026-06-14T15:12:35+08:00">2026-06-14</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -261,7 +261,7 @@
     
     
     <div class="post-body" itemprop="articleBody"><h2 id="你好，世界！"><a href="#你好，世界！" class="headerlink" title="你好，世界！"></a>你好，世界！</h2><p>这是一句工科生熟悉的不能再熟悉的话 </p>
-<p>我用 <strong>Hexo + NexT</strong> 搭建了一个自己的个人网站，通过 GitHub Pages 和 Netlify 双线托管。</p>
+<p>我用 <strong>Hexo + NexT</strong> 搭建了一个自己的个人网站，通过 GitHub Pages 托管。</p>
 <h2 id="为什么要建个人网站？"><a href="#为什么要建个人网站？" class="headerlink" title="为什么要建个人网站？"></a>为什么要建个人网站？</h2><ul>
 <li>📝 记录学习和成长</li>
 <li>🚀 展示项目和作品</li>
@@ -324,13 +324,9 @@
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">Deploy</span> <span class="string">to</span> <span class="string">GitHub</span> <span class="string">Pages</span></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches:</span> [<span class="string">main</span>]</span><br><span class="line"><span class="attr">permissions:</span></span><br><span class="line">  <span class="attr">contents:</span> <span class="string">write</span></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">build-and-deploy:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">uses:</span> <span class="string">actions/checkout@v4</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">uses:</span> <span class="string">actions/setup-node@v4</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">node-version:</span> <span class="string">&#x27;20&#x27;</span></span><br><span class="line">          <span class="attr">cache:</span> <span class="string">npm</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">run:</span> <span class="string">npm</span> <span class="string">ci</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">run:</span> <span class="string">npx</span> <span class="string">hexo</span> <span class="string">generate</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">uses:</span> <span class="string">peaceiris/actions-gh-pages@v3</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">github_token:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.GITHUB_TOKEN</span> <span class="string">&#125;&#125;</span></span><br><span class="line">          <span class="attr">publish_dir:</span> <span class="string">./public</span></span><br><span class="line">          <span class="attr">publish_branch:</span> <span class="string">gh-pages</span></span><br></pre></td></tr></table></figure>
 
 <p>然后去 GitHub 仓库 → Settings → Pages → Source 选 <code>gh-pages</code> 分支 → Save。1 分钟后网站就在 <code>https://你的用户名.github.io</code> 上线了。</p>
-<p><strong>Netlify 双线托管</strong>（可选，获得短域名）：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install -g netlify-cli</span><br><span class="line">netlify login</span><br><span class="line">netlify deploy --prod</span><br></pre></td></tr></table></figure>
-
-<p>得到一个 <code>xxx.netlify.app</code> 短域名，在后台可改名。</p>
 <h3 id="7-日常使用"><a href="#7-日常使用" class="headerlink" title="7. 日常使用"></a>7. 日常使用</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npx hexo new <span class="string">&quot;新文章&quot;</span>                          <span class="comment"># 创建</span></span><br><span class="line"><span class="comment"># 编辑 source/_posts/新文章.md</span></span><br><span class="line">npx hexo server                                 <span class="comment"># 本地预览</span></span><br><span class="line">git add -A &amp;&amp; git commit -m <span class="string">&quot;新文章&quot;</span> &amp;&amp; git push <span class="comment"># 发布</span></span><br></pre></td></tr></table></figure>
 
-<p>推送后 GitHub Actions 和 Netlify 自动构建部署，全程免费。</p>
+<p>推送后 GitHub Actions 自动构建部署，全程免费。</p>
 <blockquote>
 <p>这只是开始，后面会慢慢完善网站内容和样式。一个机器人方向的博士生的科研。</p>
 </blockquote>
