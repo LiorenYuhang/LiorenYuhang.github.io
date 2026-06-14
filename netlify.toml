@@ -1,7 +1,0 @@
-# Netlify 部署配置
-[build]
-  command = "hexo generate"
-  publish = "public"
-
-[build.environment]
-  NODE_VERSION = "20"
