@@ -2,6 +2,7 @@
 title: 关于我
 date: 2026-06-10 18:03:48
 type: about
+toc: false
 ---
 
 ## 👋 你好！
