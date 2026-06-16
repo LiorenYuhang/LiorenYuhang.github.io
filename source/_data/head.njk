@@ -3,6 +3,9 @@
 (function() { if (location.pathname.includes('/about')) document.documentElement.className += ' is-about-page'; })();
 </script>
 <style>
-html.is-about-page .sidebar-nav-toc { display: none !important; }
+/* 关于页默认显示站点概览面板 */
+html.is-about-page .sidebar-panel-overview { display: block !important; }
 html.is-about-page .sidebar-panel-toc { display: none !important; }
+html.is-about-page .sidebar-nav-overview { font-weight: bold; }
+html.is-about-page .sidebar-nav-toc { font-weight: normal; }
 </style>
