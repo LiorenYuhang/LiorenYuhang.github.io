@@ -310,6 +310,13 @@
 (function() {
   var emailLink = document.querySelector('.links-of-author-item a[href^="mailto:"]');
   if (!emailLink) return;
+
+  // 归档页标语
+  (function() {
+    if (!window.location.pathname.includes('/archives')) return;
+    var header = document.querySelector('.collection-header');
+    if (header) header.textContent = '记录思考，对抗遗忘。';
+  })();
   var email = emailLink.getAttribute('href').replace('mailto:', '');
   var item = emailLink.closest('.links-of-author-item');
 
