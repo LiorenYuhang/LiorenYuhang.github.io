@@ -28,7 +28,7 @@
 <meta property="og:description" content="从零开始，一步步教你用 Hexo + NexT + GitHub Pages 搭建免费个人网站">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-06-10T10:03:07.000Z">
-<meta property="article:modified_time" content="2026-06-16T06:05:29.489Z">
+<meta property="article:modified_time" content="2026-06-16T06:10:44.254Z">
 <meta property="article:author" content="刘宇杭">
 <meta property="article:tag" content="GitHub Pages">
 <meta property="article:tag" content="Hexo">
@@ -71,6 +71,15 @@
 
 
 <script>document.title = "刘宇杭";</script>
+<script>
+(function() { if (location.pathname.includes('/about')) document.documentElement.className += ' is-about-page'; })();
+</script>
+<style>
+html.is-about-page .sidebar-nav,
+html.is-about-page .sidebar-nav-toc,
+html.is-about-page .sidebar-panel-toc { display: none !important; }
+html.is-about-page .sidebar-panel-overview { display: block !important; }
+</style>
 
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
@@ -238,7 +247,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-06-16 14:05:29" itemprop="dateModified" datetime="2026-06-16T14:05:29+08:00">2026-06-16</time>
+      <time title="修改时间：2026-06-16 14:10:44" itemprop="dateModified" datetime="2026-06-16T14:10:44+08:00">2026-06-16</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -452,19 +461,8 @@
     if (header) header.textContent = '记录思考，对抗遗忘。';
   })();
 
-  // 关于页面隐藏侧边栏标签区
-  (function() {
-    if (!window.location.pathname.includes('/about')) return;
-    var sidebar = document.querySelector('.sidebar');
-    if (!sidebar) return;
-    // 隐藏所有标签按钮和面板，直接显示站点概览内容
-    var nav = sidebar.querySelector('.sidebar-nav');
-    var toc = sidebar.querySelector('.sidebar-panel-toc');
-    var overview = sidebar.querySelector('.sidebar-panel-overview');
-    if (nav) nav.style.display = 'none';
-    if (toc) toc.style.display = 'none';
-    if (overview) overview.style.display = 'block';
-  })();
+
+
   var email = emailLink.getAttribute('href').replace('mailto:', '');
   var item = emailLink.closest('.links-of-author-item');
 
