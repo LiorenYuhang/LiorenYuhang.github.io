@@ -28,7 +28,7 @@
 <meta property="og:description" content="医工交叉结合方向机器人方向博士生">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-06-16T05:38:11.000Z">
-<meta property="article:modified_time" content="2026-06-16T05:45:35.914Z">
+<meta property="article:modified_time" content="2026-06-16T05:52:48.353Z">
 <meta property="article:author" content="刘宇杭">
 <meta name="twitter:card" content="summary">
 
@@ -293,6 +293,13 @@
     if (!window.location.pathname.includes('/archives')) return;
     var header = document.querySelector('.collection-header');
     if (header) header.textContent = '记录思考，对抗遗忘。';
+  })();
+
+  // 关于页面隐藏侧边栏标签区
+  (function() {
+    if (!window.location.pathname.includes('/about')) return;
+    var nav = document.querySelector('.sidebar-nav');
+    if (nav) nav.style.display = 'none';
   })();
   var email = emailLink.getAttribute('href').replace('mailto:', '');
   var item = emailLink.closest('.links-of-author-item');

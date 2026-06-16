@@ -317,6 +317,13 @@
     var header = document.querySelector('.collection-header');
     if (header) header.textContent = '记录思考，对抗遗忘。';
   })();
+
+  // 关于页面隐藏侧边栏标签区
+  (function() {
+    if (!window.location.pathname.includes('/about')) return;
+    var nav = document.querySelector('.sidebar-nav');
+    if (nav) nav.style.display = 'none';
+  })();
   var email = emailLink.getAttribute('href').replace('mailto:', '');
   var item = emailLink.closest('.links-of-author-item');
 
