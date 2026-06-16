@@ -12,8 +12,8 @@ custom_file_path:
   bodyEnd: source/_data/body-end.njk
 
 favicon:
-  small: /images/LLL.jpg
-  medium: /images/LLL.jpg
+  small: /images/LYH.png
+  medium: /images/LYH.png
 
 # 菜单
 menu:
