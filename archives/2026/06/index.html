@@ -70,10 +70,8 @@
 (function() { if (location.pathname.includes('/about')) document.documentElement.className += ' is-about-page'; })();
 </script>
 <style>
-html.is-about-page .sidebar-nav,
-html.is-about-page .sidebar-nav-toc,
+html.is-about-page .sidebar-nav-toc { display: none !important; }
 html.is-about-page .sidebar-panel-toc { display: none !important; }
-html.is-about-page .sidebar-panel-overview { display: block !important; }
 </style>
 
   <noscript>
