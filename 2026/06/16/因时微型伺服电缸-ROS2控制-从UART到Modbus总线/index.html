@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"liorenyuhang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"language":false,"highlight_theme":"night eighties"},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fade","post_header":"fade","post_body":"fade","coll_header":"fade","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="博士课题中因时 LAF 微型伺服电缸的完整控制方案——从单电机 UART 直连到多电机 Modbus 总线，覆盖 6 种控制模式，分层架构设计，ROS2 Jazzy 集成。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="因时微型伺服电缸的 ROS2 控制：从 UART 直连到 Modbus 总线">
+<meta property="og:url" content="https://liorenyuhang.github.io/2026/06/16/%E5%9B%A0%E6%97%B6%E5%BE%AE%E5%9E%8B%E4%BC%BA%E6%9C%8D%E7%94%B5%E7%BC%B8-ROS2%E6%8E%A7%E5%88%B6-%E4%BB%8EUART%E5%88%B0Modbus%E6%80%BB%E7%BA%BF/index.html">
+<meta property="og:site_name" content="吾性自足，不假外求&lt;br&gt;明心见性，知行合一">
+<meta property="og:description" content="博士课题中因时 LAF 微型伺服电缸的完整控制方案——从单电机 UART 直连到多电机 Modbus 总线，覆盖 6 种控制模式，分层架构设计，ROS2 Jazzy 集成。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-06-16T04:00:00.000Z">
+<meta property="article:modified_time" content="2026-06-16T03:06:14.039Z">
+<meta property="article:author" content="刘宇杭">
+<meta property="article:tag" content="Modbus">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="ROS2">
+<meta property="article:tag" content="机器人">
+<meta property="article:tag" content="电机控制">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://liorenyuhang.github.io/2026/06/16/%E5%9B%A0%E6%97%B6%E5%BE%AE%E5%9E%8B%E4%BC%BA%E6%9C%8D%E7%94%B5%E7%BC%B8-ROS2%E6%8E%A7%E5%88%B6-%E4%BB%8EUART%E5%88%B0Modbus%E6%80%BB%E7%BA%BF/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://liorenyuhang.github.io/2026/06/16/%E5%9B%A0%E6%97%B6%E5%BE%AE%E5%9E%8B%E4%BC%BA%E6%9C%8D%E7%94%B5%E7%BC%B8-ROS2%E6%8E%A7%E5%88%B6-%E4%BB%8EUART%E5%88%B0Modbus%E6%80%BB%E7%BA%BF/","path":"2026/06/16/因时微型伺服电缸-ROS2控制-从UART到Modbus总线/","title":"因时微型伺服电缸的 ROS2 控制：从 UART 直连到 Modbus 总线"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>因时微型伺服电缸的 ROS2 控制：从 UART 直连到 Modbus 总线 | 吾性自足，不假外求<br>明心见性，知行合一</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+<script>document.title = "刘宇杭";</script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">吾性自足，不假外求<br>明心见性，知行合一</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%A1%88%E5%AF%B9%E6%AF%94"><span class="nav-number">2.</span> <span class="nav-text">方案对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E7%A1%AC%E4%BB%B6%E9%80%89%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">一、硬件选型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90"><span class="nav-number">3.1.</span> <span class="nav-text">1.1 需求分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-LAF50-024D-%E8%A7%84%E6%A0%BC%E5%8F%82%E6%95%B0"><span class="nav-number">3.2.</span> <span class="nav-text">1.2 LAF50-024D 规格参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E7%AC%AC%E4%B8%80%E9%98%B6%E6%AE%B5%EF%BC%9AUART-%E7%9B%B4%E8%BF%9E%E6%8E%A7%E5%88%B6"><span class="nav-number">4.</span> <span class="nav-text">二、第一阶段：UART 直连控制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E7%A1%AC%E4%BB%B6%E8%BF%9E%E6%8E%A5"><span class="nav-number">4.1.</span> <span class="nav-text">2.1 硬件连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84"><span class="nav-number">4.2.</span> <span class="nav-text">2.2 软件架构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E4%BF%A1%E5%B1%82"><span class="nav-number">4.2.1.</span> <span class="nav-text">通信层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%8F%E8%AE%AE%E5%B1%82"><span class="nav-number">4.2.2.</span> <span class="nav-text">协议层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A9%B1%E5%8A%A8%E5%B1%82"><span class="nav-number">4.2.3.</span> <span class="nav-text">驱动层</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E6%8E%A7%E5%88%B6%E6%A8%A1%E5%BC%8F"><span class="nav-number">4.3.</span> <span class="nav-text">2.3 控制模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-ROS2-%E9%9B%86%E6%88%90"><span class="nav-number">4.4.</span> <span class="nav-text">2.4 ROS2 集成</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E7%AC%AC%E4%BA%8C%E9%98%B6%E6%AE%B5%EF%BC%9AModbus-%E6%80%BB%E7%BA%BF%E8%81%94%E6%8E%A7"><span class="nav-number">5.</span> <span class="nav-text">三、第二阶段：Modbus 总线联控</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E5%88%87%E6%8D%A2%E5%8A%A8%E6%9C%BA"><span class="nav-number">5.1.</span> <span class="nav-text">3.1 切换动机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E7%A1%AC%E4%BB%B6%E5%8F%98%E6%9B%B4"><span class="nav-number">5.2.</span> <span class="nav-text">3.2 硬件变更</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E8%BD%AF%E4%BB%B6%E5%8F%98%E6%9B%B4"><span class="nav-number">5.3.</span> <span class="nav-text">3.3 软件变更</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-%E5%A4%9A%E7%94%B5%E6%9C%BA%E6%8E%A7%E5%88%B6"><span class="nav-number">5.4.</span> <span class="nav-text">3.4 多电机控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-%E9%80%9A%E4%BF%A1%E9%80%9F%E7%8E%87"><span class="nav-number">5.5.</span> <span class="nav-text">3.5 通信速率</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E6%96%87%E6%A1%A3%E4%B8%8E%E5%8F%AF%E5%A4%8D%E7%8E%B0%E6%80%A7"><span class="nav-number">6.</span> <span class="nav-text">四、文档与可复现性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E4%BB%A3%E7%A0%81%E4%BB%93%E5%BA%93"><span class="nav-number">7.</span> <span class="nav-text">五、代码仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E5%90%8E%E7%BB%AD%E5%B7%A5%E4%BD%9C"><span class="nav-number">8.</span> <span class="nav-text">六、后续工作</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="刘宇杭"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">刘宇杭</p>
+  <div class="site-description" itemprop="description">医工交叉结合方向机器人方向博士生</div>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/LiorenYuhang" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;LiorenYuhang" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:liu999yh@qq.com" title="E-Mail → mailto:liu999yh@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://liorenyuhang.github.io/2026/06/16/%E5%9B%A0%E6%97%B6%E5%BE%AE%E5%9E%8B%E4%BC%BA%E6%9C%8D%E7%94%B5%E7%BC%B8-ROS2%E6%8E%A7%E5%88%B6-%E4%BB%8EUART%E5%88%B0Modbus%E6%80%BB%E7%BA%BF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="刘宇杭">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="吾性自足，不假外求<br>明心见性，知行合一">
+      <meta itemprop="description" content="医工交叉结合方向机器人方向博士生">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="因时微型伺服电缸的 ROS2 控制：从 UART 直连到 Modbus 总线 | 吾性自足，不假外求<br>明心见性，知行合一">
+      <meta itemprop="description" content="博士课题中因时 LAF 微型伺服电缸的完整控制方案——从单电机 UART 直连到多电机 Modbus 总线，覆盖 6 种控制模式，分层架构设计，ROS2 Jazzy 集成。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          因时微型伺服电缸的 ROS2 控制：从 UART 直连到 Modbus 总线
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-06-16 12:00:00 / 修改时间：11:06:14" itemprop="dateCreated datePublished" datetime="2026-06-16T12:00:00+08:00">2026-06-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%BA%E5%99%A8%E4%BA%BA/" itemprop="url" rel="index"><span itemprop="name">机器人</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">博士课题中因时 LAF 微型伺服电缸的完整控制方案——从单电机 UART 直连到多电机 Modbus 总线，覆盖 6 种控制模式，分层架构设计，ROS2 Jazzy 集成。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>面向微型并联平台对执行器在尺寸、力控精度与多轴联控方面的综合需求，完成了因时 LAF50-024D 微型伺服电缸的全栈控制系统。工作覆盖硬件层接线与通信链路搭建、二进制协议与 Modbus RTU 协议解析、分层驱动架构设计与实现、ROS2 节点封装与交互式终端开发，以及从单电机 UART 直连到多电机 RS485 总线联控的完整演进。全部代码开源，在 Ubuntu 24.04 + ROS2 Jazzy 环境下通过验证。</p>
+<hr>
+<h2 id="方案对比"><a href="#方案对比" class="headerlink" title="方案对比"></a>方案对比</h2><table>
+<thead>
+<tr>
+<th></th>
+<th>UART 方案</th>
+<th>Modbus 方案</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>仓库</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/LiorenYuhang/inspire_motor_uart">inspire_motor_uart</a></td>
+<td><a target="_blank" rel="noopener" href="https://github.com/LiorenYuhang/inspire_motor_modbus">inspire_motor_modbus</a></td>
+</tr>
+<tr>
+<td>通信方式</td>
+<td>USB-TTL，因时自定义二进制协议</td>
+<td>RS485 总线，Modbus RTU</td>
+</tr>
+<tr>
+<td>物理层</td>
+<td>LVTTL 3.3V，点对点</td>
+<td>RS485 差分，一主多从</td>
+</tr>
+<tr>
+<td>多电机支持</td>
+<td>每电机独占 USB 串口</td>
+<td>共享 RS485 总线，从站地址区分</td>
+</tr>
+<tr>
+<td>依赖库</td>
+<td><code>pyserial</code></td>
+<td><code>minimalmodbus</code></td>
+</tr>
+<tr>
+<td>控制模式</td>
+<td>6 种（全模式）</td>
+<td>5 种（电压模式未映射）</td>
+</tr>
+<tr>
+<td>定位</td>
+<td>单电机验证与调试</td>
+<td>多电机联控与平台部署</td>
+</tr>
+</tbody></table>
+<p>两套方案共用同一分层架构和 <code>MotorController</code> 对外接口，底层通信方式的切换不影响上层调用。</p>
+<hr>
+<h2 id="一、硬件选型"><a href="#一、硬件选型" class="headerlink" title="一、硬件选型"></a>一、硬件选型</h2><h3 id="1-1-需求分析"><a href="#1-1-需求分析" class="headerlink" title="1.1 需求分析"></a>1.1 需求分析</h3><p>博士课题研究微型并联平台，对执行器的约束如下：</p>
+<ul>
+<li>尺寸受限，平台动平台空间狭窄，常规伺服电机与减速器组合无法装入</li>
+<li>需要力闭环控制能力，末端操作涉及精密接触，力传感器为必选项</li>
+<li>通信接口应支持多设备组网，后期需在单一总线上挂载多台电缸</li>
+<li>上位机端需双向指令与状态反馈，不接受开环 PWM 驱动</li>
+</ul>
+<p>主流微型舵机仅提供位置环控制，无力反馈通道；工业伺服电机虽具备力控，但尺寸与自重远超平台承载范围。综合评估后选定因时机器人 LAF 系列力闭环微型伺服电缸。</p>
+<h3 id="1-2-LAF50-024D-规格参数"><a href="#1-2-LAF50-024D-规格参数" class="headerlink" title="1.2 LAF50-024D 规格参数"></a>1.2 LAF50-024D 规格参数</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>数值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>行程</td>
+<td>50 mm</td>
+</tr>
+<tr>
+<td>重量</td>
+<td>50 g</td>
+</tr>
+<tr>
+<td>最大推拉力</td>
+<td>50 N</td>
+</tr>
+<tr>
+<td>堵转推拉力</td>
+<td>80 N</td>
+</tr>
+<tr>
+<td>最大自锁力</td>
+<td>80 N</td>
+</tr>
+<tr>
+<td>空载速度</td>
+<td>17 mm&#x2F;s</td>
+</tr>
+<tr>
+<td>额定速度</td>
+<td>8 mm&#x2F;s</td>
+</tr>
+<tr>
+<td>重复定位精度</td>
+<td>±0.1 mm</td>
+</tr>
+<tr>
+<td>力传感器检测范围</td>
+<td>±100 N</td>
+</tr>
+<tr>
+<td>力传感器分辨率</td>
+<td>1 N</td>
+</tr>
+<tr>
+<td>静态电流</td>
+<td>0.05 A</td>
+</tr>
+<tr>
+<td>峰值电流</td>
+<td>2 A</td>
+</tr>
+<tr>
+<td>供电电压</td>
+<td>DC 8V</td>
+</tr>
+<tr>
+<td>通信接口</td>
+<td>D 型（UART，LVTTL 3.3V）</td>
+</tr>
+<tr>
+<td>防护等级</td>
+<td>IP40</td>
+</tr>
+<tr>
+<td>控制模式</td>
+<td>位置 &#x2F; 速度 &#x2F; 力 &#x2F; 电压 &#x2F; 伺服 &#x2F; 速度力控</td>
+</tr>
+</tbody></table>
+<p>内置力传感器与力闭环控制为选型的决定性因素，无需在末端额外串联力传感器，减小了平台动平台的惯量负担。</p>
+<hr>
+<h2 id="二、第一阶段：UART-直连控制"><a href="#二、第一阶段：UART-直连控制" class="headerlink" title="二、第一阶段：UART 直连控制"></a>二、第一阶段：UART 直连控制</h2><h3 id="2-1-硬件连接"><a href="#2-1-硬件连接" class="headerlink" title="2.1 硬件连接"></a>2.1 硬件连接</h3><p>单电机最小系统由一个 USB-TTL 模块（CP2102&#x2F;CH340，LVTTL 3.3V 电平）、一个 DC 8V&#x2F;2A 电源与四根杜邦线组成。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PC USB → CP2102/CH340 (TTL 3.3V) → 电缸 D 型接口</span><br><span class="line">                                     ① GND (黑)  ── 电源 GND</span><br><span class="line">                                     ② VCC (红)  ── 电源 +8V</span><br><span class="line">                                     ③ RXD (黄)  ← USB-TTL TXD</span><br><span class="line">                                     ④ TXD (蓝)  → USB-TTL RXD</span><br></pre></td></tr></table></figure>
+
+<p>注意事项：</p>
+<ul>
+<li>USB-TTL 模块须为 LVTTL 3.3V 电平，5V 电平模块会损坏电缸 IO</li>
+<li>电源、USB-TTL、电缸三端 GND 共地</li>
+<li>禁止带电插拔</li>
+</ul>
+<h3 id="2-2-软件架构"><a href="#2-2-软件架构" class="headerlink" title="2.2 软件架构"></a>2.2 软件架构</h3><p>代码按四层结构组织，各层职责边界明确：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">交互层  (motor_node.py)        ROS2 终端节点与用户输入解析</span><br><span class="line">驱动层  (motor_driver.py)      控制模式封装、状态结构体定义</span><br><span class="line">协议层  (ins_protocol.py)      二进制帧打包/解包、校验、命令编码</span><br><span class="line">通信层  (ins_uart.py)          串口读写、字节级收发</span><br></pre></td></tr></table></figure>
+
+<h4 id="通信层"><a href="#通信层" class="headerlink" title="通信层"></a>通信层</h4><p>封装 <code>pyserial</code> 实现字节流收发，不涉及任何协议语义。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">InsUART</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, port, baudrate=<span class="number">921600</span></span>):</span><br><span class="line">        <span class="variable language_">self</span>.ser = serial.Serial(port, baudrate, timeout=<span class="number">0.05</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">send</span>(<span class="params">self, data: <span class="built_in">bytes</span></span>):</span><br><span class="line">        <span class="variable language_">self</span>.ser.write(data)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">recv</span>(<span class="params">self, expected_len: <span class="built_in">int</span></span>) -&gt; <span class="built_in">bytes</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.ser.read(expected_len)</span><br></pre></td></tr></table></figure>
+
+<h4 id="协议层"><a href="#协议层" class="headerlink" title="协议层"></a>协议层</h4><p>因时自定义二进制帧格式为 <code>| 帧头 0xAA | ID | 长度 | 命令 | 数据 | 校验和 |</code>。协议层负责帧的构造与解析，将上层语义指令映射为字节序列。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">InsProtocol</span>:</span><br><span class="line">    CMD_SET_POSITION  = <span class="number">0x01</span></span><br><span class="line">    CMD_SET_SPEED     = <span class="number">0x02</span></span><br><span class="line">    CMD_SET_FORCE     = <span class="number">0x03</span></span><br><span class="line">    CMD_READ_STATUS   = <span class="number">0x10</span></span><br><span class="line">    <span class="comment"># 共 20+ 条指令编码</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">pack_position_cmd</span>(<span class="params">self, motor_id, position</span>):</span><br><span class="line">        frame = <span class="built_in">bytearray</span>([<span class="number">0xAA</span>, motor_id, <span class="number">0x04</span>, <span class="variable language_">self</span>.CMD_SET_POSITION])</span><br><span class="line">        frame.extend(position.to_bytes(<span class="number">2</span>, <span class="string">&#x27;little&#x27;</span>))</span><br><span class="line">        frame.append(<span class="variable language_">self</span>._checksum(frame))</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">bytes</span>(frame)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">unpack_status</span>(<span class="params">self, raw_bytes</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;按协议字段偏移逐字节解析&quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="驱动层"><a href="#驱动层" class="headerlink" title="驱动层"></a>驱动层</h4><p>向上层暴露模式控制接口，将通信细节与协议实现完全封装。<code>MotorController</code> 对外仅提供与方法名对应的功能调用，调用方无需了解帧结构。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MotorController</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, port, motor_id=<span class="number">1</span></span>):</span><br><span class="line">        <span class="variable language_">self</span>.uart = InsUART(port)</span><br><span class="line">        <span class="variable language_">self</span>.proto = InsProtocol()</span><br><span class="line">        <span class="variable language_">self</span>.motor_id = motor_id</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">move_to_position</span>(<span class="params">self, position</span>):</span><br><span class="line">        cmd = <span class="variable language_">self</span>.proto.pack_position_cmd(<span class="variable language_">self</span>.motor_id, position)</span><br><span class="line">        <span class="variable language_">self</span>.uart.send(cmd)</span><br><span class="line">        resp = <span class="variable language_">self</span>.uart.recv(EXPECTED_LEN)</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.proto.unpack_response(resp)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">set_force_mode</span>(<span class="params">self, force_target</span>):</span><br><span class="line">        <span class="comment"># 同模式，不同命令码</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">read_status</span>(<span class="params">self</span>) -&gt; StatusFeedback:</span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<p>四层架构的核心收益在于：通信层和协议层可独立替换而不影响驱动层及上层节点。后续由 UART 切换到 Modbus 时，驱动层接口完全保持兼容。</p>
+<h3 id="2-3-控制模式"><a href="#2-3-控制模式" class="headerlink" title="2.3 控制模式"></a>2.3 控制模式</h3><p>6 种控制模式均通过实物电缸完成验证：</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>功能</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>定位</td>
+<td>给定绝对位置，电缸自动规划到位</td>
+<td>点到点运动</td>
+</tr>
+<tr>
+<td>伺服</td>
+<td>≥50Hz 高频位置指令，电缸实时跟随</td>
+<td>轨迹跟踪</td>
+</tr>
+<tr>
+<td>速度</td>
+<td>以设定速度匀速运行至目标位置停止</td>
+<td>恒速扫描</td>
+</tr>
+<tr>
+<td>力控</td>
+<td>动态调节位置以维持受力在设定值</td>
+<td>恒力接触操作</td>
+</tr>
+<tr>
+<td>电压</td>
+<td>直接设定电机两端电压</td>
+<td>底层调试与开环控制</td>
+</tr>
+<tr>
+<td>速度力控</td>
+<td>设定速度运动，受力超限时自动停止</td>
+<td>带力保护的夹持</td>
+</tr>
+</tbody></table>
+<h3 id="2-4-ROS2-集成"><a href="#2-4-ROS2-集成" class="headerlink" title="2.4 ROS2 集成"></a>2.4 ROS2 集成</h3><p>封装为 ROS2 包 <code>insmotor_driver</code>（<code>ament_cmake_python</code>），包含：</p>
+<ul>
+<li><code>motor_node.py</code>：终端交互节点，启动后显示模式菜单，键盘输入模式与参数，实时回读并打印状态</li>
+<li><code>motor_control.launch.py</code>：支持命令行指定串口与电机 ID</li>
+<li>Python API：可在任意 ROS2 节点中直接 import 调用</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ros2 launch insmotor_driver motor_control.launch.py port:=/dev/ttyUSB0</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="三、第二阶段：Modbus-总线联控"><a href="#三、第二阶段：Modbus-总线联控" class="headerlink" title="三、第二阶段：Modbus 总线联控"></a>三、第二阶段：Modbus 总线联控</h2><h3 id="3-1-切换动机"><a href="#3-1-切换动机" class="headerlink" title="3.1 切换动机"></a>3.1 切换动机</h3><p>UART 直连模式下，每台电机独占一个 USB 串口，NUC 主机 USB 接口数量（通常 4 个）构成硬约束。当平台自由度超过该数量时，需要扩展 USB 或切换通信架构。</p>
+<p>RS485 总线支持一主多从拓扑，多个设备挂载在同一差分总线上，通过从站地址区分，无需额外 USB 端口，也便于同步控制逻辑的实现。</p>
+<h3 id="3-2-硬件变更"><a href="#3-2-硬件变更" class="headerlink" title="3.2 硬件变更"></a>3.2 硬件变更</h3><p>引入因时 AED-LA-92-12MR1 Modbus RTU 转换器，每台电缸配一个转换器。转换器一侧接入 RS485 总线，另一侧通过 4pin 杜邦线与电缸 D 型接口相连。供电由 DC 8V 直供变为 DC 24V 经转换器降压至 8V。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PC/NUC USB → USB-RS485 模块 → RS485 总线 (A+/B-/GND)</span><br><span class="line">    ├── 转换器 #1 (addr=1) → 电缸 1</span><br><span class="line">    ├── 转换器 #2 (addr=2) → 电缸 2</span><br><span class="line">    └── 转换器 #N (addr=N) → 电缸 N</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-软件变更"><a href="#3-3-软件变更" class="headerlink" title="3.3 软件变更"></a>3.3 软件变更</h3><p>分层架构下，切换通信方案仅需重写通信层与协议层。驱动层接口保持兼容。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">UART 版                             Modbus 版</span><br><span class="line">通信层: ins_uart.py          →      通信层: ins_modbus.py</span><br><span class="line">  (pyserial, 字节流读写)              (minimalmodbus, 寄存器读写)</span><br><span class="line">协议层: ins_protocol.py      →      协议层: ins_modbus_protocol.py</span><br><span class="line">  (自定义帧定义)                       (Modbus 寄存器地址映射)</span><br><span class="line">驱动层: motor_driver.py      →      驱动层: motor_driver.py</span><br><span class="line">  (模式封装与状态解析)                  (API 不变)</span><br></pre></td></tr></table></figure>
+
+<p>通信层实现变化：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># UART 版</span></span><br><span class="line"><span class="variable language_">self</span>.ser.write(frame_bytes)</span><br><span class="line">resp = <span class="variable language_">self</span>.ser.read(expected_len)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Modbus 版</span></span><br><span class="line"><span class="variable language_">self</span>.instrument.write_register(<span class="number">0x0020</span>, position)</span><br><span class="line">data = <span class="variable language_">self</span>.instrument.read_registers(<span class="number">0x0021</span>, <span class="number">6</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-4-多电机控制"><a href="#3-4-多电机控制" class="headerlink" title="3.4 多电机控制"></a>3.4 多电机控制</h3><p>多台电缸共享同一 RS485 串口，通过从站地址参数区分：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">motors = &#123;</span><br><span class="line">    <span class="string">f&#x27;motor_<span class="subst">&#123;i&#125;</span>&#x27;</span>: MotorController(<span class="string">&#x27;/dev/ttyUSB0&#x27;</span>, slave_address=i)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">7</span>)</span><br><span class="line">&#125;</span><br><span class="line">motors[<span class="string">&#x27;motor_1&#x27;</span>].move_to_position(<span class="number">500</span>)</span><br><span class="line">motors[<span class="string">&#x27;motor_2&#x27;</span>].set_force_mode(<span class="number">1000</span>)</span><br></pre></td></tr></table></figure>
+
+<p>注意事项：转换器出厂默认从站地址均为 1，需在独立连接时逐一修改为不同地址并写入 Flash 后，再全部接入总线。多设备地址冲突将导致通信失败。</p>
+<h3 id="3-5-通信速率"><a href="#3-5-通信速率" class="headerlink" title="3.5 通信速率"></a>3.5 通信速率</h3><p>转换器默认波特率为 9600 bps。6 电机轮询估算：</p>
+<ul>
+<li>9600 bps：每电机约 40 ms × 6 ≈ 240 ms&#x2F;轮，有效更新率约 4 Hz</li>
+<li>115200 bps：每电机约 3 ms × 6 ≈ 18 ms&#x2F;轮，有效更新率约 55 Hz</li>
+</ul>
+<p>伺服模式要求 ≥50 Hz，9600 无法满足，需在上电初始化时提升至 115200 bps。</p>
+<hr>
+<h2 id="四、文档与可复现性"><a href="#四、文档与可复现性" class="headerlink" title="四、文档与可复现性"></a>四、文档与可复现性</h2><p>两个仓库均提供了完整的 README 文档，包括硬件接线图、软件环境配置、编译安装、6 种控制模式的交互式操作说明、Python API 示例、API 速查表、多电机拓扑及故障排查指南。第三方可参照文档独立复现全部实验流程。</p>
+<hr>
+<h2 id="五、代码仓库"><a href="#五、代码仓库" class="headerlink" title="五、代码仓库"></a>五、代码仓库</h2><table>
+<thead>
+<tr>
+<th>方案</th>
+<th>仓库</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>UART 直连（单电机）</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/LiorenYuhang/inspire_motor_uart">inspire_motor_uart</a></td>
+</tr>
+<tr>
+<td>Modbus 总线（多电机）</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/LiorenYuhang/inspire_motor_modbus">inspire_motor_modbus</a></td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="六、后续工作"><a href="#六、后续工作" class="headerlink" title="六、后续工作"></a>六、后续工作</h2><p>当前已完成单电机全模式控制与多电机总线通信框架的搭建。后续工作的核心方向是将电缸控制集成到微型并联平台的整体控制架构中：</p>
+<ul>
+<li><strong>多轴运动学集成</strong>：将电缸驱动层接入平台的逆运动学解算模块，由末端位姿指令直接解算各支链电缸的目标位置，实现关节空间到操作空间的映射</li>
+<li><strong>同步控制与轨迹规划</strong>：在 RS485 总线基础上实现多轴同步控制策略，开发多项式插值与 S 曲线轨迹规划器，满足平台末端在笛卡尔空间内的平滑运动需求</li>
+<li><strong>力位混合控制</strong>：利用 LAF 系列力闭环能力，在并联平台末端引入力位混合控制策略，用于精密装配与接触式操作场景</li>
+<li><strong>平台建模与仿真验证</strong>：建立并联机构的运动学与动力学模型，在 Gazebo&#x2F;CoppeliaSim 环境中进行仿真验证后，部署至物理平台</li>
+</ul>
+<hr>
+<p><em>以上内容由 Claude Code + DeepSeek 辅助生成</em></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>刘宇杭
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://liorenyuhang.github.io/2026/06/16/%E5%9B%A0%E6%97%B6%E5%BE%AE%E5%9E%8B%E4%BC%BA%E6%9C%8D%E7%94%B5%E7%BC%B8-ROS2%E6%8E%A7%E5%88%B6-%E4%BB%8EUART%E5%88%B0Modbus%E6%80%BB%E7%BA%BF/" title="因时微型伺服电缸的 ROS2 控制：从 UART 直连到 Modbus 总线">https://liorenyuhang.github.io/2026/06/16/因时微型伺服电缸-ROS2控制-从UART到Modbus总线/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/ROS2/" rel="tag"># ROS2</a>
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA/" rel="tag"># 机器人</a>
+              <a href="/tags/%E7%94%B5%E6%9C%BA%E6%8E%A7%E5%88%B6/" rel="tag"># 电机控制</a>
+              <a href="/tags/Modbus/" rel="tag"># Modbus</a>
+              <a href="/tags/Python/" rel="tag"># Python</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/06/10/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99-Hexo-NexT-GitHub-Pages-%E5%AE%8C%E6%95%B4%E6%95%99%E7%A8%8B/" rel="prev" title="从零搭建个人网站：Hexo + NexT + GitHub Pages 完整教程">
+                  <i class="fa fa-angle-left"></i> 从零搭建个人网站：Hexo + NexT + GitHub Pages 完整教程
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">LiorenYuhang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script src="/js/click-effect.js"></script>
+<script>
+// 把顶部菜单移到侧边栏-社交链接之前
+(function() {
+  var menu = document.querySelector('.site-nav');
+  var overview = document.querySelector('.site-overview-wrap');
+  if (menu && overview) {
+    menu.classList.add('sidebar-menu');
+    // 菜单插到社交链接之前（统计已隐藏，直接找社交链接）
+    var social = overview.querySelector('.links-of-author');
+    if (social) {
+      social.before(menu);
+    } else {
+      overview.appendChild(menu);
+    }
+  }
+})();
+</script>
+
+<script>
+// 邮箱点击复制到剪贴板
+(function() {
+  var emailLink = document.querySelector('.links-of-author-item a[href^="mailto:"]');
+  if (!emailLink) return;
+  var email = emailLink.getAttribute('href').replace('mailto:', '');
+  var item = emailLink.closest('.links-of-author-item');
+
+  emailLink.addEventListener('click', function(e) {
+    e.preventDefault();
+    navigator.clipboard.writeText(email).then(function() {
+      var toast = document.createElement('span');
+      toast.className = 'email-copied-toast';
+      toast.textContent = '已复制';
+      item.style.position = 'relative';
+      item.appendChild(toast);
+      setTimeout(function() { toast.remove(); }, 5000);
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
