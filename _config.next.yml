@@ -3,7 +3,6 @@
 
 # Gemini 方案（卡片式，最现代）
 scheme: Gemini
-custom_logo: /images/L.png
 darkmode: true
 
 # 自定义文件
@@ -13,8 +12,8 @@ custom_file_path:
   bodyEnd: source/_data/body-end.njk
 
 favicon:
-  small: /images/L.png
-  medium: /images/L.png
+  small: /images/LLL.jpg
+  medium: /images/LLL.jpg
 
 # 菜单
 menu:
