@@ -28,7 +28,7 @@
 <meta property="og:description" content="医工交叉结合方向机器人方向博士生">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2026-06-16T05:38:11.000Z">
-<meta property="article:modified_time" content="2026-06-16T06:15:32.687Z">
+<meta property="article:modified_time" content="2026-06-16T06:20:27.251Z">
 <meta property="article:author" content="刘宇杭">
 <meta name="twitter:card" content="summary">
 
@@ -73,8 +73,11 @@
 (function() { if (location.pathname.includes('/about')) document.documentElement.className += ' is-about-page'; })();
 </script>
 <style>
-html.is-about-page .sidebar-nav-toc { display: none !important; }
+/* 关于页默认显示站点概览面板 */
+html.is-about-page .sidebar-panel-overview { display: block !important; }
 html.is-about-page .sidebar-panel-toc { display: none !important; }
+html.is-about-page .sidebar-nav-overview { font-weight: bold; }
+html.is-about-page .sidebar-nav-toc { font-weight: normal; }
 </style>
 
   <noscript>
