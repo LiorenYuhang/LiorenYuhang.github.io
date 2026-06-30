@@ -1,5 +1,5 @@
 ---
-title: 抢先体验 QQ 邮箱 Agently Mail — 给 AI Agent 一张数字身份证
+title: QQ 邮箱 Agently Mail 内测初体验 — 给 AI Agent 一张数字身份证
 date: 2026-06-30 12:00:00
 tags: [AI Agent, QQ邮箱, Claude Code, Hermes, 技术前沿]
 categories: 技术前沿
