@@ -60,6 +60,12 @@ cover:
 
 绑定完成后，Claude Code 和 Hermes 分别获得了一个独立的 QQ 邮箱身份——它们可以以自己的名义收发邮件，发送时显示的 From 地址就是 `@agent.qq.com`。
 
+Agently Mail 最大的优势还是易用性。传统的 IMAP Agent 方案配置起来不说有多难，但确实有些繁琐；而 Agently Mail 采用了 Agent 原生配置流程的方案，把下面这句话喂给 AI Agent，就能直接完成安装和配置：
+
+> 请阅读 https://agent.qq.com/doc/cli-setup.md 文档，按照步骤为我安装并配置 Agently Mail CLI。
+
+整个过程不需要手动敲 `npm install`、不需要折腾配置文件——Agent 自己读文档、自己执行命令、自己完成 OAuth 授权。
+
 > **踩坑记录：** 目前 Agently CLI（内测版本）的 OAuth Token 一次只绑定一个邮箱。同一台设备上切换 Claude Code 和 Hermes 的 Agent 邮箱，需要先 `agently-cli auth logout` 再 `agently-cli auth login` 手动切换。对双 Agent 场景来说这是明显的摩擦点，预计后续版本会加入多 Profile 支持。
 
 ---
