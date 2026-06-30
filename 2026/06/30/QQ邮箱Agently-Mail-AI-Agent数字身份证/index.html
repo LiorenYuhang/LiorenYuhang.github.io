@@ -39,7 +39,7 @@
 <meta property="og:image" content="https://liorenyuhang.github.io/images/3-QQagent/agent-mail-com5.png">
 <meta property="og:image" content="https://liorenyuhang.github.io/images/3-QQagent/agent-mail-com6.png">
 <meta property="article:published_time" content="2026-06-30T04:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-30T06:17:06.009Z">
+<meta property="article:modified_time" content="2026-06-30T06:44:59.189Z">
 <meta property="article:author" content="刘宇杭">
 <meta property="article:tag" content="AI Agent">
 <meta property="article:tag" content="Claude Code">
@@ -256,7 +256,7 @@ html.is-about-page .sidebar-nav-toc { font-weight: normal; }
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2026-06-30 12:00:00 / 修改时间：14:17:06" itemprop="dateCreated datePublished" datetime="2026-06-30T12:00:00+08:00">2026-06-30</time>
+      <time title="创建时间：2026-06-30 12:00:00 / 修改时间：14:44:59" itemprop="dateCreated datePublished" datetime="2026-06-30T12:00:00+08:00">2026-06-30</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -355,7 +355,12 @@ html.is-about-page .sidebar-nav-toc { font-weight: normal; }
 <hr>
 <h2 id="三、几点观察"><a href="#三、几点观察" class="headerlink" title="三、几点观察"></a>三、几点观察</h2><p>这三个场景跑下来，有几个值得记录的发现：</p>
 <h3 id="两阶段确认：命令行内完成"><a href="#两阶段确认：命令行内完成" class="headerlink" title="两阶段确认：命令行内完成"></a>两阶段确认：命令行内完成</h3><p>Agently Mail 的写操作（发信、回复等）需要人类确认。实测中确认流程在 CLI 内完成——Agent 生成操作摘要后等待回复，在对话中输入”确认”即可发送，不需要跳转到 QQ 手机端。流程顺畅，没有因为安全机制降低操作效率。</p>
-<h3 id="CLI-单-Token-限制"><a href="#CLI-单-Token-限制" class="headerlink" title="CLI 单 Token 限制"></a>CLI 单 Token 限制</h3><p>这是目前最大的体验摩擦点。<code>agently-cli</code> 的 OAuth Token 保存在全局配置中，即使 Claude Code 和 Hermes 是独立的 Agent 进程，底层调用的仍是同一个全局 CLI。这导致切换邮箱时必须 <code>auth logout → auth login</code> 手动重新授权。对多 Agent 场景来说，理想状态是每个 Agent 进程维护独立的 Token 上下文，相信这是后续版本的重点优化方向。</p>
+<h3 id="CLI-单-Token-限制"><a href="#CLI-单-Token-限制" class="headerlink" title="CLI 单 Token 限制"></a>CLI 单 Token 限制</h3><p>这是目前最大的体验摩擦点。<code>agently-cli</code> 的 OAuth Token 保存在全局配置中，即使 Claude Code 和 Hermes 是独立的 Agent 进程，底层调用的仍是同一个全局 CLI。这导致切换邮箱时必须 <code>auth logout → auth login</code> 手动重新授权。</p>
+<p>查阅了 Agently Mail 的官方帮助指南（<a target="_blank" rel="noopener" href="https://help.agent.qq.com/detail/0/1092">help.agent.qq.com</a>），Q&amp;A 中对此有明确说明：</p>
+<blockquote>
+<p><strong>Q：我电脑上安装了两个 Agent，怎么接不同地址的 Agent 邮箱？</strong><br><strong>A：目前同一台电脑设备上的多个 Agent 只能共同使用同一个邮箱地址。如果要使用不同地址请在不同的电脑设备上使用。</strong></p>
+</blockquote>
+<p>官方文档确认了这是当前版本的已知限制。也就是说，我实测中的 <code>auth logout → auth login</code> 切换流程，虽然不是最优雅的方案，但确实是目前官方推荐的通路——在不增加第二台设备的前提下，这是唯一能让两个 Agent 邮箱共存于同一机器的办法。对多 Agent 场景来说，理想状态是每个 Agent 进程维护独立的 Token 上下文，相信这是后续版本的重点优化方向。</p>
 <h3 id="邮箱隔离是有效的"><a href="#邮箱隔离是有效的" class="headerlink" title="邮箱隔离是有效的"></a>邮箱隔离是有效的</h3><p>实测中 Agent 邮箱（<code>@agent.qq.com</code>）与个人 QQ 邮箱的收发完全隔离，Agent 无法访问人的收件箱，人也看不到 Agent 的收件箱，除非 Agent 主动发信给人。这个隔离设计让人放心——给 Agent 一个邮箱，不等于给它一张通往你所有隐私数据的通行证。</p>
 <hr>
 <h2 id="四、实际场景测试"><a href="#四、实际场景测试" class="headerlink" title="四、实际场景测试"></a>四、实际场景测试</h2><p>以下三个场景均已完成实测。</p>
