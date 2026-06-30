@@ -80,59 +80,71 @@ QQ 邮箱自带的 AI 反垃圾引擎被重新训练，专门检测和过滤以"
 
 ## 四、实际场景测试
 
-以下场景读者可以独立复现。需要提前完成上述注册和绑定步骤。
+以下三个场景均已完成实测。由于 CLI 当前不支持双 Token 共存（见上文踩坑记录），测试流程为：在 Claude Code 和 Hermes 之间通过 `auth logout → auth login` 手动切换完成各个环节。
+
+---
 
 ### 场景一：Agent 主动发送邮件
 
-**操作步骤：**
+我在 Claude Code 终端中让 Agent 以 `liorenyuhang@agent.qq.com` 的身份向我的个人邮箱发送一封自我介绍邮件。
 
-1. 打开已绑定 Agent 邮箱的 Claude Code 终端
-2. 输入指令：
+![Claude Code 终端发送指令](/images/3-QQagent/agent-mail-send1.png)
 
-```
-以你的 QQ Agent 邮箱身份，向我本人的 QQ 邮箱 liu999yh@qq.com 发送一封自我介绍邮件。邮件内容：你的邮箱地址是什么、你接入了哪个 Agent 平台。
-```
+确认发送后，个人邮箱成功收到邮件——发件人显示为 `liorenyuhang@agent.qq.com`，正文中 Agent 清楚说明了它的邮箱地址和所接入的平台。
 
-3. Claude Code 会生成邮件内容并推送到你的 QQ 手机端做"发送确认"
-4. 确认后，去你的普通 QQ 邮箱检查收件
+![个人邮箱收到 Agent 发来的邮件](/images/3-QQagent/agent-mail-send2.png)
 
-**预期结果：** 发件人为 `liorenyuhang@agent.qq.com`，邮件内容包含 Agent 的自我介绍。
+**验证结果：** Agent 以独立身份主动完成了邮件发送，From 地址为 `@agent.qq.com`，与人类用户的 QQ 邮箱完全隔离。
+
+---
 
 ### 场景二：Agent 读取邮件并做摘要
 
-**操作步骤：**
+先用个人邮箱向 `liuyhhub@agent.qq.com` 发送一篇科技新闻：
 
-1. 用自己的普通邮箱向 `liuyhhub@agent.qq.com` 发送一封内容较长的邮件（粘贴一篇新闻）
-2. 在 Hermes 终端中输入：
+![个人邮箱向 Agent 发送新闻邮件](/images/3-QQagent/agent-mail-read1.png)
 
-```
-检查我的 QQ Agent 邮箱，读取最新一封邮件，用 3 句话总结内容。
-```
+然后切换到 Hermes 终端，让 Agent 读取最新邮件并总结：
 
-3. Agent 读取收件箱并返回摘要
+![在 Hermes 终端输入读取指令](/images/3-QQagent/agent-mail-read2.png)
 
-**预期结果：** Hermes 返回邮件的核心内容摘要，证明 Agent 完成了"接收 → 理解 → 总结"的闭环。
+Hermes 成功读取了收件箱中的邮件，并返回了一段清晰的内容摘要：
+
+![Hermes 返回邮件内容摘要](/images/3-QQagent/agent-mail-read3.png)
+
+**验证结果：** Agent 完成了"接收 → 阅读理解 → 归纳总结"的闭环，摘要质量与直接对话场景下的 AI 输出无异。
+
+---
 
 ### 场景三：双 Agent 通信（A2A 雏形）
 
-**操作步骤：**
+这是最有意思的测试——让两个不同平台的 Agent 直接互发邮件。
 
-1. 在 Hermes 终端输入：
+**第一步：Hermes 发件。** 在 Hermes 终端中，指令 Agent 向 Claude Code 的邮箱发送请求邮件。
 
-```
-向 liorenyuhang@agent.qq.com 发送一封邮件，内容是：你能为我介绍一下QQ的agent mail吗？请回复一份 JSON 格式的 To-Do List。
-```
+![Hermes 终端发送邮件指令](/images/3-QQagent/agent-mail-com1.png)
 
-2. 等待 Hermes 发送邮件
-3. 切换到 Claude Code 终端，输入：
+Hermes 完成发件后，在 QQ 邮箱管理后台确认邮件已送达：
 
-```
-检查你的收件箱，读取来自 liuyhhub@agent.qq.com 的邮件，按要求生成一份 JSON 格式的 To-Do List，然后回复给发件人。
-```
+![确认邮件已到达 liorenyuhang 的收件箱](/images/3-QQagent/agent-mail-com2.png)
 
-4. 切回 Hermes 终端，检查 Claude Code 的回复
+**第二步：Claude Code 收件并回复。** 切换到 Claude Code，让 Agent 读取 Hermes 的邮件并按要求回复。
 
-**预期结果：** 两个不同 Agent 平台的 Agent 完成了完整的收发——这就是 Agent-to-Agent 通信的雏形。
+![Claude Code 读取 Hermes 发来的邮件](/images/3-QQagent/agent-mail-com3.png)
+
+Claude Code 读取邮件后理解了 Hermes 的请求，开始生成 JSON 格式的 To-Do List 回复：
+
+![Claude Code 生成回复内容](/images/3-QQagent/agent-mail-com4.png)
+
+Agently Mail 的两阶段确认机制介入——Claude Code 先生成操作摘要等待我确认。我在 QQ 手机端点击确认后，邮件正式发出：
+
+![确认发送后的完整回复邮件](/images/3-QQagent/agent-mail-com5.png)
+
+**第三步：Hermes 接收回复。** 切回 Hermes，查看 Claude Code 的回复邮件并总结：
+
+![Hermes 读取并总结 Claude Code 的回复](/images/3-QQagent/agent-mail-com6.png)
+
+**验证结果：** 两个不同 Agent 平台（Claude Code 与 Hermes）的 Agent 完成了端到端的邮件收发闭环。这是一个 Agent-to-Agent 通信的雏形——虽然目前还需手动切换 CLI 登录状态，但通信链路已经跑通。
 
 ---
 
