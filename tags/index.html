@@ -82,7 +82,119 @@ html.is-about-page .sidebar-nav-toc { font-weight: normal; }
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
-</head>
+<style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
   <div class="headband"></div>
@@ -218,10 +330,10 @@ html.is-about-page .sidebar-nav-toc { font-weight: normal; }
       
       <div class="post-body"><div class="tag-cloud">
   <div class="tag-cloud-title">
-    目前共计 13 个标签
+    目前共计 19 个标签
   </div>
   <div class="tag-cloud-tags">
-    <a href="/tags/AI-Agent/" style="font-size: 12px;" class="tag-cloud-0">AI Agent</a> <a href="/tags/Claude-Code/" style="font-size: 12px;" class="tag-cloud-0">Claude Code</a> <a href="/tags/GitHub-Pages/" style="font-size: 12px;" class="tag-cloud-0">GitHub Pages</a> <a href="/tags/Hermes/" style="font-size: 12px;" class="tag-cloud-0">Hermes</a> <a href="/tags/Hexo/" style="font-size: 12px;" class="tag-cloud-0">Hexo</a> <a href="/tags/Modbus/" style="font-size: 12px;" class="tag-cloud-0">Modbus</a> <a href="/tags/Python/" style="font-size: 12px;" class="tag-cloud-0">Python</a> <a href="/tags/QQ%E9%82%AE%E7%AE%B1/" style="font-size: 12px;" class="tag-cloud-0">QQ邮箱</a> <a href="/tags/ROS2/" style="font-size: 12px;" class="tag-cloud-0">ROS2</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%89%8D%E6%B2%BF/" style="font-size: 12px;" class="tag-cloud-0">技术前沿</a> <a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 12px;" class="tag-cloud-0">教程</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA/" style="font-size: 12px;" class="tag-cloud-0">机器人</a> <a href="/tags/%E7%94%B5%E6%9C%BA%E6%8E%A7%E5%88%B6/" style="font-size: 12px;" class="tag-cloud-0">电机控制</a>
+    <a href="/tags/6-PUS/" style="font-size: 12px;" class="tag-cloud-0">6-PUS</a> <a href="/tags/AI-Agent/" style="font-size: 12px;" class="tag-cloud-0">AI Agent</a> <a href="/tags/Claude-Code/" style="font-size: 12px;" class="tag-cloud-0">Claude Code</a> <a href="/tags/GitHub-Pages/" style="font-size: 12px;" class="tag-cloud-0">GitHub Pages</a> <a href="/tags/Hermes/" style="font-size: 12px;" class="tag-cloud-0">Hermes</a> <a href="/tags/Hexo/" style="font-size: 12px;" class="tag-cloud-0">Hexo</a> <a href="/tags/MATLAB/" style="font-size: 12px;" class="tag-cloud-0">MATLAB</a> <a href="/tags/Modbus/" style="font-size: 12px;" class="tag-cloud-0">Modbus</a> <a href="/tags/Python/" style="font-size: 12px;" class="tag-cloud-0">Python</a> <a href="/tags/QQ%E9%82%AE%E7%AE%B1/" style="font-size: 12px;" class="tag-cloud-0">QQ邮箱</a> <a href="/tags/ROS2/" style="font-size: 12px;" class="tag-cloud-0">ROS2</a> <a href="/tags/Stewart%E5%B9%B3%E5%8F%B0/" style="font-size: 12px;" class="tag-cloud-0">Stewart平台</a> <a href="/tags/%E5%B7%A5%E4%BD%9C%E7%A9%BA%E9%97%B4/" style="font-size: 12px;" class="tag-cloud-0">工作空间</a> <a href="/tags/%E5%B9%B6%E8%81%94%E6%9C%BA%E5%99%A8%E4%BA%BA/" style="font-size: 12px;" class="tag-cloud-0">并联机器人</a> <a href="/tags/%E6%8A%80%E6%9C%AF%E5%89%8D%E6%B2%BF/" style="font-size: 12px;" class="tag-cloud-0">技术前沿</a> <a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 12px;" class="tag-cloud-0">教程</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA/" style="font-size: 12px;" class="tag-cloud-0">机器人</a> <a href="/tags/%E7%94%B5%E6%9C%BA%E6%8E%A7%E5%88%B6/" style="font-size: 12px;" class="tag-cloud-0">电机控制</a> <a href="/tags/%E8%BF%90%E5%8A%A8%E5%AD%A6/" style="font-size: 12px;" class="tag-cloud-0">运动学</a>
   </div>
 </div>
 
