@@ -52,7 +52,7 @@ social_icons:
 # 文章目录
 toc:
   enable: true
-  number: true
+  number: false
   wrap: false
   expand_all: false
   max_depth: 6
