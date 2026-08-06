@@ -162,6 +162,7 @@ export async function onRequest(context) {
     let body;
     try {
       const text = await request.text();
+      console.log("[DEBUG]", "body_len:", text.length, "body_head:", JSON.stringify(text.substring(0, 100)), "content_type:", request.headers.get("Content-Type"), "rid:", rid);
       if (new TextEncoder().encode(text).length > MAX_BODY) {
         return json(413, { ok: false, answer: "请求体过大", sources: [], scope: "bad_request", request_id: rid });
       }
