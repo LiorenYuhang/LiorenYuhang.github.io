@@ -438,6 +438,33 @@ console.log('[' + (s33ok ? 'PASS' : 'FAIL') + '] S33 dedupeByDocument highest-sc
 if (!s33ok) { console.log('       expected doc-a score=10, doc-b score=15'); exitCode = 1; }
 
 /* ================================================================
+   Phase 4B.8 — Current page context prompt injection
+   ================================================================ */
+console.log('\n=== Phase 4B.8: Current Page Context in Prompt ===\n');
+
+// P1: 有 page_context + 问标题 → returns current page results
+var p1 = search('这篇文章的标题是什么', docs, { currentUrl: stewartUrl });
+var p1ok = p1.length > 0 && p1[0].document_id === stewartId;
+p1ok ? pass++ : fail++;
+console.log('[' + (p1ok ? 'PASS' : 'FAIL') + '] P1 page_context + title query: top1=' + (p1[0] ? p1[0].document_id : 'none') + ' expected=' + stewartId);
+if (!p1ok) { console.log('       expected Stewart document for title query with currentUrl'); exitCode = 1; }
+
+// P2: 有 page_context + 问 URL → returns current page results
+var p2 = search('当前页面的URL是什么', docs, { currentUrl: stewartUrl });
+var p2ok = p2.length > 0 && p2[0].document_id === stewartId;
+p2ok ? pass++ : fail++;
+console.log('[' + (p2ok ? 'PASS' : 'FAIL') + '] P2 page_context + URL query: top1=' + (p2[0] ? p2[0].document_id : 'none') + ' expected=' + stewartId);
+if (!p2ok) { console.log('       expected Stewart document for URL query with currentUrl'); exitCode = 1; }
+
+// P3: 无 page_context → behavior unchanged (current-page terms without context return empty)
+var p3 = search('这篇文章的标题是什么', docs, {});
+var p3a = search('当前页面的URL是什么', docs, {});
+var p3ok = p3.length === 0 && p3a.length === 0;
+p3ok ? pass++ : fail++;
+console.log('[' + (p3ok ? 'PASS' : 'FAIL') + '] P3 no page_context unchanged: title_empty=' + (p3.length === 0) + ' url_empty=' + (p3a.length === 0));
+if (!p3ok) { console.log('       current-page terms without context should return empty'); exitCode = 1; }
+
+/* ================================================================
    Summary
    ================================================================ */
 console.log('=== Results: ' + pass + '/' + (pass + fail) + ' passed ===');

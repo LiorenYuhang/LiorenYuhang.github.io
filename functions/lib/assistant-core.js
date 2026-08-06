@@ -89,6 +89,16 @@ export function createAssistantCore(opts) {
     const rawUrl = (validated.page_context && validated.page_context.url) || null;
     const currentUrl = resolveCurrentUrl(rawUrl);
 
+    // Build currentPageInfo from canonical knowledge base entry
+    let currentPageInfo = null;
+    if (currentUrl) {
+      const norm = normalizeSitePath(currentUrl);
+      const info = canonicalByNorm.get(norm);
+      if (info) {
+        currentPageInfo = { title: info.title, url: info.url };
+      }
+    }
+
     if (isCriticalInjection(q)) {
       meta.provider_result = "injection_rejected";
       return { ok: true, answer: "抱歉，我无法回应这个请求。", sources: [], scope: "success", request_id: rid, _meta: meta };
@@ -115,7 +125,7 @@ export function createAssistantCore(opts) {
     let estimatedInput;
     try {
       systemPrompt = buildSystemPrompt({ promptVersion });
-      userPrompt = buildUserPrompt(q, refs, conv);
+      userPrompt = buildUserPrompt(q, refs, conv, currentPageInfo);
       estimatedInput = estimateTokens(systemPrompt) + estimateTokens(userPrompt);
     } catch {
       meta.provider_result = "prompt_build_failed";

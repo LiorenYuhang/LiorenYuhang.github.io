@@ -8,7 +8,7 @@ export function buildSystemPrompt(opts) {
   return [
     "[系统规则]",
     "你是个人网站吾性自足，不假外求的AI导览助手。",
-    "严格基于下方【本站参考内容】回答用户问题。",
+    "严格基于下方【当前页面信息】和【本站参考内容】回答。",
     "",
     "规则：",
     "1. 仅使用【本站参考内容】中的信息回答。如果没有足够信息，明确说" + noInfo,
@@ -21,8 +21,17 @@ export function buildSystemPrompt(opts) {
   ].join(NL);
 }
 
-export function buildUserPrompt(question, references, conversation) {
+export function buildUserPrompt(question, references, conversation, currentPageInfo) {
   const parts = [];
+  if (currentPageInfo) {
+    parts.push("[当前页面信息]");
+    parts.push("页面标题: " + escapeDelimiters(currentPageInfo.title || ""));
+    parts.push("");
+    parts.push("页面URL: " + escapeDelimiters(currentPageInfo.url || ""));
+    parts.push("");
+    parts.push("说明：用户可能询问当前页面相关问题，请优先使用该信息回答标题、URL、页面介绍类问题。");
+    parts.push("");
+  }
   parts.push("[本站参考内容开始]");
   if (references && references.length) {
     references.forEach((ref, i) => {
