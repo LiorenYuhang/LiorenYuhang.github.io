@@ -31,7 +31,7 @@ export function createAssistantCore(opts) {
     knowledgeBase.forEach(d => {
       const norm = normalizeSitePath(d.url);
       if (norm && !canonicalByNorm.has(norm)) {
-        canonicalByNorm.set(norm, { url: d.url, title: d.title });
+        canonicalByNorm.set(norm, { url: d.url, title: d.title, published_at: d.published_at || null });
       }
     });
   }
@@ -95,7 +95,7 @@ export function createAssistantCore(opts) {
       const norm = normalizeSitePath(currentUrl);
       const info = canonicalByNorm.get(norm);
       if (info) {
-        currentPageInfo = { title: info.title, url: info.url };
+        currentPageInfo = { title: info.title, url: info.url, published_at: info.published_at || null };
       }
     }
 

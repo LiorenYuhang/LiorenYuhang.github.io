@@ -464,6 +464,27 @@ p3ok ? pass++ : fail++;
 console.log('[' + (p3ok ? 'PASS' : 'FAIL') + '] P3 no page_context unchanged: title_empty=' + (p3.length === 0) + ' url_empty=' + (p3a.length === 0));
 if (!p3ok) { console.log('       current-page terms without context should return empty'); exitCode = 1; }
 
+// P4: 有 page_context + 问标题 → 返回当前页面（元数据查询，不应总结正文）
+var p4 = search('这篇文章标题是什么？', docs, { currentUrl: stewartUrl });
+var p4ok = p4.length > 0 && p4[0].document_id === stewartId;
+p4ok ? pass++ : fail++;
+console.log('[' + (p4ok ? 'PASS' : 'FAIL') + '] P4 page_context + title metadata query: top1=' + (p4[0] ? p4[0].document_id : 'none') + ' expected=' + stewartId);
+if (!p4ok) { console.log('       metadata title query should return current page chunks (prompt will use currentPageInfo.title)'); exitCode = 1; }
+
+// P5: 有 page_context + 问 URL → 返回当前页面（元数据查询，不应总结正文）
+var p5 = search('当前页面URL是什么？', docs, { currentUrl: stewartUrl });
+var p5ok = p5.length > 0 && p5[0].document_id === stewartId;
+p5ok ? pass++ : fail++;
+console.log('[' + (p5ok ? 'PASS' : 'FAIL') + '] P5 page_context + URL metadata query: top1=' + (p5[0] ? p5[0].document_id : 'none') + ' expected=' + stewartId);
+if (!p5ok) { console.log('       metadata URL query should return current page chunks (prompt will use currentPageInfo.url)'); exitCode = 1; }
+
+// P6: 有 page_context + 问正文内容 → 走 RAG 正常返回（非元数据问题，根据正文回答）
+var p6 = search('本文建立的机构是什么？', docs, { currentUrl: stewartUrl });
+var p6ok = p6.length > 0 && p6[0].document_id === stewartId && p6[0].content;
+p6ok ? pass++ : fail++;
+console.log('[' + (p6ok ? 'PASS' : 'FAIL') + '] P6 page_context + content query: top1=' + (p6[0] ? p6[0].document_id : 'none') + ' hasContent=' + (p6[0] && !!p6[0].content));
+if (!p6ok) { console.log('       content question should return chunks with content body (not metadata-only)'); exitCode = 1; }
+
 /* ================================================================
    Summary
    ================================================================ */
