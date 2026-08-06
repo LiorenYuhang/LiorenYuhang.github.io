@@ -364,6 +364,42 @@ console.log('[' + (s26ok ? 'PASS' : 'FAIL') + '] S26 contextual query passes fil
 if (!s26ok) { console.log('       expected Stewart in results'); exitCode = 1; }
 
 /* ================================================================
+   Phase 4B.6 — Source dedup + list intent boost suppression
+   ================================================================ */
+console.log('\n=== Phase 4B.6: Source Dedup & List Intent ===\n');
+
+// S27: List query with page_context → boost suppressed, multiple documents
+var listCtx = search('这个网站有哪些机器人相关文章', docs, { currentUrl: stewartUrl });
+var listCtxIds = listCtx.map(function (r) { return r.document_id; });
+var s27ok = listCtxIds.indexOf(stewartId) !== -1 && listCtxIds.indexOf(motorId) !== -1 && listCtx.length >= 2;
+s27ok ? pass++ : fail++;
+console.log('[' + (s27ok ? 'PASS' : 'FAIL') + '] S27 list intent suppresses boost: Stewart=' + (listCtxIds.indexOf(stewartId) !== -1) + ' Motor=' + (listCtxIds.indexOf(motorId) !== -1) + ' count=' + listCtx.length);
+if (!s27ok) { console.log('       expected Stewart + Motor both present, got: ' + listCtxIds.join(', ')); exitCode = 1; }
+
+// S28: Summary query with dedup → one main document, no duplicates
+var summary = search('这篇文章主要讲什么', docs, { currentUrl: stewartUrl, dedupeDocuments: true });
+var s28ok = summary.length > 0 && summary[0].document_id === stewartId;
+s28ok ? pass++ : fail++;
+console.log('[' + (s28ok ? 'PASS' : 'FAIL') + '] S28 summary with dedup: Top-1=' + (summary[0] ? summary[0].document_id : '(none)') + ' unique_docs=' + dedupe(summary.map(function(r){return r.document_id;})).length);
+if (!s28ok) { console.log('       expected Top-1=' + stewartId); exitCode = 1; }
+
+// S29: Normal contextual query still prioritizes current page (regression check)
+var normal = search('运动学', docs, { currentUrl: stewartUrl });
+var s29ok = normal.length > 0 && normal[0].document_id === stewartId;
+s29ok ? pass++ : fail++;
+console.log('[' + (s29ok ? 'PASS' : 'FAIL') + '] S29 normal query boost preserved: Top-1=' + (normal[0] ? normal[0].document_id : '(none)'));
+if (!s29ok) { console.log('       expected Top-1=' + stewartId); exitCode = 1; }
+
+// S30: Document dedup — no duplicate document_ids in output
+var deduped = search('运动学 逆解 正解', docs, { dedupeDocuments: true });
+var dedupedIds = deduped.map(function (r) { return r.document_id; });
+var allUnique = dedupedIds.length === dedupe(dedupedIds).length;
+var s30ok = deduped.length > 0 && allUnique;
+s30ok ? pass++ : fail++;
+console.log('[' + (s30ok ? 'PASS' : 'FAIL') + '] S30 document dedup: results=' + deduped.length + ' unique=' + dedupe(dedupedIds).length);
+if (!s30ok) { console.log('       Duplicate document_ids found: ' + dedupedIds.join(', ')); exitCode = 1; }
+
+/* ================================================================
    Summary
    ================================================================ */
 console.log('=== Results: ' + pass + '/' + (pass + fail) + ' passed ===');

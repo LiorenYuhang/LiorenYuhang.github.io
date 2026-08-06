@@ -123,6 +123,7 @@ function search(query, documents, opts) {
   // Check for current-page intent with valid currentUrl
   var isCurrentPageQuery = CURRENT_PAGE_TERMS.test(q) && currentUrl;
   var isContextualQuery = !isCurrentPageQuery && !!currentUrl; // has page_context but not explicit "this article"
+  var isListIntent = LIST_INTENT_TERMS.test(q);
   var currentDocs = [];
   if (isCurrentPageQuery) {
     currentDocs = documents.filter(function (d) { return d.url === currentUrl; });
@@ -145,8 +146,8 @@ function search(query, documents, opts) {
         // Tier 1: explicit "this article" → double chunk relevance
         totalScore += chunkScore.score;
         allReasons.push('current_page_boost');
-      } else if (isContextualQuery) {
-        // Tier 2: has page_context → moderate boost (+50% chunk score, min +2)
+      } else if (isContextualQuery && !isListIntent) {
+        // Tier 2: has page_context → moderate boost (+50% chunk score, min +2), suppressed for list queries
         var ctxBoost = Math.max(2, Math.floor(chunkScore.score * 0.5));
         totalScore += ctxBoost;
         allReasons.push('context_page_boost:' + ctxBoost);
@@ -218,7 +219,6 @@ function search(query, documents, opts) {
   }
 
   // List intent: deduplicate by document_id
-  var isListIntent = LIST_INTENT_TERMS.test(q);
   var isTopicList = isListIntent && TOPIC_LIST_TERMS.test(q);
 
   if (isListIntent) {
@@ -251,7 +251,7 @@ function search(query, documents, opts) {
   }
 
   // Take top K
-  return scored.slice(0, k).map(function (s) {
+  var results = scored.slice(0, k).map(function (s) {
     return {
       id: s.doc.id,
       document_id: s.doc.document_id,
@@ -268,6 +268,13 @@ function search(query, documents, opts) {
       reasons: s.reasons
     };
   });
+
+  // Document-level dedup: one result per document_id, keep highest score
+  if (opts.dedupeDocuments) {
+    results = dedupeByDocument(results);
+  }
+
+  return results;
 }
 
 /* ================================================================
