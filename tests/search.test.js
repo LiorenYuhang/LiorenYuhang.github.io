@@ -321,6 +321,49 @@ l5ok ? pass++ : fail++;
 console.log('[' + (l5ok ? 'PASS' : 'FAIL') + '] L5 technical multi-chunk regression: ' + techR.length + 'r same-doc=' + (techR.length >= 2 && techR[0].document_id === techR[1].document_id));
 
 /* ================================================================
+   Phase 4B.5 — Tiered current-page boost
+   ================================================================ */
+console.log('\n=== Phase 4B.5: Tiered Page Context Boost ===\n');
+
+var stewartUrl = docs.filter(function (d) { return d.document_id === stewartId; })[0].url;
+var aboutUrl = docs.filter(function (d) { return d.document_id === aboutId; })[0].url;
+
+// S22: Contextual query (normal question) with page_context → current page boosted to #1
+var ctxR = search('运动学', docs, { currentUrl: stewartUrl });
+var s22ok = ctxR.length > 0 && ctxR[0].document_id === stewartId;
+s22ok ? pass++ : fail++;
+console.log('[' + (s22ok ? 'PASS' : 'FAIL') + '] S22 contextual query boosts current page: Top-1=' + (ctxR[0] ? ctxR[0].document_id : '(none)') + ' score=' + (ctxR[0] ? ctxR[0].score : 0));
+if (!s22ok) { console.log('       expected Top-1=' + stewartId); exitCode = 1; }
+
+// S23: Contextual query with UNRELATED page → no pollution (about page should NOT appear for ROS2)
+var ctxUnrelated = search('ROS2', docs, { currentUrl: aboutUrl });
+var s23ok = ctxUnrelated.length > 0 && !ctxUnrelated.some(function (r) { return r.document_id === aboutId; });
+s23ok ? pass++ : fail++;
+console.log('[' + (s23ok ? 'PASS' : 'FAIL') + '] S23 unrelated page_context does not pollute: about_in_results=' + ctxUnrelated.some(function (r) { return r.document_id === aboutId; }));
+if (!s23ok) { console.log('       About page should NOT appear for ROS2 query'); exitCode = 1; }
+
+// S24: No page_context → behavior unchanged
+var noCtx = search('运动学', docs);
+var s24ok = noCtx.length > 0 && noCtx.some(function (r) { return r.document_id === stewartId; });
+s24ok ? pass++ : fail++;
+console.log('[' + (s24ok ? 'PASS' : 'FAIL') + '] S24 no page_context unchanged: stewart_found=' + noCtx.some(function (r) { return r.document_id === stewartId; }));
+if (!s24ok) { console.log('       expected Stewart in results'); exitCode = 1; }
+
+// S25: Tier 1 strong boost preserved ("这篇文章")
+var tier1 = search('这篇文章主要讲了什么', docs, { currentUrl: stewartUrl });
+var s25ok = tier1.length > 0 && tier1[0].document_id === stewartId;
+s25ok ? pass++ : fail++;
+console.log('[' + (s25ok ? 'PASS' : 'FAIL') + '] S25 Tier 1 strong boost preserved: Top-1=' + (tier1[0] ? tier1[0].document_id : '(none)'));
+if (!s25ok) { console.log('       expected Top-1=' + stewartId); exitCode = 1; }
+
+// S26: Contextual query — current page still passes normal content threshold (not gated on Tier 1 filter)
+var ctxPass = search('并联', docs, { currentUrl: stewartUrl });
+var s26ok = ctxPass.length > 0 && ctxPass.some(function (r) { return r.document_id === stewartId; });
+s26ok ? pass++ : fail++;
+console.log('[' + (s26ok ? 'PASS' : 'FAIL') + '] S26 contextual query passes filter: stewart_found=' + ctxPass.some(function (r) { return r.document_id === stewartId; }));
+if (!s26ok) { console.log('       expected Stewart in results'); exitCode = 1; }
+
+/* ================================================================
    Summary
    ================================================================ */
 console.log('=== Results: ' + pass + '/' + (pass + fail) + ' passed ===');

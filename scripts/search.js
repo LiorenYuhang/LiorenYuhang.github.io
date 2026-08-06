@@ -122,6 +122,7 @@ function search(query, documents, opts) {
 
   // Check for current-page intent with valid currentUrl
   var isCurrentPageQuery = CURRENT_PAGE_TERMS.test(q) && currentUrl;
+  var isContextualQuery = !isCurrentPageQuery && !!currentUrl; // has page_context but not explicit "this article"
   var currentDocs = [];
   if (isCurrentPageQuery) {
     currentDocs = documents.filter(function (d) { return d.url === currentUrl; });
@@ -138,10 +139,18 @@ function search(query, documents, opts) {
     var totalScore = metaScore.score + chunkScore.score;
     var allReasons = metaScore.reasons.concat(chunkScore.reasons);
 
-    // Current page boost: same-url docs get doubled chunk score
-    if (isCurrentPageQuery && doc.url === currentUrl) {
-      totalScore += chunkScore.score; // double chunk relevance
-      allReasons.push('current_page_boost');
+    // Tiered current-page boost
+    if (doc.url === currentUrl) {
+      if (isCurrentPageQuery) {
+        // Tier 1: explicit "this article" → double chunk relevance
+        totalScore += chunkScore.score;
+        allReasons.push('current_page_boost');
+      } else if (isContextualQuery) {
+        // Tier 2: has page_context → moderate boost (+50% chunk score, min +2)
+        var ctxBoost = Math.max(2, Math.floor(chunkScore.score * 0.5));
+        totalScore += ctxBoost;
+        allReasons.push('context_page_boost:' + ctxBoost);
+      }
     }
 
     // Dynamic threshold: require at least 2 bigram/word hits OR metadata match
