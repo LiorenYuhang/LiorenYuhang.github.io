@@ -3,13 +3,22 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "hexo generate",
+    "test:4b": "node tests/assistant-api.test.js && node tests/deepseek-provider.test.js && node tests/d1-budget.test.js && node tests/cloudflare-cache.test.js && node tests/prompt-injection.test.js && node tests/assistant-4b-integration.test.js && node tests/assistant-worker-integration.test.js && node tests/ai-assistant-frontend.test.js && npm run test:d1-local",
+    "test:d1-local": "node tests/d1-local.integration.test.js",
+    "d1:migrate:local": "node tools/run-local-d1-migrations.js",
+    "d1:migrate:remote": "wrangler d1 migrations apply AI_BUDGET_DB",
+    "pages:dev": "wrangler pages dev public",
+    "build": "node scripts/build-knowledge-base.js && hexo generate && node scripts/copy-routes.js",
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server"
   },
   "hexo": {
     "version": "8.1.2"
+  },
+  "devDependencies": {
+    "miniflare": "3.20241218.0",
+    "wrangler": "3.99.0"
   },
   "dependencies": {
     "hexo": "^8.0.0",

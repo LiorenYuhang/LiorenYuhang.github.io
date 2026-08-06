@@ -1,0 +1,13 @@
+{
+  "name": "lyhhub",
+  "compatibility_date": "2026-08-01",
+  "pages_build_output_dir": "public",
+  "compatibility_flags": [],
+  "d1_databases": [
+    {
+      "binding": "AI_BUDGET_DB",
+      "database_name": "ai-budget-staging",
+      "database_id": "8ea861e0-9310-4bbe-80eb-b450c2a7053e"
+    }
+  ]
+}

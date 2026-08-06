@@ -7,3 +7,14 @@ public/
 .deploy*/
 _multiconfig.yml
 
+.dev.vars
+.env
+.env.*
+!.dev.vars.example
+.wrangler/state/
+.wrangler/test-state/
+.wrangler/ai-budget-test/
+.wrangler/d1-integration-test/
+*.db
+*.sqlite
+*.sqlite3

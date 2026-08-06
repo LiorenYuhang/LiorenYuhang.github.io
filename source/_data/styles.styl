@@ -190,3 +190,87 @@ code {
   to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
 
+// ========================================
+// AI Assistant 面板 — 暗色模式
+// ========================================
+
+[data-theme="dark"]
+  #ai-panel
+    background: #1e1e2e
+    color: #ddd
+
+  #ai-panel-header
+  #ai-panel-status
+  #ai-panel-input-wrap
+    border-color: #333
+
+  #ai-panel-header .ai-title
+    color: #ddd
+
+  #ai-panel-status
+    color: #888
+
+  #ai-panel-input
+    background: #2a2a3e
+    color: #ddd
+    border-color: #444
+    &:focus
+      border-color: #666
+      background: #2a2a3e
+
+  .ai-msg-user .ai-bubble
+    background: #1a3a5c
+    color: #ddd
+
+  .ai-msg-bot .ai-bubble
+    background: #2a2a3e
+    color: #ddd
+
+  .ai-source-card
+    background: #252536
+    border-color: #333
+    &:hover
+      background: #2a2a3e
+
+    .ai-src-title
+      color: #ddd
+
+    .ai-src-excerpt
+      color: #999
+
+  .ai-prompt-tag
+    background: #2a2a3e
+    color: #ddd
+    border-color: #444
+    &:hover
+      background: #333
+
+  .ai-btn-send
+    background: #555
+    &:hover
+      background: #777
+
+  .ai-btn-stop
+    background: #444
+    color: #ccc
+
+  #ai-panel-messages::-webkit-scrollbar-thumb
+    background: #444
+
+// prefers-color-scheme 后备
+@media (prefers-color-scheme: dark)
+  html:not([data-theme])
+    #ai-panel
+      background: #1e1e2e
+      color: #ddd
+    #ai-panel-input
+      background: #2a2a3e
+      color: #ddd
+      border-color: #444
+    .ai-msg-user .ai-bubble
+      background: #1a3a5c
+      color: #ddd
+    .ai-msg-bot .ai-bubble
+      background: #2a2a3e
+      color: #ddd
+
