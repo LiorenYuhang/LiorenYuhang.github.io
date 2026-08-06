@@ -400,6 +400,44 @@ console.log('[' + (s30ok ? 'PASS' : 'FAIL') + '] S30 document dedup: results=' +
 if (!s30ok) { console.log('       Duplicate document_ids found: ' + dedupedIds.join(', ')); exitCode = 1; }
 
 /* ================================================================
+   Phase 4B.7 — Source dedup (LLM context preserved, sources deduped)
+   ================================================================ */
+console.log('\n=== Phase 4B.7: Source Dedup & Cache Invalidation ===\n');
+
+var dedupeByDocument = require('../scripts/search.js').dedupeByDocument;
+
+// S31: Same document, multiple sections → raw results retain all chunks (for LLM context)
+var rawR = search('运动学 逆解 正解', docs, { k: 5 });
+var stewartChunks = rawR.filter(function (r) { return r.document_id === stewartId; });
+var s31ok = stewartChunks.length >= 2;
+s31ok ? pass++ : fail++;
+console.log('[' + (s31ok ? 'PASS' : 'FAIL') + '] S31 LLM context preserved: stewart_chunks=' + stewartChunks.length + ' total=' + rawR.length);
+if (!s31ok) { console.log('       expected >=2 Stewart chunks for LLM context, got ' + stewartChunks.length); exitCode = 1; }
+
+// S32: dedupeByDocument → one result per document_id (for sources)
+var dedupedR = dedupeByDocument(rawR);
+var dedupedIds = dedupedR.map(function (r) { return r.document_id; });
+var allUnique = dedupedIds.length === dedupe(dedupedIds).length;
+var s32ok = dedupedR.length > 0 && allUnique && dedupedR.length <= rawR.length;
+s32ok ? pass++ : fail++;
+console.log('[' + (s32ok ? 'PASS' : 'FAIL') + '] S32 source dedup: raw=' + rawR.length + ' deduped=' + dedupedR.length + ' unique=' + dedupe(dedupedIds).length);
+if (!s32ok) { console.log('       deduped should have all unique document_ids'); exitCode = 1; }
+
+// S33: dedupeByDocument keeps highest score per document_id (first = highest, results sorted)
+var testData = [
+  { document_id: 'doc-a', score: 10, title: 'low' },
+  { document_id: 'doc-a', score: 25, title: 'high' },
+  { document_id: 'doc-b', score: 15, title: 'only' }
+];
+var deduped = dedupeByDocument(testData);
+var s33ok = deduped.length === 2
+  && deduped[0].document_id === 'doc-a' && deduped[0].score === 10
+  && deduped[1].document_id === 'doc-b' && deduped[1].score === 15;
+s33ok ? pass++ : fail++;
+console.log('[' + (s33ok ? 'PASS' : 'FAIL') + '] S33 dedupeByDocument highest-score-first: len=' + deduped.length + ' first_score=' + deduped[0].score + ' second_score=' + deduped[1].score);
+if (!s33ok) { console.log('       expected doc-a score=10, doc-b score=15'); exitCode = 1; }
+
+/* ================================================================
    Summary
    ================================================================ */
 console.log('=== Results: ' + pass + '/' + (pass + fail) + ' passed ===');

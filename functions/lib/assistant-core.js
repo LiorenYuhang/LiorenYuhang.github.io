@@ -1,4 +1,4 @@
-import { search } from "../../scripts/search.js";
+import { search, dedupeByDocument } from "../../scripts/search.js";
 import { buildSystemPrompt, buildUserPrompt, estimateTokens, trimReferencesToLimit } from "./prompt-builder.js";
 import { buildSources } from "./source-builder.js";
 import { isCriticalInjection } from "./security.js";
@@ -190,7 +190,7 @@ export function createAssistantCore(opts) {
       }
       meta.provider_result = "success";
 
-      const sources = buildSources(results, knowledgeBase);
+      const sources = buildSources(dedupeByDocument(results), knowledgeBase);
       if (cacheKey) await writeCache(cacheKey, { answer: modelResult.text, sources, scope: "success" }, ctx);
 
       return { ok: true, answer: modelResult.text, sources, scope: "success", request_id: rid, _meta: meta };

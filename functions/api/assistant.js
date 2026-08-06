@@ -109,7 +109,7 @@ function createRuntime(env) {
     thinkingEnabled: env.DEEPSEEK_THINKING === "enabled",
     reasoningEffort: env.DEEPSEEK_REASONING_EFFORT || "",
     providerConfigVersion: env.AI_PROVIDER_CONFIG_VERSION || "1",
-    cacheVersion: env.AI_CACHE_VERSION || "1",
+    cacheVersion: env.AI_CACHE_VERSION || "2",
   });
 
   return { core, provider, budget, cache, enabled };
