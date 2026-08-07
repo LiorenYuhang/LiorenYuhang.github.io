@@ -7,6 +7,37 @@ import { normalizeSitePath } from "./request-validation.js";
 
 const MAX_CONTEXT_TOKENS = 6000;
 
+// ---- Metadata direct-return: bypass LLM for deterministic queries ----
+// Strict patterns: must include a page-context term AND a metadata keyword.
+// Standalone keywords ("标题是什么") allowed only with question particles.
+const METADATA_RULES = [
+  {
+    // "这篇文章的标题/页面标题/标题是什么"
+    re: /(?:这篇文章|当前页面|本文|本页|此页|页面)(?:的)?(?:标题|名称|题目)|(?:^标题).*(?:是什么|叫什么|是啥|多少)/,
+    field: "title",
+    format: (v) => `这篇文章的标题是：${v}`,
+  },
+  {
+    // "URL/网址/链接/地址是什么"
+    re: /(?:这篇文章|当前页面|本文|本页|此页|页面)(?:的)?(?:URL|网址|链接|地址)|(?:^URL|^网址|^链接|^地址).*(?:是什么|多少)/,
+    field: "url",
+    format: (v) => `当前页面的链接是：${v}`,
+  },
+  {
+    // "发布日期/发布时间/什么时候发布"
+    re: /(?:这篇文章|当前页面|本文|本页|此页|页面)(?:的)?(?:发布[日期时间]|什么(?:时候|时间)发[布表]|何时发[布表]|哪天发[布表])/,
+    field: "published_at",
+    format: (v) => `这篇文章发布于：${v}`,
+  },
+];
+
+function detectMetadataQuery(question) {
+  for (const rule of METADATA_RULES) {
+    if (rule.re.test(question)) return rule;
+  }
+  return null;
+}
+
 export function createAssistantCore(opts) {
   const knowledgeBase = opts.knowledgeBase;
   const provider = opts.provider;
@@ -102,6 +133,18 @@ export function createAssistantCore(opts) {
     if (isCriticalInjection(q)) {
       meta.provider_result = "injection_rejected";
       return { ok: true, answer: "抱歉，我无法回应这个请求。", sources: [], scope: "success", request_id: rid, _meta: meta };
+    }
+
+    // Metadata query: direct return from currentPageInfo, bypass LLM
+    if (currentPageInfo) {
+      const metaRule = detectMetadataQuery(q);
+      if (metaRule) {
+        const value = currentPageInfo[metaRule.field];
+        if (value) {
+          meta.provider_result = "metadata_direct";
+          return r_async(rid, true, metaRule.format(value), [], "success", meta);
+        }
+      }
     }
 
     const cacheKey = !conv.length && cache ? makeCacheKey(q, currentUrl) : null;
