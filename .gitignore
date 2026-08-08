@@ -11,10 +11,10 @@ _multiconfig.yml
 .env
 .env.*
 !.dev.vars.example
-.wrangler/state/
-.wrangler/test-state/
-.wrangler/ai-budget-test/
-.wrangler/d1-integration-test/
+.wrangler/
+publish-csdn.mjs
+get-csdn-cookie.mjs
+csdn-cookie.txt
 *.db
 *.sqlite
 *.sqlite3
