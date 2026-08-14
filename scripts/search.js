@@ -174,6 +174,10 @@ function search(query, documents, opts) {
     if (s.passesContentThreshold) return true;
     // Current-page query: lower bar for same-URL docs
     if (isCurrentPageQuery && s.doc.url === currentUrl && s.score >= 1) return true;
+    // Contextual query (page_context but no explicit "this article"): allow weak-but-nonzero
+    // content signal on the current page, so pronoun follow-ups like "它有几个自由度" resolve
+    // against the current article (2+ bigram hits) while truly unrelated queries stay empty.
+    if (isContextualQuery && !isListIntent && s.doc.url === currentUrl && s.chunkScore >= 2) return true;
     return false;
   });
 
