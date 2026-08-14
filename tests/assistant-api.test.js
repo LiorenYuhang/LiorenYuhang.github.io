@@ -1,5 +1,6 @@
 import { validateRequest, normalizeSitePath } from "../functions/lib/request-validation.js";
 import { buildSources } from "../functions/lib/source-builder.js";
+import { classifySiteQuery, buildSiteOverviewAnswer, buildArticleSources } from "../functions/lib/site-router.js";
 import { onRequest, createHandler } from "../functions/api/assistant.js";
 import knowledgeBase from "../knowledge-base.generated.mjs";
 
@@ -117,6 +118,22 @@ async function run() {
   t("CP1 encoded normalize OK", cpNorm !== null && cpNorm === (await import("../functions/lib/request-validation.js")).normalizeSitePath(stewartUrl));
   const cpR = await rt.core.handle({ question: "这篇文章主要讲了什么", conversation: [], page_context: { url: encodedStewart } }, "cp1");
   t("CP2 curpage hit Stewart", cpR.ok && cpR.sources.length > 0 && cpR.sources[0].section && cpR.sources[0].section.includes("摘要"));
+
+  console.log("Site Router");
+  t("SR1 site_overview intent", classifySiteQuery("这个网站主要有哪些内容？") === "site_overview");
+  t("SR2 recent intent", classifySiteQuery("最近发布了哪些文章？") === "recent_articles");
+  t("SR3 all_articles intent", classifySiteQuery("文章列表") === "all_articles");
+  t("SR4 topic list not routed", classifySiteQuery("有哪些机器人相关文章？") === null);
+  t("SR5 overview answer lists articles", buildSiteOverviewAnswer(knowledgeBase).indexOf("已发布文章") !== -1);
+  t("SR6 sources exclude about", buildArticleSources(knowledgeBase, 5).every(s => s.url !== "/about/"));
+
+  const srCalls = rt.provider.callCount();
+  const srR = await rt.core.handle({ question: "这个网站主要有哪些内容？", conversation: [], page_context: null }, "sr1");
+  t("SR7 site_overview direct", srR.ok && srR._meta.provider_result === "site_overview_direct");
+  t("SR8 site_overview no LLM", rt.provider.callCount() === srCalls);
+  t("SR9 site_overview sources", srR.sources.length > 0);
+  const srR2 = await rt.core.handle({ question: "最近发布了哪些文章？", conversation: [], page_context: null }, "sr2");
+  t("SR10 recent direct", srR2.ok && srR2._meta.provider_result === "recent_articles_direct");
 
   console.log("HTTP");
   r = await onRequest(ctx({ question: "机器人" }));

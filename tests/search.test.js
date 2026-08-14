@@ -486,6 +486,16 @@ console.log('[' + (p6ok ? 'PASS' : 'FAIL') + '] P6 page_context + content query:
 if (!p6ok) { console.log('       content question should return chunks with content body (not metadata-only)'); exitCode = 1; }
 
 /* ================================================================
+   v1.1 — Contextual weak-signal fallback (pronoun follow-ups)
+   ================================================================ */
+console.log('\n=== v1.1: Contextual weak-signal fallback ===\n');
+
+var followUrl = docs.filter(function (d) { return d.document_id === stewartId; })[0].url;
+t('C1 pronoun follow-up resolves on current page', '它有几个自由度', { currentUrl: followUrl }, { h: [stewartId], minR: 1 });
+t('C2 unrelated query stays empty on page', '作者喜欢什么电影', { currentUrl: followUrl }, { empty: true });
+t('C3 irrelevant long query stays empty on page', '今天天气真好我想出门散步看看风景', { currentUrl: followUrl }, { empty: true });
+
+/* ================================================================
    Summary
    ================================================================ */
 console.log('=== Results: ' + pass + '/' + (pass + fail) + ' passed ===');
