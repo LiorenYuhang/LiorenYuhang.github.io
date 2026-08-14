@@ -1,6 +1,7 @@
 import { validateRequest, normalizeSitePath } from "../functions/lib/request-validation.js";
 import { buildSources } from "../functions/lib/source-builder.js";
 import { classifySiteQuery, buildSiteOverviewAnswer, buildArticleSources } from "../functions/lib/site-router.js";
+import { classifyContactQuery, buildContactAnswer, buildContactSources } from "../functions/lib/contact-router.js";
 import { onRequest, createHandler } from "../functions/api/assistant.js";
 import knowledgeBase from "../knowledge-base.generated.mjs";
 
@@ -134,6 +135,19 @@ async function run() {
   t("SR9 site_overview sources", srR.sources.length > 0);
   const srR2 = await rt.core.handle({ question: "最近发布了哪些文章？", conversation: [], page_context: null }, "sr2");
   t("SR10 recent direct", srR2.ok && srR2._meta.provider_result === "recent_articles_direct");
+
+  console.log("Contact Router");
+  t("CR1 contact intent 联系方式", classifyContactQuery("网站作者联系方式是什么？") === "contact");
+  t("CR2 contact intent 怎么联系", classifyContactQuery("作者怎么联系？") === "contact");
+  t("CR3 contact intent 邮箱", classifyContactQuery("作者邮箱是什么？") === "contact");
+  t("CR4 contact intent GitHub", classifyContactQuery("作者的 GitHub 是什么？") === "contact");
+  t("CR5 not routed site overview", classifyContactQuery("这个网站主要有哪些内容？") === null);
+  t("CR6 answer from KB", buildContactAnswer(knowledgeBase).indexOf("GitHub") !== -1);
+  t("CR7 sources about", buildContactSources(knowledgeBase)[0].url === "/about/");
+
+  const crR = await rt.core.handle({ question: "网站作者联系方式是什么？", conversation: [], page_context: null }, "cr1");
+  t("CR8 contact direct", crR.ok && crR._meta.provider_result === "contact_direct");
+  t("CR9 contact sources", crR.sources.length > 0 && crR.sources[0].url === "/about/");
 
   console.log("HTTP");
   r = await onRequest(ctx({ question: "机器人" }));
