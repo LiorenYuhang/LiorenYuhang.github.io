@@ -1,6 +1,7 @@
 import { search, dedupeByDocument } from "../../scripts/search.js";
 import { buildSystemPrompt, buildUserPrompt, estimateTokens, trimReferencesToLimit } from "./prompt-builder.js";
 import { buildSources } from "./source-builder.js";
+import { classifySiteQuery, buildSiteOverviewAnswer, buildRecentArticlesAnswer, buildAllArticlesAnswer, buildArticleSources } from "./site-router.js";
 import { isCriticalInjection } from "./security.js";
 import { computeKnowledgeVersion } from "./cache.js";
 import { normalizeSitePath } from "./request-validation.js";
@@ -112,7 +113,7 @@ export function createAssistantCore(opts) {
   }
 
   async function handle(validated, rid, ctx) {
-    const meta = { retrieval_count: 0, cache_hit: false, provider_result: null };
+    const meta = { retrieval_count: 0, cache_hit: false, provider_result: null, provider_type: cacheConfig.provider };
     if (!enabled) return r_async(rid, false, "AI 助手暂时不可用。", [], "disabled", meta);
 
     const q = validated.question;
@@ -145,6 +146,18 @@ export function createAssistantCore(opts) {
           return r_async(rid, true, metaRule.format(value), [], "success", meta);
         }
       }
+    }
+
+    // Site overview / article list: deterministic direct-return, no LLM / no RAG
+    const siteKind = classifySiteQuery(q);
+    if (siteKind) {
+      const answer = siteKind === "site_overview"
+        ? buildSiteOverviewAnswer(knowledgeBase)
+        : siteKind === "recent_articles"
+          ? buildRecentArticlesAnswer(knowledgeBase)
+          : buildAllArticlesAnswer(knowledgeBase);
+      meta.provider_result = siteKind + "_direct";
+      return r_async(rid, true, answer, buildArticleSources(knowledgeBase, 5), "success", meta);
     }
 
     const cacheKey = !conv.length && cache ? makeCacheKey(q, currentUrl) : null;

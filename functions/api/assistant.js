@@ -192,7 +192,7 @@ export async function onRequest(context) {
     const elapsed = Date.now() - startMs;
     const statusMap = { success: 200, no_results: 200, bad_request: 400, rate_limited: 429, upstream_busy: 503, upstream_error: 503, disabled: 503, error: 503, timeout: 504 };
     const status = statusMap[result.scope] || 503;
-    console.log(JSON.stringify({ ts: new Date().toISOString(), rid, scope: result.scope, status, elapsed_ms: elapsed, retrieval_count: meta.retrieval_count || 0, cache_hit: meta.cache_hit || false, provider_result: meta.provider_result || "none" }));
+    console.log(JSON.stringify({ ts: new Date().toISOString(), rid, scope: result.scope, status, elapsed_ms: elapsed, retrieval_count: meta.retrieval_count || 0, cache_hit: meta.cache_hit || false, provider_type: meta.provider_type || "none", provider_result: meta.provider_result || "none" }));
     return json(status, clientResp);
   } catch (err) {
     const elapsed = Date.now() - startMs;
