@@ -2,6 +2,7 @@ import { search, dedupeByDocument } from "../../scripts/search.js";
 import { buildSystemPrompt, buildUserPrompt, estimateTokens, trimReferencesToLimit } from "./prompt-builder.js";
 import { buildSources } from "./source-builder.js";
 import { classifySiteQuery, buildSiteOverviewAnswer, buildRecentArticlesAnswer, buildAllArticlesAnswer, buildArticleSources } from "./site-router.js";
+import { classifyContactQuery, buildContactAnswer, buildContactSources } from "./contact-router.js";
 import { isCriticalInjection } from "./security.js";
 import { computeKnowledgeVersion } from "./cache.js";
 import { normalizeSitePath } from "./request-validation.js";
@@ -158,6 +159,15 @@ export function createAssistantCore(opts) {
           : buildAllArticlesAnswer(knowledgeBase);
       meta.provider_result = siteKind + "_direct";
       return r_async(rid, true, answer, buildArticleSources(knowledgeBase, 5), "success", meta);
+    }
+
+    // Contact info: deterministic direct-return from About page, no LLM / no RAG
+    if (classifyContactQuery(q)) {
+      const contactAnswer = buildContactAnswer(knowledgeBase);
+      if (contactAnswer) {
+        meta.provider_result = "contact_direct";
+        return r_async(rid, true, contactAnswer, buildContactSources(knowledgeBase), "success", meta);
+      }
     }
 
     const cacheKey = !conv.length && cache ? makeCacheKey(q, currentUrl) : null;
