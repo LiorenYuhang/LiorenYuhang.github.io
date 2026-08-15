@@ -131,15 +131,14 @@
   var MATHJAX_URL = 'https://cdn.jsdelivr.net/npm/mathjax@4/tex-svg.js';
   var mathJaxState = 'idle'; // idle | loading | ready | failed
 
-  function typesetCurrentMath() {
-    if (!messagesEl) return;
+  function typesetElement(el) {
     if (window.MathJax && window.MathJax.typesetPromise) {
-      window.MathJax.typesetPromise([messagesEl]).catch(function () {});
+      window.MathJax.typesetPromise([el]).catch(function () {});
     }
   }
 
   function ensureMathJax(cb) {
-    if (window.MathJax && window.MathJax.typesetPromise) { cb(); return; }
+    if (window.MathJax && window.MathJax.typesetPromise) { setTimeout(cb, 0); return; }
     if (mathJaxState === 'loading' || mathJaxState === 'failed') return;
     mathJaxState = 'loading';
     window.MathJax = {
@@ -154,7 +153,14 @@
     var s = document.createElement('script');
     s.src = MATHJAX_URL;
     s.async = true;
-    s.onload = function () { mathJaxState = 'ready'; cb(); };
+    s.onload = function () {
+      mathJaxState = 'ready';
+      // MathJax 的 typesetPromise 要等 startup.promise 完成后才可用；
+      // 若在 onload 时直接 cb()，typesetPromise 仍是 undefined，首条公式不会被排版。
+      var p = window.MathJax && window.MathJax.startup && window.MathJax.startup.promise;
+      if (p && typeof p.then === 'function') { p.then(cb); }
+      else { cb(); }
+    };
     s.onerror = function () { mathJaxState = 'failed'; };
     document.head.appendChild(s);
   }
@@ -217,7 +223,7 @@
     var d = el('div', 'ai-msg ai-msg-bot'), b = el('div', 'ai-bubble');
     if (window.AIMarkdown) {
       b.appendChild(window.AIMarkdown.renderMarkdown(text));
-      if (window.AIMarkdown.hasMath(text)) ensureMathJax(typesetCurrentMath);
+      if (window.AIMarkdown.hasMath(text)) ensureMathJax(function () { typesetElement(b); });
     } else {
       b.textContent = text;
     }

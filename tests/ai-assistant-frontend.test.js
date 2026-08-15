@@ -16,6 +16,7 @@ test("request sends conversation history", source.includes("conversation: histor
 test("request sends current page path", source.includes("page_context: { url: window.location.pathname }"));
 test("request is abortable", source.includes("signal: abortController.signal"));
 test("MathJax lazy-loads with the safe extension (blocks javascript:/data: URLs)", source.includes("ui/safe") && source.includes("tex-svg.js"));
+test("MathJax typeset waits for startup.promise (first-formula race fix)", source.includes("startup.promise") && source.includes("typesetElement"));
 
 console.log("\n" + pass + "/" + (pass + fail) + " passed");
 process.exitCode = fail > 0 ? 1 : 0;
