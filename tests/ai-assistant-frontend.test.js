@@ -15,6 +15,7 @@ test("request sends question", source.includes("question: question"));
 test("request sends conversation history", source.includes("conversation: history"));
 test("request sends current page path", source.includes("page_context: { url: window.location.pathname }"));
 test("request is abortable", source.includes("signal: abortController.signal"));
+test("MathJax lazy-loads with the safe extension (blocks javascript:/data: URLs)", source.includes("ui/safe") && source.includes("tex-svg.js"));
 
 console.log("\n" + pass + "/" + (pass + fail) + " passed");
 process.exitCode = fail > 0 ? 1 : 0;

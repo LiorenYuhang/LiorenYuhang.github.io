@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "test:4b": "node tests/assistant-api.test.js && node tests/deepseek-provider.test.js && node tests/d1-budget.test.js && node tests/cloudflare-cache.test.js && node tests/prompt-injection.test.js && node tests/assistant-4b-integration.test.js && node tests/assistant-worker-integration.test.js && node tests/ai-assistant-frontend.test.js && npm run test:d1-local",
+    "test:4b": "node tests/assistant-api.test.js && node tests/deepseek-provider.test.js && node tests/d1-budget.test.js && node tests/cloudflare-cache.test.js && node tests/prompt-injection.test.js && node tests/assistant-4b-integration.test.js && node tests/assistant-worker-integration.test.js && node tests/ai-assistant-frontend.test.js && node tests/ai-markdown.test.js && npm run test:d1-local",
     "test:d1-local": "node tests/d1-local.integration.test.js",
     "d1:migrate:local": "node tools/run-local-d1-migrations.js",
     "d1:migrate:remote": "wrangler d1 migrations apply AI_BUDGET_DB",
