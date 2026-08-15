@@ -106,11 +106,62 @@
       '.ai-spinner{display:inline-block;width:16px;height:16px;border:2px solid #ddd;border-top-color:#555;border-radius:50%;animation:aiSpin .8s linear infinite;vertical-align:middle;margin-right:6px;}' +
       '@keyframes aiSpin{to{transform:rotate(360deg)}}' +
       '.ai-loading-row{padding:8px 0;color:#999;font-size:13px;}' +
+      '.ai-msg-bot .ai-bubble .ai-md-p{margin:0 0 6px;}.ai-msg-bot .ai-bubble .ai-md-p:last-child{margin-bottom:0;}' +
+      '.ai-msg-bot .ai-bubble .ai-md-heading{font-weight:600;margin:10px 0 4px;color:inherit;}' +
+      '.ai-msg-bot .ai-bubble .ai-md-h1{font-size:16px;}.ai-msg-bot .ai-bubble .ai-md-h2{font-size:15px;}' +
+      '.ai-msg-bot .ai-bubble .ai-md-h3,.ai-msg-bot .ai-bubble .ai-md-h4,.ai-msg-bot .ai-bubble .ai-md-h5,.ai-msg-bot .ai-bubble .ai-md-h6{font-size:14px;}' +
+      '.ai-msg-bot .ai-bubble .ai-md-inline-code{font-family:"Fira Code",Consolas,"Courier New",monospace;background:rgba(127,127,127,.18);border-radius:4px;padding:1px 5px;font-size:12px;}' +
+      '.ai-msg-bot .ai-bubble .ai-md-code{background:rgba(127,127,127,.14);border-radius:8px;padding:8px 10px;overflow-x:auto;margin:6px 0;}' +
+      '.ai-msg-bot .ai-bubble .ai-md-code code{font-family:"Fira Code",Consolas,"Courier New",monospace;font-size:12px;color:inherit;background:none;padding:0;}' +
+      '.ai-msg-bot .ai-bubble .ai-md-list{margin:4px 0;padding-left:20px;}' +
+      '.ai-msg-bot .ai-bubble .ai-md-math-inline{display:inline;}' +
+      '.ai-msg-bot .ai-bubble .ai-md-math-display{overflow-x:auto;padding:2px 0;margin:4px 0;}' +
+      '.ai-msg-bot .ai-bubble a{color:inherit;text-decoration:underline;}' +
       '@media(max-width:767px){#ai-panel{right:0;bottom:0;top:auto;left:0;width:100%;max-height:60vh;border-radius:16px 16px 0 0;transform-origin:bottom center;transform:translateY(100%);}' +
       '#ai-panel.open{transform:translateY(0);}#ai-panel-messages{max-height:30vh;}}';
     var s = document.createElement('style');
     s.id = STYLE_ID;
     s.textContent = css;
+    document.head.appendChild(s);
+  }
+
+  /* ================================================================
+     MathJax lazy loading（仅当回答含 LaTeX 时加载）
+     ================================================================ */
+  var MATHJAX_URL = 'https://cdn.jsdelivr.net/npm/mathjax@4/tex-svg.js';
+  var mathJaxState = 'idle'; // idle | loading | ready | failed
+
+  function typesetElement(el) {
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      window.MathJax.typesetPromise([el]).catch(function () {});
+    }
+  }
+
+  function ensureMathJax(cb) {
+    if (window.MathJax && window.MathJax.typesetPromise) { setTimeout(cb, 0); return; }
+    if (mathJaxState === 'loading' || mathJaxState === 'failed') return;
+    mathJaxState = 'loading';
+    window.MathJax = {
+      loader: { load: ['ui/safe'] },
+      tex: {
+        inlineMath: [['\\(', '\\)'], ['$', '$']],
+        displayMath: [['\\[', '\\]'], ['$$', '$$']]
+      },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] },
+      startup: { typeset: false }
+    };
+    var s = document.createElement('script');
+    s.src = MATHJAX_URL;
+    s.async = true;
+    s.onload = function () {
+      mathJaxState = 'ready';
+      // MathJax 的 typesetPromise 要等 startup.promise 完成后才可用；
+      // 若在 onload 时直接 cb()，typesetPromise 仍是 undefined，首条公式不会被排版。
+      var p = window.MathJax && window.MathJax.startup && window.MathJax.startup.promise;
+      if (p && typeof p.then === 'function') { p.then(cb); }
+      else { cb(); }
+    };
+    s.onerror = function () { mathJaxState = 'failed'; };
     document.head.appendChild(s);
   }
 
@@ -168,7 +219,17 @@
      Safe DOM rendering
      ================================================================ */
   function userBubble(text) { var d = el('div', 'ai-msg ai-msg-user'), b = el('div', 'ai-bubble', text); d.appendChild(b); return d; }
-  function botBubble(text) { var d = el('div', 'ai-msg ai-msg-bot'), b = el('div', 'ai-bubble', text); d.appendChild(b); return d; }
+  function botBubble(text) {
+    var d = el('div', 'ai-msg ai-msg-bot'), b = el('div', 'ai-bubble');
+    if (window.AIMarkdown) {
+      b.appendChild(window.AIMarkdown.renderMarkdown(text));
+      if (window.AIMarkdown.hasMath(text)) ensureMathJax(function () { typesetElement(b); });
+    } else {
+      b.textContent = text;
+    }
+    d.appendChild(b);
+    return d;
+  }
   function sourceCard(s) {
     var a = el('a', 'ai-source-card'); a.href = s.url; a.target = '_blank'; a.rel = 'noopener';
     a.appendChild(el('span', 'ai-src-title', s.title));
