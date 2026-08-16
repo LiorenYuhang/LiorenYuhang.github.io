@@ -67,12 +67,44 @@
 
 <script>document.title = "刘宇杭";</script>
 <script>
-(function() { if (location.pathname.includes('/about')) document.documentElement.className += ' is-about-page'; })();
+(function() {
+  if (!location.pathname.includes('/about')) return;
+  document.documentElement.className += ' is-about-page';
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var overview = document.querySelector('.site-overview-wrap');
+    if (!overview) return;
+
+    var author = overview.querySelector('.site-author');
+    var links = overview.querySelector('.links-of-author');
+    if (author && links && !overview.querySelector('.about-profile-card')) {
+      var profile = document.createElement('div');
+      profile.className = 'about-profile-card';
+      overview.insertBefore(profile, author);
+      profile.appendChild(author);
+      profile.appendChild(links);
+      author.innerHTML = '<p class="about-profile-name">刘宇杭</p><p class="about-profile-role">Doctoral Student</p><p class="about-profile-focus">Robotics · Control · ROS 2</p>';
+    }
+
+    overview.querySelectorAll('.links-of-author-item a').forEach(function(link) {
+      var href = link.getAttribute('href');
+      if (href && href.indexOf('mailto:') === 0) {
+        var icon = link.querySelector('i');
+        if (icon) {
+          link.innerHTML = icon.outerHTML + 'Email';
+        } else {
+          link.textContent = 'Email';
+        }
+      }
+    });
+  });
+})();
 </script>
 <style>
-/* 关于页默认显示站点概览面板 */
-html.is-about-page .sidebar-panel-overview { display: block !important; }
-html.is-about-page .sidebar-panel-toc { display: none !important; }
+/* 关于页默认显示个人概览，隐藏文章目录 */
+html.is-about-page .site-overview-wrap { display: block !important; opacity: 1 !important; visibility: visible !important; height: auto !important; transform: none !important; }
+html.is-about-page .post-toc-wrap { display: none !important; }
+html.is-about-page .sidebar-nav { display: none !important; }
 html.is-about-page .sidebar-nav-overview { font-weight: bold; }
 html.is-about-page .sidebar-nav-toc { font-weight: normal; }
 </style>
