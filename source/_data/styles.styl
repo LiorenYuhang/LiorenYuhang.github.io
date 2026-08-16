@@ -190,6 +190,171 @@ code {
   to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
 
+/* ========================================
+   About 页面
+   ======================================== */
+
+html.is-about-page .site-title {
+  font-size: 18px !important;
+  line-height: 1.65;
+  opacity: 0.88;
+}
+
+html.is-about-page .post-header,
+html.is-about-page .post-title {
+  text-align: left;
+}
+
+html.is-about-page .about-profile-card {
+  display: block !important;
+  margin: 1rem 0;
+  padding: 1.1rem 1.2rem;
+  border: 1px solid #dedede;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+html.is-about-page .about-profile-card .site-author {
+  margin: 0;
+  text-align: left;
+}
+
+html.is-about-page .about-profile-card .site-author-image {
+  display: none;
+}
+
+.about-profile-name,
+.about-profile-role,
+.about-profile-focus {
+  margin: 0;
+}
+
+.about-profile-name {
+  font-size: 1.1em;
+  font-weight: 600;
+}
+
+.about-profile-role {
+  margin-top: 0.35rem;
+  color: #555;
+  font-size: 0.92em;
+}
+
+.about-profile-focus {
+  margin-top: 0.35rem;
+  color: #666;
+  font-size: 0.88em;
+  line-height: 1.6;
+}
+
+html.is-about-page .about-profile-card .links-of-author {
+  margin: 0.9rem 0 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+html.is-about-page .about-profile-card .links-of-author-item {
+  display: block;
+  margin-top: 0.45rem;
+}
+
+html.is-about-page .about-project h3 {
+  white-space: nowrap;
+}
+
+.about-intro {
+  margin: 0 0 2rem;
+  padding: 1.2rem 1.35rem;
+  border-left: 3px solid #555;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.about-intro p:last-child {
+  margin-bottom: 0;
+}
+
+.about-kicker {
+  margin: 0 0 0.6rem;
+  color: #555;
+  font-size: 1.05em;
+  font-weight: 600;
+}
+
+.about-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin: 1rem 0 2rem;
+}
+
+.about-tag {
+  padding: 0.3rem 0.7rem;
+  border: 1px solid #d5d5d5;
+  border-radius: 4px;
+  color: #555;
+  font-size: 0.9em;
+  line-height: 1.4;
+}
+
+.about-projects {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 1rem 0 2rem;
+}
+
+.about-project {
+  padding: 1.1rem 1.2rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.about-project h3 {
+  margin: 0 0 0.55rem;
+  font-size: 1em;
+}
+
+.about-project p {
+  margin: 0;
+  color: #666;
+  font-size: 0.92em;
+  line-height: 1.7;
+}
+
+[data-theme="dark"] .about-intro,
+[data-theme="dark"] .about-project,
+[data-theme="dark"] .about-profile-card {
+  border-color: #444;
+  background: rgba(30, 30, 46, 0.55);
+}
+
+[data-theme="dark"] .about-kicker,
+[data-theme="dark"] .about-tag,
+[data-theme="dark"] .about-project p,
+[data-theme="dark"] .about-profile-role,
+[data-theme="dark"] .about-profile-focus {
+  color: #bbb;
+}
+
+[data-theme="dark"] .about-tag {
+  border-color: #555;
+}
+
+[data-theme="dark"] .about-profile-card .links-of-author {
+  border-color: #444;
+}
+
+@media (max-width: 767px) {
+  .about-projects {
+    grid-template-columns: 1fr;
+  }
+
+  .about-intro {
+    padding: 1rem;
+  }
+}
+
 // ========================================
 // AI Assistant 面板 — 暗色模式
 // ========================================
