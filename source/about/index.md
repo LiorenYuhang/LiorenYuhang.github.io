@@ -21,20 +21,20 @@ sidebar: true
   <span class="about-tag">智能控制</span>
 </div>
 
-## 项目实践 / Projects
+## 研究主题 / Research Themes
 
 <div class="about-projects">
   <article class="about-project">
-    <h3>6-PUS Parallel Robot</h3>
-    <p>6-PUS 并联机器人建模、运动学分析、控制与抗扰研究。</p>
+    <h3>Parallel Robotics &amp;<br>Motion Systems</h3>
+    <p>并联机器人与运动系统<br>关注并联机构的建模、运动学、工作空间、运动控制及机构性能研究。</p>
   </article>
   <article class="about-project">
-    <h3>ROS 2 Motor Control</h3>
-    <p>开展微型伺服电缸的 UART 与 Modbus 通信控制实践。</p>
+    <h3>Robot Control &amp;<br>Real-Time Systems</h3>
+    <p>机器人控制与实时系统<br>关注机器人任务空间与关节空间控制、多执行器协调、ROS 2 与实时控制系统实现。</p>
   </article>
   <article class="about-project">
-    <h3>Robotic Engineering</h3>
-    <p>关注机器人系统从机构设计到控制实现的工程衔接。</p>
+    <h3>Sensing &amp; Vibration<br>Suppression</h3>
+    <p>感知与抑振控制<br>关注多传感器状态感知、扰动观测、运动补偿与机器人抑振防抖控制。</p>
   </article>
 </div>
 

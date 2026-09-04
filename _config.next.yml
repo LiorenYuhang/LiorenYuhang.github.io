@@ -128,6 +128,8 @@ tagcloud:
   start: "#999"
   end: "#555"
   amount: 200
+  orderby: length
+  order: -1
 
 # 动效
 motion:
