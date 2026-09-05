@@ -16,6 +16,12 @@ const CONFIG_FILE = path.join(ROOT, '_config.yml');
 const OUTPUT = path.join(ROOT, 'knowledge-base.json');
 const MODULE_OUTPUT = path.join(ROOT, 'knowledge-base.generated.mjs');
 
+function normalizeMarkdownInput(content) {
+  return content
+    .replace(/^\uFEFF/, '')
+    .replace(/\r\n?/g, '\n');
+}
+
 /* ================================================================
    URL generation — reads Hexo permalink config
    ================================================================ */
@@ -271,7 +277,7 @@ function build() {
 
   files.forEach(function (file) {
     var filePath = path.join(POSTS_DIR, file);
-    var raw = fs.readFileSync(filePath, 'utf-8');
+    var raw = normalizeMarkdownInput(fs.readFileSync(filePath, 'utf-8'));
     var parsed = frontMatter.parse(raw);
     var data = parsed;
     var body = parsed._content || '';
@@ -320,7 +326,7 @@ function build() {
 
   // About page
   if (fs.existsSync(ABOUT_FILE)) {
-    var raw = fs.readFileSync(ABOUT_FILE, 'utf-8');
+    var raw = normalizeMarkdownInput(fs.readFileSync(ABOUT_FILE, 'utf-8'));
     var parsed = frontMatter.parse(raw);
     var body = parsed._content || '';
     delete parsed._content;
