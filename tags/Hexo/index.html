@@ -77,26 +77,15 @@
 
     var author = overview.querySelector('.site-author');
     var links = overview.querySelector('.links-of-author');
-    if (author && links && !overview.querySelector('.about-profile-card')) {
+    if (author && !overview.querySelector('.about-profile-card')) {
       var profile = document.createElement('div');
       profile.className = 'about-profile-card';
       overview.insertBefore(profile, author);
       profile.appendChild(author);
-      profile.appendChild(links);
-      author.innerHTML = '<p class="about-profile-name">刘宇杭</p><p class="about-profile-role">Doctoral Student</p><p class="about-profile-focus">Robotics · Control · ROS 2</p>';
+      author.innerHTML = '<p class="about-profile-name">刘宇杭</p><p class="about-profile-role">博士研究生</p><p class="about-profile-focus">Robotics · Control · Sensing</p>';
     }
 
-    overview.querySelectorAll('.links-of-author-item a').forEach(function(link) {
-      var href = link.getAttribute('href');
-      if (href && href.indexOf('mailto:') === 0) {
-        var icon = link.querySelector('i');
-        if (icon) {
-          link.innerHTML = icon.outerHTML + 'Email';
-        } else {
-          link.textContent = 'Email';
-        }
-      }
-    });
+    if (links) links.remove();
   });
 })();
 </script>
@@ -465,9 +454,6 @@ mjx-container[display="true"] + br {
 <script>
 // 邮箱点击复制到剪贴板
 (function() {
-  var emailLink = document.querySelector('.links-of-author-item a[href^="mailto:"]');
-  if (!emailLink) return;
-
   // 归档页标语
   (function() {
     if (!window.location.pathname.includes('/archives')) return;
@@ -475,20 +461,24 @@ mjx-container[display="true"] + br {
     if (header) header.textContent = '记录思考，对抗遗忘。';
   })();
 
+  var emailLinks = document.querySelectorAll(
+    '.links-of-author-item a[href^="mailto:"], .email-copy-link[href^="mailto:"]'
+  );
 
+  emailLinks.forEach(function(emailLink) {
+    var email = emailLink.getAttribute('href').replace('mailto:', '');
+    var item = emailLink.closest('.links-of-author-item') || emailLink.parentElement;
 
-  var email = emailLink.getAttribute('href').replace('mailto:', '');
-  var item = emailLink.closest('.links-of-author-item');
-
-  emailLink.addEventListener('click', function(e) {
-    e.preventDefault();
-    navigator.clipboard.writeText(email).then(function() {
-      var toast = document.createElement('span');
-      toast.className = 'email-copied-toast';
-      toast.textContent = '已复制';
-      item.style.position = 'relative';
-      item.appendChild(toast);
-      setTimeout(function() { toast.remove(); }, 5000);
+    emailLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      navigator.clipboard.writeText(email).then(function() {
+        var toast = document.createElement('span');
+        toast.className = 'email-copied-toast';
+        toast.textContent = '已复制';
+        item.style.position = 'relative';
+        item.appendChild(toast);
+        setTimeout(function() { toast.remove(); }, 1500);
+      });
     });
   });
 })();
