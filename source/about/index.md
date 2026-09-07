@@ -14,33 +14,42 @@ sidebar: true
 
 ## 研究方向 / Research Interests
 
-<div class="about-tags">
+<div class="about-tags about-research-tags">
   <span class="about-tag">并联机器人</span>
-  <span class="about-tag">机器人控制</span>
-  <span class="about-tag">ROS 2</span>
-  <span class="about-tag">智能控制</span>
+  <span class="about-tag">运动控制</span>
+  <span class="about-tag">状态感知</span>
+  <span class="about-tag">振动抑制</span>
 </div>
 
 ## 研究主题 / Research Themes
 
 <div class="about-projects">
   <article class="about-project">
-    <h3>Parallel Robotics &amp;<br>Motion Systems</h3>
-    <p>并联机器人与运动系统<br>关注并联机构的建模、运动学、工作空间、运动控制及机构性能研究。</p>
+    <header class="about-project-heading">
+      <h3>并联机器人与运动系统</h3>
+      <p class="about-project-subtitle"><span class="about-project-subtitle-part">Parallel Robotics &amp;</span> <wbr><span class="about-project-subtitle-part">Motion Systems</span></p>
+    </header>
+    <p>关注并联机构的建模、运动学、工作空间、运动控制及机构性能研究。</p>
   </article>
   <article class="about-project">
-    <h3>Robot Control &amp;<br>Real-Time Systems</h3>
-    <p>机器人控制与实时系统<br>关注机器人任务空间与关节空间控制、多执行器协调、ROS 2 与实时控制系统实现。</p>
+    <header class="about-project-heading">
+      <h3>机器人控制与实时系统</h3>
+      <p class="about-project-subtitle"><span class="about-project-subtitle-part">Robot Control &amp;</span> <wbr><span class="about-project-subtitle-part">Real-Time Systems</span></p>
+    </header>
+    <p>关注机器人任务空间与关节空间控制、多执行器协调、ROS 2 与实时控制系统实现。</p>
   </article>
   <article class="about-project">
-    <h3>Sensing &amp; Vibration<br>Suppression</h3>
-    <p>感知与抑振控制<br>关注多传感器状态感知、扰动观测、运动补偿与机器人抑振防抖控制。</p>
+    <header class="about-project-heading">
+      <h3>感知与抑振控制</h3>
+      <p class="about-project-subtitle"><span class="about-project-subtitle-part">Sensing &amp;</span> <wbr><span class="about-project-subtitle-part">Vibration Suppression</span></p>
+    </header>
+    <p>关注多传感器状态感知、扰动观测、运动补偿与机器人抑振防抖控制。</p>
   </article>
 </div>
 
 ## 技术与工具 / Tools & Technologies
 
-<div class="about-tags">
+<div class="about-tags about-tool-tags">
   <span class="about-tag">MATLAB / Simulink</span>
   <span class="about-tag">ROS 2</span>
   <span class="about-tag">Python</span>
@@ -50,11 +59,12 @@ sidebar: true
   <span class="about-tag">Git</span>
 </div>
 
-## 关于本站
-
-本站使用 [Hexo](https://hexo.io/) 搭建，采用 [NexT](https://theme-next.js.org/) 主题，由 Cloudflare Pages 托管。
-
 ## 联系方式 / Contact
 
 - 🐙 GitHub：[LiorenYuhang](https://github.com/LiorenYuhang)
-- 📧 邮箱：[liu999yh@qq.com](mailto:liu999yh@qq.com)
+- 📧 学校邮箱：<a class="email-copy-link" href="mailto:2026020503003@mails.zstu.edu.cn">2026020503003@mails.zstu.edu.cn</a>
+- 📧 邮箱：<a class="email-copy-link" href="mailto:liu999yh@qq.com">liu999yh@qq.com</a>
+
+## 关于本站 / About This Site
+
+本站使用 [Hexo](https://hexo.io/) 搭建，采用 [NexT](https://theme-next.js.org/) 主题，由 Cloudflare Pages 托管。

@@ -10,26 +10,15 @@
 
     var author = overview.querySelector('.site-author');
     var links = overview.querySelector('.links-of-author');
-    if (author && links && !overview.querySelector('.about-profile-card')) {
+    if (author && !overview.querySelector('.about-profile-card')) {
       var profile = document.createElement('div');
       profile.className = 'about-profile-card';
       overview.insertBefore(profile, author);
       profile.appendChild(author);
-      profile.appendChild(links);
-      author.innerHTML = '<p class="about-profile-name">刘宇杭</p><p class="about-profile-role">Doctoral Student</p><p class="about-profile-focus">Robotics · Control · ROS 2</p>';
+      author.innerHTML = '<p class="about-profile-name">刘宇杭</p><p class="about-profile-role">博士研究生</p><p class="about-profile-focus">Robotics · Control · Sensing</p>';
     }
 
-    overview.querySelectorAll('.links-of-author-item a').forEach(function(link) {
-      var href = link.getAttribute('href');
-      if (href && href.indexOf('mailto:') === 0) {
-        var icon = link.querySelector('i');
-        if (icon) {
-          link.innerHTML = icon.outerHTML + 'Email';
-        } else {
-          link.textContent = 'Email';
-        }
-      }
-    });
+    if (links) links.remove();
   });
 })();
 </script>

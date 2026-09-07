@@ -4398,12 +4398,12 @@
     "title": "你好，我是刘宇杭 👋",
     "url": "/about/",
     "section": null,
-    "content": "博士研究生 · Robotics · Control · ROS 2\n 我目前就读于浙江理工大学（Zhejiang Sci-Tech University，ZSTU），是一名在读博士生。\n\n研究方向 / Research Interests\n\n 并联机器人\n 机器人控制\n ROS 2\n 智能控制\n\n研究主题 / Research Themes\n\n \n Parallel Robotics &amp;Motion Systems\n 并联机器人与运动系统关注并联机构的建模、运动学、工作空间、运动控制及机构性能研究。\n \n \n Robot Control &amp;Real-Time Systems\n 机器人控制与实时系统关注机器人任务空间与关节空间控制、多执行器协调、ROS 2 与实时控制系统实现。\n \n \n Sensing &amp; VibrationSuppression\n 感知与抑振控制关注多传感器状态感知、扰动观测、运动补偿与机器人抑振防抖控制。\n \n\n技术与工具 / Tools & Technologies\n\n MATLAB / Simulink\n ROS 2\n Python\n C++\n SolidWorks\n Linux\n Git\n\n关于本站\n\n本站使用 Hexo 搭建，采用 NexT 主题，由 Cloudflare Pages 托管。\n\n联系方式 / Contact\n\n- 🐙 GitHub：LiorenYuhang\n- 📧 邮箱：liu999yh@qq.com",
+    "content": "博士研究生 · Robotics · Control · ROS 2\n 我目前就读于浙江理工大学（Zhejiang Sci-Tech University，ZSTU），是一名在读博士生。\n\n研究方向 / Research Interests\n\n 并联机器人\n 运动控制\n 状态感知\n 振动抑制\n\n研究主题 / Research Themes\n\n \n \n 并联机器人与运动系统\n Parallel Robotics &amp; Motion Systems\n \n 关注并联机构的建模、运动学、工作空间、运动控制及机构性能研究。\n \n \n \n 机器人控制与实时系统\n Robot Control &amp; Real-Time Systems\n \n 关注机器人任务空间与关节空间控制、多执行器协调、ROS 2 与实时控制系统实现。\n \n \n \n 感知与抑振控制\n Sensing &amp; Vibration Suppression\n \n 关注多传感器状态感知、扰动观测、运动补偿与机器人抑振防抖控制。\n \n\n技术与工具 / Tools & Technologies\n\n MATLAB / Simulink\n ROS 2\n Python\n C++\n SolidWorks\n Linux\n Git\n\n联系方式 / Contact\n\n- 🐙 GitHub：LiorenYuhang\n- 📧 学校邮箱：2026020503003@mails.zstu.edu.cn\n- 📧 邮箱：liu999yh@qq.com\n\n关于本站 / About This Site\n\n本站使用 Hexo 搭建，采用 NexT 主题，由 Cloudflare Pages 托管。",
     "content_type": "paragraph",
     "tags": [],
     "categories": [],
     "published_at": null,
-    "content_hash": "01d4db19f79695f7",
+    "content_hash": "465c2b3623c35576",
     "links": []
   }
 ]
