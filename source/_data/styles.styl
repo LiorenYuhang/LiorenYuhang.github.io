@@ -32,6 +32,15 @@ code, pre, .highlight {
   object-fit: cover;
 }
 
+/* --- 桌面端侧边栏个人简介保持单行 --- */
+@media (min-width: 992px) {
+  html:not(.is-about-page) .site-overview-wrap .site-description {
+    font-size: 12px;
+    letter-spacing: -0.3px;
+    white-space: nowrap;
+  }
+}
+
 /* --- 隐藏日志/分类/标签统计 --- */
 .site-state-wrap {
   display: none !important;
