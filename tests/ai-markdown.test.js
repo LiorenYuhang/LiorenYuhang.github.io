@@ -2,7 +2,7 @@ import { createRequire } from "node:module";
 import { readFile } from "node:fs/promises";
 
 const require = createRequire(import.meta.url);
-const { parseMarkdown, hasMath, isSafeUrl } = require("../source/js/ai-markdown.js");
+const { parseMarkdown, hasMath, isSafeUrl, renderMarkdown } = require("../source/js/ai-markdown.js");
 const source = await readFile(new URL("../source/js/ai-markdown.js", import.meta.url), "utf8");
 
 let pass = 0;
@@ -16,6 +16,35 @@ function t(name, ok) {
 const firstBlock = (md) => parseMarkdown(md)[0];
 const children = (md) => (firstBlock(md) || {}).children || [];
 const childTypes = (md) => children(md).map((c) => c.type);
+
+function testDocument() {
+  function node(tagName, text) {
+    return {
+      tagName,
+      text: text || "",
+      children: [],
+      appendChild(child) { this.children.push(child); return child; },
+      set textContent(value) { this.children = [node("#text", String(value))]; },
+    };
+  }
+  return {
+    createDocumentFragment: () => node("#fragment"),
+    createElement: (tagName) => node(tagName),
+    createTextNode: (text) => node("#text", String(text)),
+  };
+}
+
+function countTag(root, tagName) {
+  return (root.tagName === tagName ? 1 : 0) +
+    root.children.reduce((sum, child) => sum + countTag(child, tagName), 0);
+}
+
+function isSingleThreeItemOrderedList(md) {
+  const ast = parseMarkdown(md);
+  const dom = renderMarkdown(md, testDocument());
+  return ast.length === 1 && ast[0].type === "list" && ast[0].ordered === true &&
+    ast[0].items.length === 3 && countTag(dom, "ol") === 1 && countTag(dom, "li") === 3;
+}
 
 /* ---------------- 普通文本 ---------------- */
 
@@ -66,6 +95,41 @@ t("ordered list -> ordered + 2 items",
   firstBlock("1. a\n2. b").type === "list" &&
   firstBlock("1. a\n2. b").ordered === true &&
   firstBlock("1. a\n2. b").items.length === 2);
+
+t("repeated 1 markers -> one ordered list with 3 items",
+  isSingleThreeItemOrderedList("1. a\n1. b\n1. c"));
+
+t("blank lines between ordered items -> one ordered list with 3 items",
+  isSingleThreeItemOrderedList("1. a\n\n1. b\n\n1. c"));
+
+t("blank lines and bold ordered items -> one ordered list with 3 strong items",
+  (() => {
+    const md = "1. **a**\n\n1. **b**\n\n1. **c**";
+    const list = firstBlock(md);
+    return isSingleThreeItemOrderedList(md) &&
+      list.items.every((item) => item.children.length === 1 && item.children[0].type === "strong");
+  })());
+
+t("escaped ordered marker stays paragraph text",
+  firstBlock("1\\. a").type === "paragraph");
+
+t("ordinary paragraph after ordered list ends the list",
+  (() => {
+    const blocks = parseMarkdown("1. a\n\nordinary paragraph");
+    return blocks.length === 2 && blocks[0].type === "list" && blocks[1].type === "paragraph";
+  })());
+
+t("adjacent ordered and unordered lists do not merge",
+  (() => {
+    const blocks = parseMarkdown("1. a\n- b");
+    return blocks.length === 2 && blocks[0].ordered === true && blocks[1].ordered === false;
+  })());
+
+t("different indentation levels do not merge",
+  (() => {
+    const blocks = parseMarkdown("1. a\n  1. b");
+    return blocks.length === 2 && blocks.every((block) => block.type === "list" && block.items.length === 1);
+  })());
 
 /* ---------------- 标题 ---------------- */
 

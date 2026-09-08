@@ -205,10 +205,19 @@
       var li = LIST_RE.exec(line);
       if (li) {
         var ordered = /^\d+\.$/.test(li[2]);
+        var listIndent = li[1];
         var items = [];
         while (i < n) {
           var l2 = LIST_RE.exec(lines[i]);
-          if (!l2 || (/^\d+\.$/.test(l2[2])) !== ordered) break;
+          if (!l2 && /^\s*$/.test(lines[i])) {
+            var nextItem = i;
+            while (nextItem < n && /^\s*$/.test(lines[nextItem])) nextItem++;
+            l2 = nextItem < n ? LIST_RE.exec(lines[nextItem]) : null;
+            if (l2 && (/^\d+\.$/.test(l2[2])) === ordered && l2[1] === listIndent) {
+              i = nextItem;
+            }
+          }
+          if (!l2 || (/^\d+\.$/.test(l2[2])) !== ordered || l2[1] !== listIndent) break;
           items.push({ children: parseInline(l2[3]) });
           i++;
         }
