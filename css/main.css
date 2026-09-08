@@ -1461,7 +1461,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #5cff4e;
+    background: #ff3cff;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
@@ -3393,6 +3393,23 @@ html.is-about-page .about-profile-card .site-author-image {
   font-size: 13.5px;
   line-height: 1.7;
   text-align: left;
+}
+html.is-about-page h2[id="论文-Publications"] + p,
+html.is-about-page h2[id="论文-Publications"] + p + p,
+html.is-about-page h2[id="论文-Publications"] + p + p + p {
+  margin-bottom: 1.45em;
+}
+html.is-about-page h2[id="论文-Publications"] + p > strong:first-child,
+html.is-about-page h2[id="论文-Publications"] + p + p > strong:first-child,
+html.is-about-page h2[id="论文-Publications"] + p + p + p > strong:first-child {
+  font-weight: 500;
+}
+html.is-about-page h2[id="专利-Patents"] + p > strong:first-child,
+html.is-about-page h2[id="专利-Patents"] + p + p > strong:first-child {
+  font-size: 0.96em;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.55;
 }
 [data-theme="dark"] .about-intro,
 [data-theme="dark"] .about-project,
