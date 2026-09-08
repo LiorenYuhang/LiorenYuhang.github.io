@@ -47,6 +47,39 @@ sidebar: true
   </article>
 </div>
 
+## 论文 / Publications
+
+**A customized electricity pricing approach that considering the gaming ability of users and the new power sales company**
+Yuanqian Ma, **Yuhang Liu**, Yuchen Yin, et al. · *Energy Reports* · 2023 · 9(S7): 1244–1258
+
+**基于 Transformer 算法的园区综合能源需求预测**
+尹宇晨、**刘宇杭**、马愿谦 等 · *综合智慧能源* · 2023 · 45(10): 61–69
+
+**A Two-Part Custom Power Pricing Method for High-Tech Customers in an Incremental Distribution Park**
+Ma Y., Lu D., **Liu Y.**, et al. · *2022 7th Asia Conference on Power and Electrical Engineering (ACPEE)* · IEEE · 2022 · pp. 416–420
+
+## 专利 / Patents
+
+**一种消融系统及方法**
+付际、**刘宇杭**、李秦川、张海峰 · 中国发明专利 · ZL 2025 1 1106197.1 · 2025 年 11 月授权
+
+**Method and Device for Integrated Energy Demand Forecasting of the Park Based on the Transformer Algorithm**
+**Liu Yuhang** · 南非专利 / South African Patent · ZA202301898B
+
+## 荣誉 / Honors
+
+**国家二等奖** · 2023 年全国大学生电子设计竞赛
+E 题：运动目标控制与自动追踪系统
+
+**省级一等奖** · 2023 年“智造杯”第七届浙江省大学生机器人竞赛
+旅游机器人寻宝组
+
+**省级一等奖 · 浙江省第 2 / 220** · 2022 年第十届浙江省大学生电子设计竞赛
+C 题：小车跟随行驶系统
+
+**省级一等奖** · 2022 年第六届浙江省大学生机器人竞赛
+旅游机器人探险组
+
 ## 技术与工具 / Tools & Technologies
 
 <div class="about-tags about-tool-tags">

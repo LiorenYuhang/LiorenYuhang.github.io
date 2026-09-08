@@ -4398,12 +4398,12 @@
     "title": "你好，我是刘宇杭 👋",
     "url": "/about/",
     "section": null,
-    "content": "博士研究生 · Robotics · Control · ROS 2\n 我目前就读于浙江理工大学（Zhejiang Sci-Tech University，ZSTU），是一名在读博士生。\n\n研究方向 / Research Interests\n\n 并联机器人\n 运动控制\n 状态感知\n 振动抑制\n\n研究主题 / Research Themes\n\n \n \n 并联机器人与运动系统\n Parallel Robotics &amp; Motion Systems\n \n 关注并联机构的建模、运动学、工作空间、运动控制及机构性能研究。\n \n \n \n 机器人控制与实时系统\n Robot Control &amp; Real-Time Systems\n \n 关注机器人任务空间与关节空间控制、多执行器协调、ROS 2 与实时控制系统实现。\n \n \n \n 感知与抑振控制\n Sensing &amp; Vibration Suppression\n \n 关注多传感器状态感知、扰动观测、运动补偿与机器人抑振防抖控制。\n \n\n技术与工具 / Tools & Technologies\n\n MATLAB / Simulink\n ROS 2\n Python\n C++\n SolidWorks\n Linux\n Git\n\n联系方式 / Contact\n\n- 🐙 GitHub：LiorenYuhang\n- 📧 学校邮箱：2026020503003@mails.zstu.edu.cn\n- 📧 邮箱：liu999yh@qq.com\n\n关于本站 / About This Site\n\n本站使用 Hexo 搭建，采用 NexT 主题，由 Cloudflare Pages 托管。",
+    "content": "博士研究生 · Robotics · Control · ROS 2\n 我目前就读于浙江理工大学（Zhejiang Sci-Tech University，ZSTU），是一名在读博士生。\n\n研究方向 / Research Interests\n\n 并联机器人\n 运动控制\n 状态感知\n 振动抑制\n\n研究主题 / Research Themes\n\n \n \n 并联机器人与运动系统\n Parallel Robotics &amp; Motion Systems\n \n 关注并联机构的建模、运动学、工作空间、运动控制及机构性能研究。\n \n \n \n 机器人控制与实时系统\n Robot Control &amp; Real-Time Systems\n \n 关注机器人任务空间与关节空间控制、多执行器协调、ROS 2 与实时控制系统实现。\n \n \n \n 感知与抑振控制\n Sensing &amp; Vibration Suppression\n \n 关注多传感器状态感知、扰动观测、运动补偿与机器人抑振防抖控制。\n \n\n论文 / Publications\n\nA customized electricity pricing approach that considering the gaming ability of users and the new power sales company\nYuanqian Ma, Yuhang Liu, Yuchen Yin, et al. · Energy Reports · 2023 · 9(S7): 1244–1258\n\n基于 Transformer 算法的园区综合能源需求预测\n尹宇晨、刘宇杭、马愿谦 等 · 综合智慧能源 · 2023 · 45(10): 61–69\n\nA Two-Part Custom Power Pricing Method for High-Tech Customers in an Incremental Distribution Park\nMa Y., Lu D., Liu Y., et al. · 2022 7th Asia Conference on Power and Electrical Engineering (ACPEE) · IEEE · 2022 · pp. 416–420\n\n专利 / Patents\n\n一种消融系统及方法\n付际、刘宇杭、李秦川、张海峰 · 中国发明专利 · ZL 2025 1 1106197.1 · 2025 年 11 月授权\n\nMethod and Device for Integrated Energy Demand Forecasting of the Park Based on the Transformer Algorithm\nLiu Yuhang · 南非专利 / South African Patent · ZA202301898B\n\n荣誉 / Honors\n\n国家二等奖 · 2023 年全国大学生电子设计竞赛\nE 题：运动目标控制与自动追踪系统\n\n省级一等奖 · 2023 年“智造杯”第七届浙江省大学生机器人竞赛\n旅游机器人寻宝组\n\n省级一等奖 · 浙江省第 2 / 220 · 2022 年第十届浙江省大学生电子设计竞赛\nC 题：小车跟随行驶系统\n\n省级一等奖 · 2022 年第六届浙江省大学生机器人竞赛\n旅游机器人探险组\n\n技术与工具 / Tools & Technologies\n\n MATLAB / Simulink\n ROS 2\n Python\n C++\n SolidWorks\n Linux\n Git\n\n联系方式 / Contact\n\n- 🐙 GitHub：LiorenYuhang\n- 📧 学校邮箱：2026020503003@mails.zstu.edu.cn\n- 📧 邮箱：liu999yh@qq.com\n\n关于本站 / About This Site\n\n本站使用 Hexo 搭建，采用 NexT 主题，由 Cloudflare Pages 托管。",
     "content_type": "paragraph",
     "tags": [],
     "categories": [],
     "published_at": null,
-    "content_hash": "465c2b3623c35576",
+    "content_hash": "66662e963f5bfaa8",
     "links": []
   }
 ]
