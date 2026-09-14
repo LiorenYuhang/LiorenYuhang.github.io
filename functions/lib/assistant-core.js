@@ -6,6 +6,7 @@ import { classifyContactQuery, buildContactAnswer, buildContactSources } from ".
 import { isCriticalInjection } from "./security.js";
 import { computeKnowledgeVersion } from "./cache.js";
 import { normalizeSitePath } from "./request-validation.js";
+import { createDiagnostics, failDiagnostics } from "./assistant-diagnostics.js";
 
 const MAX_CONTEXT_TOKENS = 6000;
 
@@ -114,6 +115,7 @@ export function createAssistantCore(opts) {
   }
 
   async function handle(validated, rid, ctx) {
+    const diagnostics = (ctx && ctx.diagnostics) || createDiagnostics();
     const meta = { retrieval_count: 0, cache_hit: false, provider_result: null, provider_type: cacheConfig.provider };
     if (!enabled) return r_async(rid, false, "AI 助手暂时不可用。", [], "disabled", meta);
 
@@ -200,8 +202,10 @@ export function createAssistantCore(opts) {
 
     let reservationActive = false;
     if (budget) {
+      diagnostics.stage = "budget_reserve";
       const res = await budget.reserveRequest({ requestId: rid, estimatedInputTokens: estimatedInput });
       if (!res.ok) { meta.budget_result = res.reason || "budget_exceeded"; return r_async(rid, false, "请求过于频繁，请稍后再试。", [], "rate_limited", meta); }
+      diagnostics.stage = "budget_dispatch";
       const dispatch = await budget.markDispatched({ requestId: rid });
       if (!dispatch || dispatch.ok !== true) {
         try { await budget.cancelBeforeDispatch({ requestId: rid, reason: "dispatch_failed" }); } catch {}
@@ -216,41 +220,57 @@ export function createAssistantCore(opts) {
     let deadlineTimer = null;
 
     try {
-      const providerPromise = provider.generateAnswer({ systemPrompt, userPrompt, maxOutputTokens, timeoutMs, signal: controller.signal });
+      diagnostics.stage = "provider_fetch";
+      const providerPromise = provider.generateAnswer({ systemPrompt, userPrompt, maxOutputTokens, timeoutMs, signal: controller.signal, diagnostics });
       const deadlinePromise = new Promise((resolve) => {
         deadlineTimer = setTimeout(() => { timedOut = true; controller.abort(); resolve(null); }, timeoutMs);
       });
       const modelResult = await Promise.race([providerPromise, deadlinePromise]);
 
       if (timedOut || (modelResult && modelResult.aborted)) {
+        failDiagnostics(diagnostics, "timeout");
         if (reservationActive) { try { await budget.settleUnknown({ requestId: rid, reason: "timeout" }); } catch {} reservationActive = false; }
         meta.provider_result = "timeout";
         return { ok: false, answer: "AI 服务响应超时，请稍后重试。", sources: [], scope: "timeout", request_id: rid, _meta: meta };
       }
 
       // Validate response structure
+      diagnostics.stage = "provider_content_validation";
       if (!modelResult || typeof modelResult !== "object") {
+        diagnostics.content_ok = false;
+        failDiagnostics(diagnostics, "validation");
         if (reservationActive) { try { await budget.settleUnknown({ requestId: rid, reason: "invalid_response" }); } catch {} reservationActive = false; }
         meta.provider_result = "invalid_response";
         return r_async(rid, false, "AI 服务返回异常响应。", [], "error", meta);
       }
       if (timedOut || modelResult.aborted) {
+        failDiagnostics(diagnostics, "timeout");
         if (reservationActive) { try { await budget.settleUnknown({ requestId: rid, reason: "timeout" }); } catch {} reservationActive = false; }
         meta.provider_result = "timeout";
         return { ok: false, answer: "AI 服务响应超时，请稍后重试。", sources: [], scope: "timeout", request_id: rid, _meta: meta };
       }
       if (modelResult.status && (modelResult.status < 200 || modelResult.status >= 300)) {
+        diagnostics.stage = "provider_http";
+        diagnostics.upstream_status = modelResult.status;
+        diagnostics.provider_http_ok = false;
+        failDiagnostics(diagnostics, "http");
         const error = new Error("provider_http_error");
         error.status = modelResult.status;
         throw error;
       }
       if (typeof modelResult.text !== "string" || !modelResult.text.trim()) {
+        diagnostics.content_ok = false;
+        failDiagnostics(diagnostics, "validation");
         if (reservationActive) { try { await budget.settleUnknown({ requestId: rid, reason: "invalid_response" }); } catch {} reservationActive = false; }
         meta.provider_result = "invalid_response";
         return { ok: false, answer: "AI 服务返回异常响应。", sources: [], scope: "error", request_id: rid, _meta: meta };
       }
+      diagnostics.content_ok = true;
+      diagnostics.stage = "provider_usage_validation";
       const usage = modelResult.usage;
       if (!usage || !Number.isInteger(usage.input_tokens) || !Number.isInteger(usage.output_tokens) || usage.input_tokens < 0 || usage.output_tokens < 0) {
+        diagnostics.usage_ok = false;
+        failDiagnostics(diagnostics, "validation");
         if (reservationActive) { try { await budget.settleUnknown({ requestId: rid, reason: "invalid_usage" }); } catch {} reservationActive = false; }
         meta.provider_result = "invalid_usage";
         return { ok: false, answer: "AI 服务返回异常响应。", sources: [], scope: "error", request_id: rid, _meta: meta };
@@ -259,18 +279,36 @@ export function createAssistantCore(opts) {
 
 
       // Success
+      diagnostics.usage_ok = true;
+      diagnostics.provider_answer_ok = true;
       if (reservationActive) {
+        diagnostics.stage = "budget_settle_success";
+        diagnostics.settle_success_started = true;
         const settled = await budget.settleSuccess({ requestId: rid, actualInputTokens: usage.input_tokens, actualOutputTokens: usage.output_tokens });
-        if (!settled || settled.ok !== true) throw Object.assign(new Error("budget_settlement_failed"), { code: "budget_settlement_failed" });
+        diagnostics.settle_success_threw = false;
+        diagnostics.settle_success_ok = !!settled && settled.ok === true;
+        if (!settled || settled.ok !== true) {
+          failDiagnostics(diagnostics, "validation");
+          throw Object.assign(new Error("budget_settlement_failed"), { code: "budget_settlement_failed" });
+        }
         reservationActive = false;
       }
       meta.provider_result = "success";
 
+      diagnostics.stage = "sources_build";
       const sources = buildSources(dedupeByDocument(results), knowledgeBase);
+      diagnostics.sources_ok = true;
       if (cacheKey) await writeCache(cacheKey, { answer: modelResult.text, sources, scope: "success" }, ctx);
 
+      diagnostics.stage = "success";
       return { ok: true, answer: modelResult.text, sources, scope: "success", request_id: rid, _meta: meta };
     } catch (err) {
+      if (diagnostics.stage === "budget_settle_success" && diagnostics.settle_success_threw === null) {
+        diagnostics.settle_success_threw = true;
+        diagnostics.settle_success_ok = false;
+      }
+      if (diagnostics.stage === "sources_build") diagnostics.sources_ok = false;
+      failDiagnostics(diagnostics, timedOut || (err && (err.name === "AbortError" || err.code === "provider_aborted")) ? "timeout" : "unexpected_exception");
       const classification = classifyProviderError(err, timedOut);
       if (reservationActive) {
         const settle = classification.settlement === "rejected" ? budget.settleRejected : budget.settleUnknown;

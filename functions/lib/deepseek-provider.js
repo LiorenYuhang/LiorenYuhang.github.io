@@ -2,6 +2,8 @@
  * deepseek-provider.js — DeepSeek API v4 provider
  * Uses Workers-native fetch. No OpenAI SDK. No Node.js deps.
  */
+import { createDiagnostics, failDiagnostics } from "./assistant-diagnostics.js";
+
 const MODEL_NAME_PATTERN = /^[a-z0-9][a-z0-9._-]{0,127}$/i;
 const DEPRECATED_MODELS = new Set(["deepseek-chat", "deepseek-reasoner"]);
 
@@ -21,6 +23,8 @@ export function createDeepSeekProvider(config) {
     config: { model, baseUrl, maxOutputTokens: config.maxOutputTokens ?? 800, timeoutMs: config.timeoutMs ?? 15000, thinkingEnabled },
     generateAnswer(params) {
       const { systemPrompt, userPrompt, maxOutputTokens, timeoutMs, signal } = params;
+      const diagnostics = params.diagnostics || createDiagnostics();
+      diagnostics.stage = "provider_fetch";
       const url = baseUrl + "/chat/completions";
 
       const body = {
@@ -59,25 +63,55 @@ export function createDeepSeekProvider(config) {
         body: JSON.stringify(body),
         signal: linkedSignal,
       }).then(async (response) => {
+        diagnostics.stage = "provider_http";
         const status = response.status;
+        diagnostics.upstream_status = status;
+        diagnostics.provider_http_ok = status >= 200 && status < 300;
+        diagnostics.stage = "provider_json_parse";
         let json;
-        try { json = await response.json(); } catch { json = null; }
+        try { json = await response.json(); diagnostics.response_json_ok = true; }
+        catch { json = null; diagnostics.response_json_ok = false; }
 
-        if (status < 200 || status >= 300) throw providerHttpError(status);
+        if (status < 200 || status >= 300) {
+          diagnostics.stage = "provider_http";
+          failDiagnostics(diagnostics, "http");
+          throw providerHttpError(status);
+        }
 
-        if (!json || typeof json !== "object") throw Object.assign(new Error("provider_invalid_response"), { code: "provider_invalid_response" });
-        if (!Array.isArray(json.choices) || !json.choices.length) throw Object.assign(new Error("provider_invalid_response"), { code: "provider_invalid_response" });
+        if (!json || typeof json !== "object") {
+          if (diagnostics.response_json_ok) diagnostics.stage = "provider_content_validation";
+          failDiagnostics(diagnostics, diagnostics.response_json_ok ? "validation" : "parse");
+          throw Object.assign(new Error("provider_invalid_response"), { code: "provider_invalid_response" });
+        }
+        diagnostics.stage = "provider_content_validation";
+        diagnostics.content_ok = false;
+        if (!Array.isArray(json.choices) || !json.choices.length) {
+          failDiagnostics(diagnostics, "validation");
+          throw Object.assign(new Error("provider_invalid_response"), { code: "provider_invalid_response" });
+        }
 
         const content = json.choices[0].message?.content;
-        if (typeof content !== "string" || !content.trim()) throw Object.assign(new Error("provider_empty_response"), { code: "provider_empty_response" });
+        if (typeof content !== "string" || !content.trim()) {
+          failDiagnostics(diagnostics, "validation");
+          throw Object.assign(new Error("provider_empty_response"), { code: "provider_empty_response" });
+        }
+        diagnostics.content_ok = true;
 
+        diagnostics.stage = "provider_usage_validation";
+        diagnostics.usage_ok = false;
         const usage = json.usage;
         if (!usage || !Number.isInteger(usage.prompt_tokens) || !Number.isInteger(usage.completion_tokens) || usage.prompt_tokens < 0 || usage.completion_tokens < 0) {
+          failDiagnostics(diagnostics, "validation");
           throw Object.assign(new Error("provider_invalid_usage"), { code: "provider_invalid_usage" });
         }
+        diagnostics.usage_ok = true;
+        diagnostics.stage = "provider_model_validation";
+        diagnostics.model_ok = false;
         if (typeof json.model !== "string" || json.model !== model) {
+          failDiagnostics(diagnostics, "validation");
           throw Object.assign(new Error("provider_model_mismatch"), { code: "provider_model_mismatch" });
         }
+        diagnostics.model_ok = true;
 
         return {
           text: content.trim(),
@@ -86,6 +120,8 @@ export function createDeepSeekProvider(config) {
           provider_request_id: json.id || null,
         };
       }).catch(err => {
+        failDiagnostics(diagnostics, err.name === "AbortError" || err.code === "provider_aborted"
+          ? "timeout" : diagnostics.stage === "provider_fetch" ? "network" : "unexpected_exception");
         if (err.name === "AbortError" || err.code === "provider_aborted") {
           return { text: "", usage: { input_tokens: 0, output_tokens: 0 }, model, provider_request_id: null, aborted: true };
         }

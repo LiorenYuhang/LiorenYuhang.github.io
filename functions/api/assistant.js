@@ -9,6 +9,7 @@ import { createMemoryCache, computeKnowledgeVersion } from "../lib/cache.js";
 import { createCloudflareCache } from "../lib/cloudflare-cache.js";
 import { parsePositiveInt } from "../lib/model-provider.js";
 import knowledgeBase from "../../knowledge-base.generated.mjs";
+import { createDiagnostics, failDiagnostics, diagnosticLogFields, diagnosticProviderResult } from "../lib/assistant-diagnostics.js";
 
 // ---- Runtime singleton (per Worker isolate) ----
 let _runtime = null;
@@ -143,6 +144,7 @@ export async function onRequest(context) {
   const { request, env } = context;
   const rid = generateRequestId();
   const startMs = Date.now();
+  const diagnostics = createDiagnostics();
 
   try {
     if (request.method !== "POST") {
@@ -180,23 +182,28 @@ export async function onRequest(context) {
       return json(validated.code || 400, { ok: false, answer: validated.message, sources: [], scope: validated.scope, request_id: rid });
     }
 
+    diagnostics.stage = "runtime";
     const runtime = getRuntime(env);
     const result = await runtime.core.handle(validated, rid, {
       waitUntil: typeof context.waitUntil === "function" ? context.waitUntil.bind(context) : null,
       requestUrl: request.url,
+      diagnostics,
     });
 
     // Log from _meta
     const meta = result._meta || {};
+    diagnostics.stage = "response_mapping";
     const clientResp = filterResponseForClient(result);
     const elapsed = Date.now() - startMs;
     const statusMap = { success: 200, no_results: 200, bad_request: 400, rate_limited: 429, upstream_busy: 503, upstream_error: 503, disabled: 503, error: 503, timeout: 504 };
     const status = statusMap[result.scope] || 503;
-    console.log(JSON.stringify({ ts: new Date().toISOString(), rid, scope: result.scope, status, elapsed_ms: elapsed, retrieval_count: meta.retrieval_count || 0, cache_hit: meta.cache_hit || false, provider_type: meta.provider_type || "none", provider_result: meta.provider_result || "none" }));
+    if (result.ok) diagnostics.stage = "success";
+    console.log(JSON.stringify({ ts: new Date().toISOString(), rid, scope: result.scope, status, elapsed_ms: elapsed, retrieval_count: meta.retrieval_count || 0, cache_hit: meta.cache_hit || false, provider_type: meta.provider_type || "none", provider_result: diagnosticProviderResult(meta.provider_result || "none"), ...diagnosticLogFields(diagnostics) }));
     return json(status, clientResp);
   } catch (err) {
+    failDiagnostics(diagnostics, "unexpected_exception");
     const elapsed = Date.now() - startMs;
-    console.log(JSON.stringify({ ts: new Date().toISOString(), rid, scope: "error", status: 503, elapsed_ms: elapsed, provider_result: "unhandled_exception" }));
+    console.log(JSON.stringify({ ts: new Date().toISOString(), rid, scope: "error", status: 503, elapsed_ms: elapsed, provider_result: "unhandled_exception", ...diagnosticLogFields(diagnostics) }));
     return json(503, { ok: false, answer: "AI 助手暂时不可用。", sources: [], scope: "error", request_id: rid });
   }
 }
