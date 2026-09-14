@@ -2,7 +2,7 @@
  * deepseek-provider.js — DeepSeek API v4 provider
  * Uses Workers-native fetch. No OpenAI SDK. No Node.js deps.
  */
-import { createDiagnostics, failDiagnostics } from "./assistant-diagnostics.js";
+import { createDiagnostics, failDiagnostics, diagnosticModelName } from "./assistant-diagnostics.js";
 
 const MODEL_NAME_PATTERN = /^[a-z0-9][a-z0-9._-]{0,127}$/i;
 const DEPRECATED_MODELS = new Set(["deepseek-chat", "deepseek-reasoner"]);
@@ -24,6 +24,7 @@ export function createDeepSeekProvider(config) {
     generateAnswer(params) {
       const { systemPrompt, userPrompt, maxOutputTokens, timeoutMs, signal } = params;
       const diagnostics = params.diagnostics || createDiagnostics();
+      diagnostics.configured_model = diagnosticModelName(model, apiKey);
       diagnostics.stage = "provider_fetch";
       const url = baseUrl + "/chat/completions";
 
@@ -106,6 +107,7 @@ export function createDeepSeekProvider(config) {
         }
         diagnostics.usage_ok = true;
         diagnostics.stage = "provider_model_validation";
+        diagnostics.response_model = diagnosticModelName(json.model, apiKey);
         diagnostics.model_ok = false;
         if (typeof json.model !== "string" || json.model !== model) {
           failDiagnostics(diagnostics, "validation");

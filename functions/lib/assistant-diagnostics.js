@@ -2,6 +2,7 @@
 export function createDiagnostics() {
   return {
     stage: null, failure_stage: null, error_category: null,
+    configured_model: null, response_model: null,
     upstream_status: null, provider_http_ok: null, response_json_ok: null,
     content_ok: null, usage_ok: null, model_ok: null, provider_answer_ok: null,
     settle_success_started: false, settle_success_ok: null,
@@ -37,7 +38,12 @@ export function diagnosticProviderResult(value) {
   return PROVIDER_RESULTS.has(value) ? value : "unexpected_exception";
 }
 
-// Explicit allowlist: no arbitrary strings, error messages, models or data objects.
+export function diagnosticModelName(value, apiKey) {
+  return typeof value === "string" && value !== apiKey &&
+    /^[a-z0-9][a-z0-9._-]{0,127}$/i.test(value) && !/^sk-/i.test(value) ? value : null;
+}
+
+// Explicit allowlist: only bounded model names, never messages or data objects.
 export function diagnosticLogFields(diagnostics) {
   const out = createDiagnostics();
   for (const key of Object.keys(out)) {
@@ -45,6 +51,7 @@ export function diagnosticLogFields(diagnostics) {
     if (key === "stage" || key === "failure_stage") out[key] = STAGES.has(value) ? value : null;
     else if (key === "error_category") out[key] = CATEGORIES.has(value) ? value : null;
     else if (key === "upstream_status") out[key] = Number.isInteger(value) && value >= 100 && value <= 599 ? value : null;
+    else if (key === "configured_model" || key === "response_model") out[key] = diagnosticModelName(value);
     else out[key] = typeof value === "boolean" ? value : null;
   }
   return out;

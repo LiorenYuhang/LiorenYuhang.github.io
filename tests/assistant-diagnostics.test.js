@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { onRequest } from "../functions/api/assistant.js";
-import { createDiagnostics, diagnosticLogFields, diagnosticProviderResult } from "../functions/lib/assistant-diagnostics.js";
+import { createDiagnostics, diagnosticLogFields, diagnosticProviderResult, diagnosticModelName } from "../functions/lib/assistant-diagnostics.js";
 import knowledgeBase from "../knowledge-base.generated.mjs";
 
 const PRIVATE = "DO_NOT_LOG_private@example.invalid_secret_prompt_answer";
@@ -96,6 +96,8 @@ try {
     await check("usage " + count, { transform: b => ({ ...b, usage }), stage: "provider_usage_validation", category: "validation", result: "provider_invalid_usage", expected: { content_ok: true, usage_ok: false, model_ok: null } });
   }
   await check("model mismatch", { transform: b => ({ ...b, model: PRIVATE }), stage: "provider_model_validation", category: "validation", result: "provider_model_mismatch", expected: { content_ok: true, usage_ok: true, model_ok: false } });
+  await check("model names logged without accepting mismatch", { transform: b => ({ ...b, model: "diagnostic-model-canonical" }), stage: "provider_model_validation", category: "validation", result: "provider_model_mismatch", expected: { configured_model: "diagnostic-model", response_model: "diagnostic-model-canonical", model_ok: false } });
+  await check("matching model names logged", { http: 200, scope: "success", expected: { configured_model: "diagnostic-model", response_model: "diagnostic-model", model_ok: true } });
   await check("settle returns false", { settleFalse: true, stage: "budget_settle_success", category: "validation", result: "budget_settlement_failed", expected: { provider_answer_ok: true, settle_success_started: true, settle_success_ok: false, settle_success_threw: false, sources_ok: null }, calls: ["reserve", "dispatch", "fetch", "settle", "unknown"] });
   await check("settle throws", { settleThrow: true, stage: "budget_settle_success", category: "unexpected_exception", result: "provider_exception", expected: { provider_answer_ok: true, settle_success_started: true, settle_success_ok: false, settle_success_threw: true, sources_ok: null } });
   await check("untrusted error code is not logged", { settleThrow: true, secretCode: true, stage: "budget_settle_success", category: "unexpected_exception", result: "unexpected_exception" });
@@ -107,6 +109,8 @@ try {
   const unsafe = Object.fromEntries(Object.keys(createDiagnostics()).map(key => [key, PRIVATE]));
   assert.equal(JSON.stringify(diagnosticLogFields(unsafe)).includes(PRIVATE), false);
   assert.equal(diagnosticProviderResult(PRIVATE), "unexpected_exception");
+  for (const value of ["sk-test-secret", "Bearer token", "private@example.invalid", "model\nsecret", "x".repeat(129), {}, null]) assert.equal(diagnosticModelName(value), null);
+  assert.equal(diagnosticModelName("opaque-key", "opaque-key"), null);
   originalLog("Diagnostic cases passed: " + count);
   originalLog("Local synthetic example: " + JSON.stringify(diagnosticLogFields(success)));
 } finally {
