@@ -49,7 +49,7 @@ async function check(name, options = {}) {
   try {
     const response = await onRequest({
       request: new Request("https://test.local/api/assistant", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ question: options.direct ? "这个网站主要有哪些内容" : "Stewart" }) }),
-      env: { AI_ASSISTANT_ENABLED: "true", AI_PROVIDER: "deepseek", AI_RUNTIME_ENV: "production", DEEPSEEK_API_KEY: PRIVATE, DEEPSEEK_MODEL: "diagnostic-model", AI_BUDGET_DB: db, AI_PROVIDER_CONFIG_VERSION: name, AI_REQUEST_TIMEOUT_MS: options.timeout ? "10" : "1000" },
+      env: { AI_ASSISTANT_ENABLED: "true", AI_PROVIDER: "deepseek", AI_RUNTIME_ENV: "production", DEEPSEEK_API_KEY: PRIVATE, DEEPSEEK_MODEL: options.model || "diagnostic-model", AI_BUDGET_DB: db, AI_PROVIDER_CONFIG_VERSION: name, AI_REQUEST_TIMEOUT_MS: options.timeout ? "10" : "1000" },
     });
     const payload = await response.json();
     const log = logs.at(-1);
@@ -80,6 +80,7 @@ async function check(name, options = {}) {
 }
 
 try {
+  await check("documented Flash alias completes lifecycle", { model: "deepseek-v4-flash", transform: b => ({ ...b, model: "deepseek-flash" }), http: 200, scope: "success", expected: { configured_model: "deepseek-v4-flash", response_model: "deepseek-flash", model_ok: true, provider_answer_ok: true, settle_success_started: true, settle_success_ok: true, sources_ok: true }, calls: ["reserve", "dispatch", "fetch", "settle", "cache"] });
   await check("fetch rejection", { network: true, stage: "provider_fetch", category: "network", result: "provider_network_error", expected: { upstream_status: null, response_json_ok: null, settle_success_started: false }, calls: ["reserve", "dispatch", "fetch", "unknown"] });
   for (const status of [400, 401, 402, 403, 404, 422, 429, 500, 502, 503]) {
     await check("http " + status, { status, stage: "provider_http", category: "http", scope: [401, 402, 403].includes(status) ? "disabled" : status === 429 ? "upstream_busy" : "upstream_error", expected: { upstream_status: status, provider_http_ok: false, response_json_ok: true, settle_success_started: false } });

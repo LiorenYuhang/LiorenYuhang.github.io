@@ -80,6 +80,29 @@ async function run() {
   try { createDeepSeekProvider({ apiKey: "sk", model: "deepseek-v4-flash", baseUrl: "http://api.deepseek.com" }); t("D28 unsafe base URL", false); }
   catch (e) { t("D28 unsafe base URL rejected", e.message.includes("unsafe base URL")); }
 
+  // Only the documented one-way Flash compatibility pair is accepted.
+  for (const [requestModel, responseModel, content, usage, expectedCode] of [
+    ["deepseek-v4-flash", "deepseek-flash", "hi", { prompt_tokens: 1, completion_tokens: 1 }, null],
+    ["deepseek-flash", "deepseek-flash", "hi", { prompt_tokens: 1, completion_tokens: 1 }, null],
+    ["deepseek-v4-flash", undefined, "hi", { prompt_tokens: 1, completion_tokens: 1 }, "provider_model_mismatch"],
+    ["deepseek-v4-flash", 123, "hi", { prompt_tokens: 1, completion_tokens: 1 }, "provider_model_mismatch"],
+    ["deepseek-v4-flash", "deepseek-flash-unknown", "hi", { prompt_tokens: 1, completion_tokens: 1 }, "provider_model_mismatch"],
+    ["deepseek-v4-pro", "deepseek-flash", "hi", { prompt_tokens: 1, completion_tokens: 1 }, "provider_model_mismatch"],
+    ["deepseek-flash", "deepseek-v4-flash", "hi", { prompt_tokens: 1, completion_tokens: 1 }, "provider_model_mismatch"],
+    ["deepseek-v4-flash", "deepseek-flash", "", { prompt_tokens: 1, completion_tokens: 1 }, "provider_empty_response"],
+    ["deepseek-v4-flash", "deepseek-flash", "hi", undefined, "provider_invalid_usage"],
+  ]) {
+    const label = `compatibility ${requestModel}/${responseModel}/${expectedCode}`;
+    const provider = createDeepSeekProvider({ apiKey: "sk-test", model: requestModel, fetch: mockFetch((url, init) => {
+      t(label + " request unchanged", JSON.parse(init.body).model === requestModel);
+      return { status: 200, json: async () => ({ model: responseModel, choices: [{ message: { content } }], usage }) };
+    }) });
+    try {
+      const result = await provider.generateAnswer({ systemPrompt: "sys", userPrompt: "usr" });
+      t(label, expectedCode === null && result.model === responseModel && result.text === content);
+    } catch (error) { t(label, expectedCode !== null && error.code === expectedCode); }
+  }
+
   // AbortSignal
   const ac = new AbortController();
   ac.abort();

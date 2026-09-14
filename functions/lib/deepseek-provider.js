@@ -109,7 +109,10 @@ export function createDeepSeekProvider(config) {
         diagnostics.stage = "provider_model_validation";
         diagnostics.response_model = diagnosticModelName(json.model, apiKey);
         diagnostics.model_ok = false;
-        if (typeof json.model !== "string" || json.model !== model) {
+        // DeepSeek retires V4-Flash behind this documented compatibility route:
+        // https://api-docs.deepseek.com/ (legacy names served by V4.1-Flash).
+        const compatibleFlash = model === "deepseek-v4-flash" && json.model === "deepseek-flash";
+        if (typeof json.model !== "string" || (json.model !== model && !compatibleFlash)) {
           failDiagnostics(diagnostics, "validation");
           throw Object.assign(new Error("provider_model_mismatch"), { code: "provider_model_mismatch" });
         }
