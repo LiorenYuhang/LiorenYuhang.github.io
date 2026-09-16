@@ -1,0 +1,63 @@
+{% extends '_layout.njk' %}
+{% import '_macro/sidebar.njk' as sidebar_template with context %}
+{% block title %}{{ title }}{% endblock %}
+{% block class %}index posts-expand{% endblock %}
+{% block sidebar %}{{ sidebar_template.render(false) }}{% endblock %}
+{% block content %}
+{% if page.current == 1 %}
+  {% set home = site.data.home %}
+  <div class="home-hub">
+    <header class="home-intro">
+      <h1>{{ home.intro.title | escape }}</h1>
+      <p class="home-subtitle">{{ home.intro.subtitle | escape }}</p>
+      <p>{{ home.intro.description | escape }}</p>
+    </header>
+    <section id="start-here" aria-labelledby="home-start-title">
+      <h2 id="home-start-title">必看 <span>/ Start Here</span></h2>
+      <div class="home-start-grid">
+        {% for item in home.start_here %}
+          <a class="home-start-card" href="{{ url_for(item.url) }}">
+            <h3>{{ item.title | escape }}</h3>
+            <p>{{ item.description | escape }}</p>
+            <span class="home-view">查看 <span aria-hidden="true">→</span></span>
+          </a>
+        {% endfor %}
+      </div>
+    </section>
+    <section aria-labelledby="home-now-title">
+      <h2 id="home-now-title">最近在做 <span>/ Now</span></h2>
+      <dl class="home-now">
+        {% for item in home.now %}
+          <div><dt>{{ item.title | escape }}</dt><dd>{{ item.description | escape }}</dd></div>
+        {% endfor %}
+      </dl>
+    </section>
+    <section aria-labelledby="home-latest-title">
+      <h2 id="home-latest-title">最新文章 <span>/ Latest Posts</span></h2>
+      {% for post in site.posts.sort('-date').limit(5).toArray() %}
+        <article class="home-post">
+          <h3><a href="{{ url_for(post.path) }}">{{ post.title | escape }}</a></h3>
+          <div class="home-post-meta">
+            <time datetime="{{ date(post.date, 'YYYY-MM-DD') }}">{{ date(post.date, 'YYYY-MM-DD') }}</time>
+            {% for category in post.categories.toArray() %}
+              · <a href="{{ url_for(category.path) }}">{{ category.name | escape }}</a>
+            {% endfor %}
+          </div>
+          {% if post.description and theme.excerpt_description %}
+            {% set summary = post.description %}
+          {% else %}
+            {% set summary = post.excerpt or post.description or post.content %}
+          {% endif %}
+          <p class="home-excerpt">{{ strip_html(summary) | escape }}</p>
+        </article>
+      {% endfor %}
+      <a class="home-all" href="{{ url_for('/archives/') }}">查看全部文章 <span aria-hidden="true">→</span></a>
+    </section>
+  </div>
+{% else %}
+  {% for post in page.posts.toArray() %}
+    {{ partial('_macro/post.njk', {post: post, is_index: true}) }}
+  {% endfor %}
+  {% include '_partials/pagination.njk' %}
+{% endif %}
+{% endblock %}

@@ -1,7 +1,7 @@
 ---
 title: 6-PUS Stewart并联机构研究（二）：从Simscape简化建模到PID/ADRC闭环控制
 date: 2026-08-27 11:24:12
-tags: [Stewart平台, 并联机器人, 6-PUS, Simscape, PID控制, 自抗扰控制, ADRC, 多体动力学]
+tags: [Stewart平台, 并联机器人, 6-PUS, Simscape, PID控制, 自抗扰控制, ADRC, 多体动力学, 仿真]
 categories: 机器人
 description: 记录 6-PUS Stewart 并联机构从 CAD 导入、参数化 Simscape Multibody 建模、运动学闭环检验，到力驱动关节空间 PID 内环与集中式 MIMO-LADRC 控制器的完整演进与仿真对比。
 mathjax: true

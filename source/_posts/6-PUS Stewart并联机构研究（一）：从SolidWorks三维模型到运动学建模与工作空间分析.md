@@ -1,7 +1,7 @@
 ---
 title: 6-PUS Stewart并联机构研究（一）：从SolidWorks三维模型到运动学建模与工作空间分析
 date: 2026-08-05 16:00:00
-tags: [Stewart平台, 并联机器人, 6-PUS, MATLAB, 运动学, 工作空间]
+tags: [Stewart平台, 并联机器人, 6-PUS, MATLAB, 运动学, 工作空间, 仿真]
 categories: 机器人
 description: 面向一台具体的6-PUS Stewart并联机构，记录从几何参数、坐标系和正逆运动学到工作空间验证的建模过程。
 mathjax: true

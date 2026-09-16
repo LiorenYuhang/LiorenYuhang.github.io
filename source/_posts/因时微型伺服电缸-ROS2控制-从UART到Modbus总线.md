@@ -1,7 +1,7 @@
 ---
 title: 因时微型伺服电缸的 ROS2 控制：从 UART 直连到 Modbus 总线
 date: 2026-06-16 12:00:00
-tags: [ROS2, 机器人, 电机控制, Modbus, Python]
+tags: [ROS 2, 机器人, 电机控制, Modbus, Python, 实机控制]
 categories: 机器人
 description: 博士课题中因时 LAF 微型伺服电缸的完整控制方案——从单电机 UART 直连到多电机 Modbus 总线，覆盖 6 种控制模式，分层架构设计，ROS2 Jazzy 集成。
 top_img:

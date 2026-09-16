@@ -67,7 +67,7 @@ t('T1 tags are independent strings', '', {}, {
   minR: 0 // just checking structure
 });
 if (post4) {
-  var ok = Array.isArray(post4.tags) && post4.tags.length >= 5 && post4.tags.indexOf('ROS2') !== -1;
+  var ok = Array.isArray(post4.tags) && post4.tags.length >= 5 && post4.tags.indexOf('ROS 2') !== -1;
   ok ? pass++ : fail++;
   console.log('[' + (ok ? 'PASS' : 'FAIL') + '] T1b inline tags parsed: [' + (post4.tags || []).join(', ') + ']');
   if (!ok) { console.log('       FAIL: tags not independent strings'); exitCode = 1; }
