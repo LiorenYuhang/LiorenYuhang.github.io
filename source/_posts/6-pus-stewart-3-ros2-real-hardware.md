@@ -1,5 +1,5 @@
 ---
-title: 6PUS Stewart 平台（三）：从仿真到实机——ROS 2 控制系统设计与任务空间运动验证
+title: 6PUS Stewart 平台（三）：从仿真到实机——ROS 2 实机控制、状态重建与任务空间验证
 date: 2026-09-16 14:22:07
 tags: [Stewart平台, 并联机器人, 6-PUS, ROS 2, 实机控制, 逆运动学, 正运动学, 双IMU, 工作空间]
 categories: 机器人
