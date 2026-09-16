@@ -22,7 +22,7 @@
 
     <meta name="description" content="记录 6PUS Stewart 平台从仿真走向实机的过程：建立 ROS 2 任务空间控制、六轴连续 Servo、时间对齐与 FK 状态重建、双 IMU 感知，并用真实实验测量单自由度运行范围。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="6PUS Stewart 平台（三）：从仿真到实机——ROS 2 控制系统设计与任务空间运动验证">
+<meta property="og:title" content="6PUS Stewart 平台（三）：从仿真到实机——ROS 2 实机控制、状态重建与任务空间验证">
 <meta property="og:url" content="https://liorenyuhang.github.io/2026/09/16/6-pus-stewart-3-ros2-real-hardware/index.html">
 <meta property="og:site_name" content="吾性自足，不假外求&lt;br&gt;明心见性，知行合一">
 <meta property="og:description" content="记录 6PUS Stewart 平台从仿真走向实机的过程：建立 ROS 2 任务空间控制、六轴连续 Servo、时间对齐与 FK 状态重建、双 IMU 感知，并用真实实验测量单自由度运行范围。">
@@ -54,10 +54,10 @@
 <link rel="canonical" href="https://liorenyuhang.github.io/2026/09/16/6-pus-stewart-3-ros2-real-hardware/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://liorenyuhang.github.io/2026/09/16/6-pus-stewart-3-ros2-real-hardware/","path":"2026/09/16/6-pus-stewart-3-ros2-real-hardware/","title":"6PUS Stewart 平台（三）：从仿真到实机——ROS 2 控制系统设计与任务空间运动验证"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://liorenyuhang.github.io/2026/09/16/6-pus-stewart-3-ros2-real-hardware/","path":"2026/09/16/6-pus-stewart-3-ros2-real-hardware/","title":"6PUS Stewart 平台（三）：从仿真到实机——ROS 2 实机控制、状态重建与任务空间验证"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>6PUS Stewart 平台（三）：从仿真到实机——ROS 2 控制系统设计与任务空间运动验证 | 吾性自足，不假外求<br>明心见性，知行合一</title>
+<title>6PUS Stewart 平台（三）：从仿真到实机——ROS 2 实机控制、状态重建与任务空间验证 | 吾性自足，不假外求<br>明心见性，知行合一</title>
   
 
 
@@ -373,12 +373,12 @@ mjx-container[display="true"] + br {
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="6PUS Stewart 平台（三）：从仿真到实机——ROS 2 控制系统设计与任务空间运动验证 | 吾性自足，不假外求<br>明心见性，知行合一">
+      <meta itemprop="name" content="6PUS Stewart 平台（三）：从仿真到实机——ROS 2 实机控制、状态重建与任务空间验证 | 吾性自足，不假外求<br>明心见性，知行合一">
       <meta itemprop="description" content="记录 6PUS Stewart 平台从仿真走向实机的过程：建立 ROS 2 任务空间控制、六轴连续 Servo、时间对齐与 FK 状态重建、双 IMU 感知，并用真实实验测量单自由度运行范围。">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          6PUS Stewart 平台（三）：从仿真到实机——ROS 2 控制系统设计与任务空间运动验证
+          6PUS Stewart 平台（三）：从仿真到实机——ROS 2 实机控制、状态重建与任务空间验证
         </h1>
 
         <div class="post-meta-container">
@@ -659,7 +659,7 @@ f_i(\mathbf{p},\mathbf{R})=
   </li>
   <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="https://liorenyuhang.github.io/2026/09/16/6-pus-stewart-3-ros2-real-hardware/" title="6PUS Stewart 平台（三）：从仿真到实机——ROS 2 控制系统设计与任务空间运动验证">https://liorenyuhang.github.io/2026/09/16/6-pus-stewart-3-ros2-real-hardware/</a>
+      <a href="https://liorenyuhang.github.io/2026/09/16/6-pus-stewart-3-ros2-real-hardware/" title="6PUS Stewart 平台（三）：从仿真到实机——ROS 2 实机控制、状态重建与任务空间验证">https://liorenyuhang.github.io/2026/09/16/6-pus-stewart-3-ros2-real-hardware/</a>
   </li>
   <li class="post-copyright-license">
       <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
