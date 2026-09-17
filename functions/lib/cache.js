@@ -40,10 +40,8 @@ export function createMemoryCache() {
 
 export function computeKnowledgeVersion(knowledgeBase) {
   if (!knowledgeBase || !knowledgeBase.length) return "0";
-  const ids = new Set();
   const hashes = new Set();
   knowledgeBase.forEach((d) => {
-    ids.add(d.document_id);
     if (d.content_hash) hashes.add(d.document_id + ":" + d.content_hash);
   });
   const sorted = [...hashes].sort().join(",");

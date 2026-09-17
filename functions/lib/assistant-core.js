@@ -110,10 +110,6 @@ export function createAssistantCore(opts) {
 
   // Normalize all KB URLs once
 
-  function log(level, rid, msg) {
-    console.log(JSON.stringify({ ts: new Date().toISOString(), level, rid, msg }));
-  }
-
   async function handle(validated, rid, ctx) {
     const diagnostics = (ctx && ctx.diagnostics) || createDiagnostics();
     const meta = { retrieval_count: 0, cache_hit: false, provider_result: null, provider_type: cacheConfig.provider };

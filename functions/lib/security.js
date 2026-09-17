@@ -10,11 +10,6 @@ export function isCriticalInjection(text) {
   return CRITICAL_INJECTION.some((re) => re.test(text));
 }
 
-export function sanitizeForLog(text, maxLen) {
-  if (!text) return "";
-  return String(text).slice(0, maxLen || 80).replace(/[\n\r\t]/g, " ");
-}
-
 export function generateRequestId() {
   return "req_" + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
 }
