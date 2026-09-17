@@ -8,7 +8,7 @@
     "d1:migrate:local": "node tools/run-local-d1-migrations.js",
     "d1:migrate:remote": "wrangler d1 migrations apply AI_BUDGET_DB",
     "pages:dev": "wrangler pages dev public",
-    "build": "node scripts/build-knowledge-base.js && hexo generate && node scripts/copy-routes.js",
+    "build": "node scripts/build-knowledge-base.js && hexo generate",
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server"
