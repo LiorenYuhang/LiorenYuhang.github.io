@@ -27,7 +27,7 @@ jobs:
         run: npm ci
 
       - name: Generate static files
-        run: npx hexo generate
+        run: npm run build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
