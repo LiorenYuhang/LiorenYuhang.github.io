@@ -6,7 +6,27 @@
 var fs = require('fs');
 var path = require('path');
 var search = require('../scripts/search.js').search;
-var build = require('../scripts/build-knowledge-base.js').build;
+var builder = require('../scripts/build-knowledge-base.js');
+var build = builder.build;
+var crypto = require('crypto');
+var frontMatter = require('hexo-front-matter');
+
+// Read source metadata independently of generated chunks.
+var sourceRoot = path.resolve(__dirname, '..', 'source');
+function readSource(file) {
+  return frontMatter.parse(fs.readFileSync(file, 'utf8').replace(/^\uFEFF/, '').replace(/\r\n?/g, '\n'));
+}
+var aboutSource = readSource(path.join(sourceRoot, 'about/index.md'));
+var configText = fs.readFileSync(path.resolve(__dirname, '..', '_config.yml'), 'utf8');
+var permalinkPattern = configText.match(/^permalink:\s*(.+)$/m)[1].trim();
+var publishedSources = {};
+fs.readdirSync(path.join(sourceRoot, '_posts')).filter(function (f) { return f.endsWith('.md'); }).forEach(function (file) {
+  var data = readSource(path.join(sourceRoot, '_posts', file));
+  if (!data.draft && data.published !== false) {
+    publishedSources[builder.docId(builder.generateURL(data, permalinkPattern, file))] = data;
+  }
+});
+publishedSources[builder.docId('/about/')] = aboutSource;
 
 var KB_PATH = path.resolve(__dirname, '..', 'knowledge-base.json');
 
@@ -170,7 +190,7 @@ t('S18 case ros2', 'ros2', { h: [did('因时微型')], minS: 10 });
 t('S19 full-width ROS2', 'ＲＯＳ２', { h: [did('因时微型')], minS: 10 });
 
 // Page title
-t('S20 page title', '关于我', { h: [did('/about/')], minS: 10 });
+t('S20 page title', aboutSource.title, { h: [did('/about/')], minS: 10 });
 
 // Links in search results
 // Links should be findable via relevant queries (e.g., asking about repos)
@@ -189,7 +209,11 @@ var hashes = {};
 docs.forEach(function (d) {
   if (!hashes[d.document_id]) hashes[d.document_id] = d.content_hash;
 });
-var allHashed = Object.keys(hashes).length === 5;
+var allHashed = docs.length > 0 && docs.every(function (d) {
+  var source = publishedSources[d.document_id];
+  return source && /^[a-f0-9]{16}$/.test(d.content_hash || '') &&
+    d.content_hash === crypto.createHash('sha256').update(source._content || '').digest('hex').slice(0, 16);
+});
 allHashed ? pass++ : fail++;
 console.log('[' + (allHashed ? 'PASS' : 'FAIL') + '] H1 all documents have content_hash (' + Object.keys(hashes).length + ' docs)');
 Object.keys(hashes).forEach(function (k) { console.log('       ' + k + ': ' + hashes[k]); });
@@ -198,7 +222,7 @@ Object.keys(hashes).forEach(function (k) { console.log('       ' + k + ': ' + ha
    Draft exclusion
    ================================================================ */
 console.log('\n=== Draft/Exclusion ===\n');
-var draftContent = docs.filter(function (d) { return d.content.indexOf('__draft__') !== -1 || d.content.indexOf('草稿') !== -1; });
+var draftContent = docs.filter(function (d) { return !publishedSources[d.document_id]; });
 var noDrafts = draftContent.length === 0;
 // Verify no drafts in knowledge base
 noDrafts ? pass++ : fail++;

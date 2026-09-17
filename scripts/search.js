@@ -82,7 +82,13 @@ function scoreChunkRelevance(doc, qNorm, qTokens) {
   var reasons = [];
 
   // Section heading match (weight 6)
-  if (doc.section && normalize(doc.section).indexOf(qNorm) !== -1) { score += 6; reasons.push('section_match'); }
+  if (doc.section && normalize(doc.section).indexOf(qNorm) !== -1) {
+    // A short substring inside a longer heading is only weak evidence.
+    // Preserve full heading/token matches (including short technical terms).
+    var strongSection = qNorm.length >= 3 || tokenize(doc.section).words.indexOf(qNorm) !== -1;
+    score += strongSection ? 6 : 1;
+    reasons.push(strongSection ? 'section_match' : 'section_substring');
+  }
 
   // Content bigram overlap (weight 1 per overlap)
   var dTokens = tokenize(doc.content);
