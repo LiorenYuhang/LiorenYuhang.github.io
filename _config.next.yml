@@ -106,13 +106,6 @@ bookmark:
   color: "#222"
   save: auto
 
-# 字数统计（需 hexo-wordcount 插件）
-symbols_count_time:
-  enable: true
-  time: true
-  symbols: true
-  separated_meta: true
-
 # 本地搜索
 local_search:
   enable: true
