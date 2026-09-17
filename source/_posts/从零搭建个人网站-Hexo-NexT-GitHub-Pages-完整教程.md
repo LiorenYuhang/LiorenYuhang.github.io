@@ -161,3 +161,5 @@ git add -A && git commit -m "新文章" && git push # 发布
 ---
 
 *以上内容与网站由 Claude Code + DeepSeek 辅助生成*
+
+<span hidden>知识库链路校验标记：KBE2E-20260917-66A98CAF。此处仅用于验证生产知识库链路。</span>
