@@ -1,0 +1,30 @@
+# Curated Topic Definitions (membership is curated; display order is by post date descending)
+active-stabilization:
+  id: active-stabilization
+  title: 主动稳定与扰动抑制
+  subtitle: 并联机构、姿态感知、主动补偿与智能控制
+  description: 围绕运动平台在外部扰动和基座运动条件下的主动稳定控制问题，记录从机构建模、动力学仿真、状态感知到主动补偿与控制算法的研究过程。
+  posts:
+    - 6-PUS Stewart并联机构研究（一）：从SolidWorks三维模型到运动学建模与工作空间分析
+    - 6-pus-stewart-2-simscape-pid-adrc
+    - 6-pus-stewart-3-ros2-real-hardware
+
+robotics-systems:
+  id: robotics-systems
+  title: 机器人软件与系统工程
+  subtitle: 软件架构、通信控制、设备集成与开发部署
+  description: 记录机器人软件从开发环境、通信链路、执行器与传感器接入，到 ROS 系统集成和真实硬件部署的工程实践。
+  posts:
+    - ros-docker-cross-ubuntu-development
+    - 因时微型伺服电缸-ROS2控制-从UART到Modbus总线
+    - 6-pus-stewart-3-ros2-real-hardware
+
+web-ai:
+  id: web-ai
+  title: 网站与 AI 工程实践
+  subtitle: 个人数字系统、智能工具与科研工作流的持续构建
+  description: 记录个人数字系统、智能工具与科研工作流的设计、搭建、使用和持续迭代。
+  posts:
+    - 从零搭建个人网站-Hexo-NexT-GitHub-Pages-完整教程
+    - 从一个想法到可用系统：Hexo 个人网站站内 AI 助手开发复盘
+    - QQ邮箱Agently-Mail-AI-Agent数字身份证

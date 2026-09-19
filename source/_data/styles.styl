@@ -374,7 +374,8 @@ html.is-about-page h2[id="论文-Publications"] + p + p + p > strong:first-child
 }
 
 html.is-about-page h2[id="专利-Patents"] + p > strong:first-child,
-html.is-about-page h2[id="专利-Patents"] + p + p > strong:first-child {
+html.is-about-page h2[id="专利-Patents"] + p + p > strong:first-child,
+html.is-about-page h2[id="专利-Patents"] + p + p + p > strong:first-child {
   font-size: 0.96em;
   font-weight: 500;
   letter-spacing: 0;
@@ -513,7 +514,7 @@ html.is-about-page h2[id="专利-Patents"] + p + p > strong:first-child {
   border-radius: 12px;
   overflow-wrap: anywhere;
 }
-.home-hub h1 { margin: 0 0 8px; font-size: 30px; line-height: 1.5; }
+.home-hub h1, .home-hub .home-page-title { margin: 0 0 8px; font-size: 30px; line-height: 1.5; }
 .home-hub p { margin: 0; }
 .home-hub .home-subtitle { margin-bottom: 16px; font-size: 14px; letter-spacing: .4px; }
 .home-hub .home-intro > p { line-height: 1.9; }
@@ -539,7 +540,7 @@ html.is-about-page h2[id="专利-Patents"] + p + p > strong:first-child {
 .home-hub .home-all { display: inline-block; margin-top: 16px; font-size: 15px; }
 @media (max-width: 767px) {
   .home-hub { padding: 28px 20px; }
-  .home-hub h1 { font-size: 25px; }
+  .home-hub h1, .home-hub .home-page-title { font-size: 25px; }
   .home-hub .home-start-grid { grid-template-columns: 1fr; }
   .home-hub .home-now > div { grid-template-columns: 1fr; gap: 2px; }
   .home-hub section { margin-top: 32px; }

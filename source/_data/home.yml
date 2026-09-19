@@ -3,21 +3,21 @@ intro:
   subtitle: Robotics · Control · ROS 2
   description: 记录研究与实践中的思考、实现与迭代。
 start_here:
-  - title: 6PUS Stewart 系列
-    description: 从仿真建模、控制算法到 ROS 2 实机与主动稳定控制
-    url: /tags/Stewart平台/
-  - title: ROS 2 实机控制
-    description: 从 UART、电机驱动、IK 到六轴实时控制
-    url: /tags/ROS-2/
+  - title: 主动稳定与扰动抑制
+    description: 并联机构、姿态感知、主动补偿与智能控制
+    url: /start-here/active-stabilization/
+  - title: 机器人软件与系统工程
+    description: 软件架构、通信控制、设备集成与开发部署
+    url: /start-here/robotics-systems/
   - title: 网站与 AI 工程实践
-    description: Hexo、AI Assistant、Agent 与科研开发工作流
-    url: /categories/网站开发/
+    description: 个人数字系统、智能工具与科研工作流的持续构建
+    url: /start-here/web-ai/
 now:
-  - title: 6PUS 主动稳定控制
-    description: 从任务空间运动能力转向真实硬件姿态稳定
-  - title: 双 IMU 姿态闭环
-    description: 围绕真实平台姿态感知与闭环控制推进
-  - title: 技术博客整理
-    description: 持续整理 Simulink → ROS 2 → 实机的技术路线
+  - title: 6PUS 控制仿真
+    description: 主动稳定、扰动抑制与控制算法的建模、仿真及对比研究
+  - title: 6PUS ROS 2 实机控制
+    description: 运动学控制、双 IMU 姿态反馈与真实硬件闭环验证
+  - title: 超声设备调试与动物实验
+    description: 聚焦超声治疗设备调试、参数验证及动物实验研究
 
 # Edit this file to update the homepage selections and current work.

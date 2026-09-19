@@ -22,6 +22,13 @@ function normalizeMarkdownInput(content) {
     .replace(/\r\n?/g, '\n');
 }
 
+function redactLocalFilesystemPaths(text) {
+  return text
+    .replace(/\b[A-Za-z]:\\Users\\[^\\\s"'<>]+/gi, '%USERPROFILE%')
+    .replace(/\b[A-Za-z]:\\CODE(?=\\|\/|\s|$)/gi, '%PROJECT_ROOT%')
+    .replace(/\/(?:home|Users)\/[^/\s"'<>]+/g, '$HOME');
+}
+
 /* ================================================================
    URL generation — reads Hexo permalink config
    ================================================================ */
@@ -302,14 +309,15 @@ function build() {
     var contentHash = crypto.createHash('sha256').update(body).digest('hex').slice(0, 16);
 
     chunks.forEach(function (ch, idx) {
-      var chunkHash = crypto.createHash('sha256').update(ch.content).digest('hex').slice(0, 8);
+      var safeContent = redactLocalFilesystemPaths(ch.content);
+      var chunkHash = crypto.createHash('sha256').update(safeContent).digest('hex').slice(0, 8);
       documents.push({
         id: id + '-' + String(idx).padStart(3, '0'),
         document_id: id,
         title: title,
         url: url,
         section: ch.section || null,
-        content: ch.content,
+        content: safeContent,
         content_type: ch.content_type,
         tags: tags,
         categories: categories,
@@ -333,7 +341,7 @@ function build() {
     var title = parsed.title || '关于我';
     var url = '/about/';
     var id = docId(url);
-    var cleaned = cleanMarkdown(body);
+    var cleaned = redactLocalFilesystemPaths(cleanMarkdown(body));
 
     if (cleaned && cleaned.length > 10) {
       documents.push({
@@ -401,4 +409,4 @@ function build() {
 
 if (require.main === module) build();
 
-module.exports = { build: build, generateURL: generateURL, docId: docId, chunkMarkdown: chunkMarkdown, cleanMarkdown: cleanMarkdown, extractLinksFromLines: extractLinksFromLines, normalizeTags: normalizeTags };
+module.exports = { build: build, generateURL: generateURL, docId: docId, chunkMarkdown: chunkMarkdown, cleanMarkdown: cleanMarkdown, redactLocalFilesystemPaths: redactLocalFilesystemPaths, extractLinksFromLines: extractLinksFromLines, normalizeTags: normalizeTags };

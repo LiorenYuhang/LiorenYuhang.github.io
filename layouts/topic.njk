@@ -1,0 +1,38 @@
+{% extends '_layout.njk' %}
+{% import '_macro/sidebar.njk' as sidebar_template with context %}
+{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+{% block class %}index posts-expand{% endblock %}
+{% block sidebar %}{{ sidebar_template.render(false) }}{% endblock %}
+{% block content %}
+<div class="home-hub">
+  <header class="home-intro">
+    <h1>{{ page.title | escape }}</h1>
+    {% if page.subtitle %}
+      <p class="home-subtitle">{{ page.subtitle | escape }}</p>
+    {% endif %}
+    {% if page.description %}
+      <p>{{ page.description | escape }}</p>
+    {% endif %}
+  </header>
+  <section aria-labelledby="topic-posts-title">
+    <h2 id="topic-posts-title">专题文章 <span>/ Articles</span></h2>
+    {% for post in page.curated_posts %}
+      <article class="home-post">
+        <h3><a href="{{ url_for(post.path) }}">{{ post.title | escape }}</a></h3>
+        <div class="home-post-meta">
+          <time datetime="{{ date(post.date, 'YYYY-MM-DD') }}">{{ date(post.date, 'YYYY-MM-DD') }}</time>
+          {% for category in post.categories.toArray() %}
+            · <a href="{{ url_for(category.path) }}">{{ category.name | escape }}</a>
+          {% endfor %}
+        </div>
+        {% if post.description and theme.excerpt_description %}
+          {% set summary = post.description %}
+        {% else %}
+          {% set summary = post.excerpt or post.description or post.content %}
+        {% endif %}
+        <p class="home-excerpt">{{ strip_html(summary) | escape }}</p>
+      </article>
+    {% endfor %}
+  </section>
+</div>
+{% endblock %}
