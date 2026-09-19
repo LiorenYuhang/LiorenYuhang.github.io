@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/LYH.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/LYH.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"liorenyuhang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"language":false,"highlight_theme":"night eighties"},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fade","post_header":"fade","post_body":"fade","coll_header":"fade","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="从实验室一个真实 ROS 环境问题出发，完整记录 Docker 入门、多版本 ROS、Bind Mount、DDS、真实 IMU、Dockerfile 与 Compose 的实践过程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从一个 ROS 环境问题开始：Docker 入门、ROS 实践与真实硬件部署">
+<meta property="og:url" content="https://liorenyuhang.github.io/2026/09/19/ros-docker-cross-ubuntu-development/index.html">
+<meta property="og:site_name" content="吾性自足，不假外求&lt;br&gt;明心见性，知行合一">
+<meta property="og:description" content="从实验室一个真实 ROS 环境问题出发，完整记录 Docker 入门、多版本 ROS、Bind Mount、DDS、真实 IMU、Dockerfile 与 Compose 的实践过程。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://liorenyuhang.github.io/images/8-docker-ROS/s01-ubuntu24-04-ros2-jazzy-host-baseline.png">
+<meta property="og:image" content="https://liorenyuhang.github.io/images/8-docker-ROS/s02-docker-installation-hello-world.png">
+<meta property="og:image" content="https://liorenyuhang.github.io/images/8-docker-ROS/s03-docker-group-session-permission-denied.png">
+<meta property="og:image" content="https://liorenyuhang.github.io/images/8-docker-ROS/s04-three-ros-docker-images.png">
+<meta property="og:image" content="https://liorenyuhang.github.io/images/8-docker-ROS/s05-ros2-lyrical-ubuntu26-container.png">
+<meta property="og:image" content="https://liorenyuhang.github.io/images/8-docker-ROS/s06-ros2-jazzy-ubuntu24-container.png">
+<meta property="og:image" content="https://liorenyuhang.github.io/images/8-docker-ROS/s07-ros1-noetic-ubuntu20-container.png">
+<meta property="og:image" content="https://liorenyuhang.github.io/images/8-docker-ROS/s08-three-ros-environments-comparison.png">
+<meta property="og:image" content="https://liorenyuhang.github.io/images/8-docker-ROS/s09-bind-mount-host-container.png">
+<meta property="og:image" content="https://liorenyuhang.github.io/images/8-docker-ROS/s10-jazzy-container-host-dds.png">
+<meta property="og:image" content="https://liorenyuhang.github.io/images/8-docker-ROS/s11-dual-h30-imu-serial-devices.png">
+<meta property="og:image" content="https://liorenyuhang.github.io/images/8-docker-ROS/s12-docker-h30-imu.png">
+<meta property="og:image" content="https://liorenyuhang.github.io/images/8-docker-ROS/s13-container-imu-host-subscriber.png">
+<meta property="og:image" content="https://liorenyuhang.github.io/images/8-docker-ROS/s14-dockerfile-build.png">
+<meta property="og:image" content="https://liorenyuhang.github.io/images/8-docker-ROS/s15-docker-compose-validation.png">
+<meta property="article:published_time" content="2026-09-19T02:30:00.000Z">
+<meta property="article:author" content="刘宇杭">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="Jazzy">
+<meta property="article:tag" content="Lyrical">
+<meta property="article:tag" content="Noetic">
+<meta property="article:tag" content="ROS 1">
+<meta property="article:tag" content="ROS 2">
+<meta property="article:tag" content="Ubuntu">
+<meta property="article:tag" content="机器人">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://liorenyuhang.github.io/images/8-docker-ROS/s01-ubuntu24-04-ros2-jazzy-host-baseline.png">
+
+
+<link rel="canonical" href="https://liorenyuhang.github.io/2026/09/19/ros-docker-cross-ubuntu-development/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://liorenyuhang.github.io/2026/09/19/ros-docker-cross-ubuntu-development/","path":"2026/09/19/ros-docker-cross-ubuntu-development/","title":"从一个 ROS 环境问题开始：Docker 入门、ROS 实践与真实硬件部署"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>从一个 ROS 环境问题开始：Docker 入门、ROS 实践与真实硬件部署 | 吾性自足，不假外求<br>明心见性，知行合一</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+<script>document.title = "刘宇杭";</script>
+<script>
+(function() {
+  if (!location.pathname.includes('/about')) return;
+  document.documentElement.className += ' is-about-page';
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var overview = document.querySelector('.site-overview-wrap');
+    if (!overview) return;
+
+    var author = overview.querySelector('.site-author');
+    var links = overview.querySelector('.links-of-author');
+    if (author && !overview.querySelector('.about-profile-card')) {
+      var profile = document.createElement('div');
+      profile.className = 'about-profile-card';
+      overview.insertBefore(profile, author);
+      profile.appendChild(author);
+      author.innerHTML = '<p class="about-profile-name">刘宇杭</p><p class="about-profile-role">博士研究生</p><p class="about-profile-focus">Robotics · Control · Sensing</p>';
+    }
+
+    if (links) links.remove();
+  });
+})();
+</script>
+<style>
+/* 关于页默认显示个人概览，隐藏文章目录 */
+html.is-about-page .site-overview-wrap { display: block !important; opacity: 1 !important; visibility: visible !important; height: auto !important; transform: none !important; }
+html.is-about-page .post-toc-wrap { display: none !important; }
+html.is-about-page .sidebar-nav { display: none !important; }
+html.is-about-page .sidebar-nav-overview { font-weight: bold; }
+html.is-about-page .sidebar-nav-toc { font-weight: normal; }
+</style>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">吾性自足，不假外求<br>明心见性，知行合一</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-文章"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>文章</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80%EF%BC%9A%E4%B8%80%E5%8F%B0%E4%B8%8D%E8%83%BD%E9%9A%8F%E4%BE%BF%E9%87%8D%E8%A3%85%E7%9A%84-ROS-1-NUC"><span class="nav-text">引言：一台不能随便重装的 ROS 1 NUC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-ROS-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%BB%8F%E5%B8%B8%E5%92%8C-Ubuntu-%E7%89%88%E6%9C%AC%E7%BB%91%E5%AE%9A"><span class="nav-text">1. ROS 为什么经常和 Ubuntu 版本绑定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Docker-%E5%9C%A8%E8%BF%99%E9%87%8C%E5%88%B0%E5%BA%95%E8%A7%A3%E5%86%B3%E4%BB%80%E4%B9%88"><span class="nav-text">2. Docker 在这里到底解决什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Docker-%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E7%A1%80%E9%AA%8C%E8%AF%81"><span class="nav-text">3. Docker 安装与基础验证</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%88%91%E8%BF%99%E6%AC%A1%E6%80%8E%E4%B9%88%E5%AE%89%E8%A3%85-Docker"><span class="nav-text">我这次怎么安装 Docker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%83%B3%E8%B5%B0%E5%AE%98%E6%96%B9%E5%AE%89%E8%A3%85%E4%B9%9F%E5%8F%AF%E4%BB%A5"><span class="nav-text">想走官方安装也可以</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%90%8E%E7%9A%84%E7%9C%9F%E5%AE%9E%E8%B8%A9%E5%9D%91%EF%BC%9Adocker-group-%E5%B7%B2%E9%85%8D%E7%BD%AE%EF%BC%8C%E6%97%A7-Session-%E5%B0%9A%E6%9C%AA%E7%94%9F%E6%95%88"><span class="nav-text">安装后的真实踩坑：docker group 已配置，旧 Session 尚未生效</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-ROS-Docker-Image-%E5%BA%94%E8%AF%A5%E6%80%8E%E4%B9%88%E9%80%89"><span class="nav-text">4. ROS Docker Image 应该怎么选</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E5%AE%9E%E9%AA%8C%E4%B8%80%EF%BC%9ALyrical%E2%80%94%E2%80%94Host-%E4%B8%8D%E5%8D%87%E7%BA%A7%E4%B9%9F%E8%83%BD%E7%94%A8%E6%96%B0%E7%9A%84-ROS-2"><span class="nav-text">5. 实验一：Lyrical——Host 不升级也能用新的 ROS 2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E5%AE%9E%E9%AA%8C%E4%BA%8C%EF%BC%9AJazzy%E2%80%94%E2%80%94Host-%E5%B7%B2%E7%BB%8F%E6%9C%89%E4%BA%86%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%98%E8%A6%81%E6%94%BE%E8%BF%9B-Docker"><span class="nav-text">6. 实验二：Jazzy——Host 已经有了，为什么还要放进 Docker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E5%AE%9E%E9%AA%8C%E4%B8%89%EF%BC%9ANoetic%E2%80%94%E2%80%94%E5%9C%A8%E6%96%B0%E7%B3%BB%E7%BB%9F%E9%87%8C%E4%BF%9D%E7%95%99-ROS-1-%E7%8E%AF%E5%A2%83"><span class="nav-text">7. 实验三：Noetic——在新系统里保留 ROS 1 环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E4%B8%89%E7%A7%8D%E7%8E%AF%E5%A2%83%E6%94%BE%E5%9C%A8%E5%90%8C%E4%B8%80%E5%8F%B0-NUC-%E4%B8%8A"><span class="nav-text">8. 三种环境放在同一台 NUC 上</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E4%BD%A0%E5%8F%AA%E6%98%AF%E6%83%B3%E5%85%88%E5%AD%A6%E4%BC%9A-Docker%EF%BC%8C%E5%88%B0%E8%BF%99%E9%87%8C%E5%B7%B2%E7%BB%8F%E5%A4%9F%E4%BA%86"><span class="nav-text">如果你只是想先学会 Docker，到这里已经够了</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-Bind-Mount%EF%BC%9A%E4%BB%A3%E7%A0%81%E7%95%99%E5%9C%A8-Host"><span class="nav-text">9. Bind Mount：代码留在 Host</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-DDS%EF%BC%9AContainer-%E5%92%8C-Host-%E8%83%BD%E4%B8%8D%E8%83%BD%E7%9B%B4%E6%8E%A5%E9%80%9A%E4%BF%A1"><span class="nav-text">10. DDS：Container 和 Host 能不能直接通信</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%88%E5%88%86%E6%B8%85%E2%80%9C%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%9C%AA%E8%AE%BE%E7%BD%AE%E2%80%9D%E5%92%8C%E2%80%9C%E5%AE%9E%E9%99%85-RMW%E2%80%9D"><span class="nav-text">先分清“环境变量未设置”和“实际 RMW”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4-bridge%EF%BC%9A%E4%B8%A4%E4%B8%AA%E6%96%B9%E5%90%91%E9%83%BD%E6%94%B6%E5%88%B0%E5%AE%9E%E9%99%85-String-%E6%B6%88%E6%81%AF"><span class="nav-text">默认 bridge：两个方向都收到实际 String 消息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#host-network-IPC-%E5%AF%B9%E7%85%A7%EF%BC%9A%E5%8F%91%E7%8E%B0%E6%88%90%E5%8A%9F%EF%BC%8C%E6%95%B0%E6%8D%AE%E6%8E%A5%E6%94%B6%E5%A4%B1%E8%B4%A5"><span class="nav-text">host network + IPC 对照：发现成功，数据接收失败</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11-%E7%9C%9F%E5%AE%9E%E7%A1%AC%E4%BB%B6%EF%BC%9A%E8%AE%A9-Container-%E8%AF%BB%E5%8F%96-H30-IMU"><span class="nav-text">11. 真实硬件：让 Container 读取 H30 IMU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12-Dockerfile%EF%BC%9A%E6%8A%8A%E9%A9%B1%E5%8A%A8%E5%81%9A%E8%BF%9B%E9%95%9C%E5%83%8F"><span class="nav-text">12. Dockerfile：把驱动做进镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#13-Compose%EF%BC%9A%E6%8A%8A%E5%90%AF%E5%8A%A8%E5%8F%82%E6%95%B0%E5%86%99%E8%BF%9B%E9%85%8D%E7%BD%AE"><span class="nav-text">13. Compose：把启动参数写进配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#14-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E4%B8%8E%E6%8E%92%E9%94%99"><span class="nav-text">14. 常见问题与排错</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15-%E5%9B%9E%E5%88%B0%E6%9C%80%E5%88%9D%E9%82%A3%E5%8F%B0-ROS-1-NUC"><span class="nav-text">15. 回到最初那台 ROS 1 NUC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#16-Docker-%E8%83%BD%E8%A7%A3%E5%86%B3%E4%BB%80%E4%B9%88%EF%BC%8C%E4%B8%8D%E8%83%BD%E8%A7%A3%E5%86%B3%E4%BB%80%E4%B9%88"><span class="nav-text">16. Docker 能解决什么，不能解决什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#17-%E6%80%BB%E7%BB%93"><span class="nav-text">17. 总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="刘宇杭"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">刘宇杭</p>
+  <div class="site-description" itemprop="description">机器人方向博士生 · 医工交叉 · 感知与控制</div>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/LiorenYuhang" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;LiorenYuhang" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:liu999yh@qq.com" title="E-Mail → mailto:liu999yh@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://liorenyuhang.github.io/2026/09/19/ros-docker-cross-ubuntu-development/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="刘宇杭">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="吾性自足，不假外求<br>明心见性，知行合一">
+      <meta itemprop="description" content="机器人方向博士生 · 医工交叉 · 感知与控制">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="从一个 ROS 环境问题开始：Docker 入门、ROS 实践与真实硬件部署 | 吾性自足，不假外求<br>明心见性，知行合一">
+      <meta itemprop="description" content="从实验室一个真实 ROS 环境问题出发，完整记录 Docker 入门、多版本 ROS、Bind Mount、DDS、真实 IMU、Dockerfile 与 Compose 的实践过程。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          从一个 ROS 环境问题开始：Docker 入门、ROS 实践与真实硬件部署
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-09-19 10:30:00" itemprop="dateCreated datePublished" datetime="2026-09-19T10:30:00+08:00">2026-09-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%BA%E5%99%A8%E4%BA%BA/" itemprop="url" rel="index"><span itemprop="name">机器人</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">从实验室一个真实 ROS 环境问题出发，完整记录 Docker 入门、多版本 ROS、Bind Mount、DDS、真实 IMU、Dockerfile 与 Compose 的实践过程。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="引言：一台不能随便重装的-ROS-1-NUC"><a href="#引言：一台不能随便重装的-ROS-1-NUC" class="headerlink" title="引言：一台不能随便重装的 ROS 1 NUC"></a>引言：一台不能随便重装的 ROS 1 NUC</h2><p>最近我在帮组里一位同门处理 ROS 环境问题。实验室里还有一些 Ubuntu 20.04 + ROS 1 Noetic 的机器人 NUC；这位同门就用 ROS 1 控制 Franka。机器并不是不能用，驱动、Workspace 和脚本都已经配好，平时实验跑得很稳定。考虑到 ROS 1 Noetic 已经结束官方维护，我建议后续开发逐渐转向 ROS 2，但不想为此打乱现有环境。</p>
+<p>如果只为换一个 ROS 版本，就把整台工作电脑的 Ubuntu、驱动和依赖重装一遍，代价太大。我想弄清楚的是：<strong>能不能保留 Ubuntu 20.04 + ROS 1，同时获得一套新的 ROS 2 环境？</strong></p>
+<p>同门的 Franka NUC 还在工作，我没有直接拿它练习。自己的 NUC 正好是 Ubuntu 24.04 + ROS 2 Jazzy，这也成了我第一次比较完整地学习 Docker：先试着运行三种 ROS 环境，再把 Workspace、DDS 通信和真实 H30 IMU 接进来，最后用 Dockerfile 和 Compose 固定已经跑通的构建与启动过程。</p>
+<p>我的主机基线是 <strong>Ubuntu 24.04.4 LTS、x86_64、内核 <code>7.0.0-31-generic</code></strong>；原生 <code>ROS_DISTRO=jazzy</code>，<code>ros2</code> 位于 <code>/opt/ros/jazzy/bin/ros2</code>。下图是系统版本、内核与 ROS 路径的终端记录。</p>
+<figure>
+  <img src="/images/8-docker-ROS/s01-ubuntu24-04-ros2-jazzy-host-baseline.png" alt="Ubuntu 24.04.4 主机与原生 ROS 2 Jazzy 环境">
+  <figcaption>图 1：Ubuntu 24.04 与原生 Jazzy 环境</figcaption>
+</figure>
+
+<span id="more"></span>
+
+<h2 id="1-ROS-为什么经常和-Ubuntu-版本绑定"><a href="#1-ROS-为什么经常和-Ubuntu-版本绑定" class="headerlink" title="1. ROS 为什么经常和 Ubuntu 版本绑定"></a>1. ROS 为什么经常和 Ubuntu 版本绑定</h2><p>开始之前，先把“版本对不上”说清楚。ROS 安装包还依赖 Python、编译器、共享库和大量 Ubuntu 软件包。发行版维护者需要选定平台来构建和测试这些包，因此“能不能自己想办法装上”和“是否有官方二进制支持”是两回事。Ubuntu 20.04 并非绝对不能运行 ROS 2；这里讨论的是使用对应发行版的现成环境。</p>
+<table>
+<thead>
+<tr>
+<th>本文环境</th>
+<th>Ubuntu 用户空间</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ROS 2 Lyrical</td>
+<td>26.04</td>
+<td>观察较新的 ROS 环境</td>
+</tr>
+<tr>
+<td>ROS 2 Jazzy</td>
+<td>24.04</td>
+<td>与本文主机原生 ROS 对应</td>
+</tr>
+<tr>
+<td>ROS 1 Noetic</td>
+<td>20.04</td>
+<td>验证较旧 ROS 1 环境</td>
+</tr>
+</tbody></table>
+<p>版本对应关系可查 <a target="_blank" rel="noopener" href="https://docs.ros.org/en/kilted/Releases/Release-Lyrical-Luth.html">ROS 2 Lyrical 发布资料</a> 和 <a target="_blank" rel="noopener" href="https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html">Jazzy Ubuntu 安装文档</a>。Noetic 已于 2025 年 5 月 31 日结束官方维护；本文把它作为旧机器人环境来研究，而不是推荐新项目采用 ROS 1。<a target="_blank" rel="noopener" href="https://www.ros.org/blog/noetic-eol/">ROS 官方 EOL 说明</a>也解释了这一点。</p>
+<h2 id="2-Docker-在这里到底解决什么"><a href="#2-Docker-在这里到底解决什么" class="headerlink" title="2. Docker 在这里到底解决什么"></a>2. Docker 在这里到底解决什么</h2><p>Docker Image（镜像）可以先理解为准备好的软件环境，Container（容器）则是从镜像启动的运行实例。对这篇文章最重要的一点是：<strong>容器有自己的 Ubuntu 用户空间，却与 Linux 主机共享内核</strong>。我的 Ubuntu 24.04 NUC 因而可以同时运行基于 26.04、24.04 和 20.04 用户空间的 ROS 容器。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Ubuntu 24.04 Host：内核 + 原生 ROS 2 Jazzy</span><br><span class="line">│</span><br><span class="line">├── Ubuntu 26.04 userspace + ROS 2 Lyrical</span><br><span class="line">├── Ubuntu 24.04 userspace + ROS 2 Jazzy</span><br><span class="line">└── Ubuntu 20.04 userspace + ROS 1 Noetic</span><br></pre></td></tr></table></figure>
+
+<p>这样做不必直接改动主机已有的 ROS 安装。至于代码、网络和硬件怎样与容器配合，后面会用真实 H30 一步步试出来。</p>
+<h2 id="3-Docker-安装与基础验证"><a href="#3-Docker-安装与基础验证" class="headerlink" title="3. Docker 安装与基础验证"></a>3. Docker 安装与基础验证</h2><p>在安装之前，我先看主机架构和 Docker 是否已经存在：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dpkg --print-architecture</span><br><span class="line">docker --version</span><br><span class="line">docker compose version</span><br></pre></td></tr></table></figure>
+
+<p>第一条查询 Debian 风格的架构名称（这台 x86_64 机器显示为 <code>amd64</code>）；后两条分别检查 Docker 与 Compose 是否已有可用命令。</p>
+<h3 id="我这次怎么安装-Docker"><a href="#我这次怎么安装-Docker" class="headerlink" title="我这次怎么安装 Docker"></a>我这次怎么安装 Docker</h3><p><a target="_blank" rel="noopener" href="https://github.com/fishros/install">鱼香 ROS 安装项目</a>提供交互式工具。我这次运行下面的命令，在当时的菜单里选了 <strong>8：一键安装 Docker</strong>，而不是“ROS Docker 版”。菜单编号可能变化，照着选项文字选择即可。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> &lt;(wget -qO- http://fishros.com/install)</span><br></pre></td></tr></table></figure>
+
+<p>这条命令会下载并执行第三方脚本，运行前要确认来源和内容。我的安装结果是 Docker <strong>29.8.1</strong>、Compose <strong>v5.5.1</strong>。</p>
+<h3 id="想走官方安装也可以"><a href="#想走官方安装也可以" class="headerlink" title="想走官方安装也可以"></a>想走官方安装也可以</h3><p>如果不使用第三方安装工具，可以按 <a target="_blank" rel="noopener" href="https://docs.docker.com/engine/install/ubuntu/">Docker 官方 Ubuntu 安装文档</a>配置 apt 仓库，再安装 Engine 和 Compose 插件。这是另一条可行路线，不是本文这次实际采用的安装过程。已有 Docker 的机器先确认原配置与冲突包，不要直接照搬卸载步骤。</p>
+<p>安装后，我用下面三个命令分别检查客户端、Compose 插件和容器运行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker --version</span><br><span class="line">docker compose version</span><br><span class="line">docker run --<span class="built_in">rm</span> hello-world</span><br></pre></td></tr></table></figure>
+
+<p>最后一条会拉取 <code>hello-world</code> 镜像并启动容器，我的终端打印出了 Docker 的欢迎信息。</p>
+<figure>
+  <img src="/images/8-docker-ROS/s02-docker-installation-hello-world.png" alt="Docker、Compose 与 hello-world 验证">
+  <figcaption>图 2：Docker、Compose 与 hello-world 验证</figcaption>
+</figure>
+
+<h3 id="安装后的真实踩坑：docker-group-已配置，旧-Session-尚未生效"><a href="#安装后的真实踩坑：docker-group-已配置，旧-Session-尚未生效" class="headerlink" title="安装后的真实踩坑：docker group 已配置，旧 Session 尚未生效"></a>安装后的真实踩坑：docker group 已配置，旧 Session 尚未生效</h3><p>安装脚本已经把我的用户 <code>lyapunov</code> 加入 <code>docker</code> 组，但安装后的旧登录 Session 还保留着原来的 supplementary groups。于是 <code>docker info</code> 能显示客户端版本，连接 <code>/var/run/docker.sock</code> 时却报 <code>permission denied</code>。我检查了系统中的组记录和 <code>root:docker</code> 的 socket 权限，再用 <code>sg docker -c &quot;docker info&quot;</code> 访问成功，才确定问题出在旧 Session 的组身份。</p>
+<figure>
+  <img src="/images/8-docker-ROS/s03-docker-group-session-permission-denied.png" alt="旧登录 Session 尚未获得 docker group 权限">
+  <figcaption>图 3：旧登录 Session 尚未获得 docker group 权限</figcaption>
+</figure>
+
+<p>临时跑一条命令可以用 <code>sg docker -c &quot;...&quot;</code>；想刷新当前 shell 的组环境，可以考虑 <code>newgrp docker</code>。更正常的长期做法是<strong>注销并重新登录</strong>。重新登录后，在终端输入下面的命令并回车，就能查看当前用户所属的组：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">id</span></span><br></pre></td></tr></table></figure>
+
+<p>我的输出中出现了 <code>984(docker)</code>，之后普通用户直接运行 <code>docker</code> 命令也正常了。不要用 <code>chmod 666 /var/run/docker.sock</code> 绕过权限问题；Docker 组本身有较高的主机权限，详见 <a target="_blank" rel="noopener" href="https://docs.docker.com/engine/install/linux-postinstall/">Docker 安装后设置</a>。</p>
+<p>如果你习惯用 Codex、Claude Code 或其他 Agent，这类重复操作也可以直接交给它做，但先把边界说清楚。</p>
+<details>
+<summary>用 Agent 完成这一节</summary>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">先检查当前 Ubuntu / ROS / Docker 环境，并告诉我 Docker 是否已经安装。</span><br><span class="line"></span><br><span class="line">请输出：</span><br><span class="line">- Ubuntu 版本、Kernel、CPU 架构；</span><br><span class="line">- ROS_DISTRO；</span><br><span class="line">- Docker 与 Compose 状态。</span><br><span class="line"></span><br><span class="line">如果 Docker 已安装：</span><br><span class="line">直接运行 hello-world 验证。</span><br><span class="line"></span><br><span class="line">如果 Docker 未安装：</span><br><span class="line">先给出适合当前 Ubuntu 的安装方案和将要执行的系统修改，等我确认后再安装。</span><br><span class="line"></span><br><span class="line">不要卸载已有软件，不要修改 Host ROS 环境。</span><br><span class="line">最后给出实际执行命令和验证结果。</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<h2 id="4-ROS-Docker-Image-应该怎么选"><a href="#4-ROS-Docker-Image-应该怎么选" class="headerlink" title="4. ROS Docker Image 应该怎么选"></a>4. ROS Docker Image 应该怎么选</h2><p><a target="_blank" rel="noopener" href="https://hub.docker.com/_/ros">Docker Official Image <code>ros</code></a>提供 <code>ros-core</code>、<code>ros-base</code> 等层级。我先用 <code>ros-base</code> 跑命令行和驱动，不额外处理图形界面。<a target="_blank" rel="noopener" href="https://hub.docker.com/r/osrf/ros/tags">OSRF 的 <code>osrf/ros</code></a>还提供 <code>desktop</code> 镜像，需要 RViz 等工具时再考虑。三个镜像都把 ROS 发行版和 Ubuntu 代号写在标签中：</p>
+<table>
+<thead>
+<tr>
+<th>实验</th>
+<th>镜像标签</th>
+<th>本次 Image ID</th>
+<th>本次显示大小</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>较新环境</td>
+<td><code>ros:lyrical-ros-base-resolute</code></td>
+<td><code>0c19f326a339</code></td>
+<td>1.50 GB</td>
+</tr>
+<tr>
+<td>对应环境</td>
+<td><code>ros:jazzy-ros-base-noble</code></td>
+<td><code>c3706ef0a0aa</code></td>
+<td>1.32 GB</td>
+</tr>
+<tr>
+<td>较旧环境</td>
+<td><code>ros:noetic-ros-base-focal</code></td>
+<td><code>72b8bc59035d</code></td>
+<td>2.94 GB</td>
+</tr>
+</tbody></table>
+<p>这三组都已在 NUC 上拉取。<code>docker images ros</code> 可以核对本机标签、Image ID 和大小；表格记录的是本次结果，Image ID 不是固定不变的版本号。</p>
+<figure>
+  <img src="/images/8-docker-ROS/s04-three-ros-docker-images.png" alt="使用的三组 ROS Docker Image">
+  <figcaption>图 4：使用的三组 ROS Docker Image</figcaption>
+</figure>
+
+<details>
+<summary>用 Agent 完成这一节</summary>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">请依次拉取 ros:lyrical-ros-base-resolute、ros:jazzy-ros-base-noble 和 ros:noetic-ros-base-focal。</span><br><span class="line">记录每组 Image 的 tag、Image ID 和大小，整理成简表。</span><br><span class="line">不要删除现有 Image；最后附上实际执行的命令和结果。</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<h2 id="5-实验一：Lyrical——Host-不升级也能用新的-ROS-2"><a href="#5-实验一：Lyrical——Host-不升级也能用新的-ROS-2" class="headerlink" title="5. 实验一：Lyrical——Host 不升级也能用新的 ROS 2"></a>5. 实验一：Lyrical——Host 不升级也能用新的 ROS 2</h2><p>第一站是比主机更新的 Lyrical。我想看看：Ubuntu 24.04 不升级，能否直接使用 Ubuntu 26.04 对应的 ROS 用户空间？先记下主机的系统、内核与 ROS：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> /etc/os-release</span><br><span class="line"><span class="built_in">uname</span> -r</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$ROS_DISTRO</span>&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>/etc/os-release</code>显示用户空间版本，<code>uname -r</code>显示内核版本，<code>ROS_DISTRO</code>显示当前终端加载的 ROS。接着拉取并进入 Lyrical 镜像：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull ros:lyrical-ros-base-resolute</span><br><span class="line">docker run --<span class="built_in">rm</span> -it ros:lyrical-ros-base-resolute bash</span><br></pre></td></tr></table></figure>
+
+<p><code>pull</code>下载镜像；<code>run</code>启动容器，<code>--rm</code>使其退出后自动删除，<code>-it</code>提供交互终端。进入容器后看同样几项：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> /etc/os-release</span><br><span class="line"><span class="built_in">uname</span> -r</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$ROS_DISTRO</span>&quot;</span></span><br><span class="line"><span class="built_in">which</span> ros2</span><br></pre></td></tr></table></figure>
+
+<p>容器里读到 <strong>Ubuntu 26.04.1 LTS（Resolute Raccoon）</strong>、<code>ROS_DISTRO=lyrical</code>，<code>ros2</code> 在 <code>/opt/ros/lyrical/bin/ros2</code>；Python 是 <strong>3.14.4</strong>。而 <code>uname -r</code> 仍是主机的 <code>7.0.0-31-generic</code>。较新的 ROS 环境确实进来了，主机系统却没有跟着升级。</p>
+<figure>
+  <img src="/images/8-docker-ROS/s05-ros2-lyrical-ubuntu26-container.png" alt="Ubuntu 26.04 与 ROS 2 Lyrical Container">
+  <figcaption>图 5：ROS 2 Lyrical Container 运行结果</figcaption>
+</figure>
+
+<details>
+<summary>用 Agent 完成这一节</summary>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">请在当前 Ubuntu 24.04 Host 上完成 Lyrical Container 操作。</span><br><span class="line">拉取 ros:lyrical-ros-base-resolute，启动退出后自动清理的临时 Container，读取其中的 Ubuntu 版本、ROS_DISTRO、ros2 路径、Python 版本和 <span class="built_in">uname</span> -r。</span><br><span class="line">同时读取 Host 的 Ubuntu 版本与 Kernel，将两边结果并排总结。</span><br><span class="line">不要修改 Host ROS 环境；最后附实际命令和输出。</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<h2 id="6-实验二：Jazzy——Host-已经有了，为什么还要放进-Docker"><a href="#6-实验二：Jazzy——Host-已经有了，为什么还要放进-Docker" class="headerlink" title="6. 实验二：Jazzy——Host 已经有了，为什么还要放进 Docker"></a>6. 实验二：Jazzy——Host 已经有了，为什么还要放进 Docker</h2><p>第二组看起来有点多此一举：我的主机本来就是 Ubuntu 24.04，也原生装了 Jazzy，为什么还要在 Docker 里再运行一次 Jazzy？</p>
+<p>因为机器人项目不只有一个。项目 A 可能需要一组 Python 库和 ROS package，项目 B 又需要另一组。都直接装在 Host 上，项目多了以后，更新一个依赖可能影响另一个已经工作的环境。我更希望 Host 保持自己的 Jazzy 开发环境，让每个项目把所需软件放进各自的容器。将来换电脑、交给同事或部署到另一台 NUC，需要迁移的就不只是源码，还有项目的环境定义。</p>
+<p>如果用过 Python 的 <code>venv</code> 或 Conda，可以借这个思路理解 Docker：别让不同项目的依赖互相打架。Docker 管得更宽，除了 Python package，Ubuntu 用户空间、系统库、ROS package 和启动方式也可以放进项目自己的环境里。</p>
+<p>所以我用相同的步骤，再启动一套 Jazzy：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull ros:jazzy-ros-base-noble</span><br><span class="line">docker run --<span class="built_in">rm</span> -it ros:jazzy-ros-base-noble bash</span><br></pre></td></tr></table></figure>
+
+<p>容器内用前一节的四条检查命令，得到 <strong>Ubuntu 24.04.5 LTS（Noble Numbat）</strong>、<code>ROS_DISTRO=jazzy</code>、<code>/opt/ros/jazzy/bin/ros2</code> 和同一个内核 <code>7.0.0-31-generic</code>；Python 为 <strong>3.12.3</strong>。</p>
+<figure>
+  <img src="/images/8-docker-ROS/s06-ros2-jazzy-ubuntu24-container.png" alt="Ubuntu 24.04 与 ROS 2 Jazzy Container">
+  <figcaption>图 6：Ubuntu 24.04 与 ROS 2 Jazzy Container</figcaption>
+</figure>
+
+<details>
+<summary>用 Agent 完成这一节</summary>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">当前 Host 已有 Ubuntu 24.04 + ROS 2 Jazzy。请用 ros:jazzy-ros-base-noble 再启动一套退出后自动清理的 Jazzy Container。</span><br><span class="line">读取 Host 和 Container 各自的 Ubuntu 版本、ROS_DISTRO、ros2 路径、Python 版本与 Kernel。</span><br><span class="line">并排比较用户空间和共享内核，附实际命令与结果；不要修改 Host 环境。</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<h2 id="7-实验三：Noetic——在新系统里保留-ROS-1-环境"><a href="#7-实验三：Noetic——在新系统里保留-ROS-1-环境" class="headerlink" title="7. 实验三：Noetic——在新系统里保留 ROS 1 环境"></a>7. 实验三：Noetic——在新系统里保留 ROS 1 环境</h2><p>前两个都是 ROS 2，容易让人以为 Docker 是专门给 ROS 2 用的。其实 Docker 隔离的是用户空间和软件环境，并不关心里面跑的是 ROS 1 还是 ROS 2。所以第三组我反过来试：<strong>在较新的 Ubuntu 24.04 + Jazzy 主机上，运行 Ubuntu 20.04 + ROS 1 Noetic。</strong></p>
+<p>使用的仍是 Docker Official Image：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull ros:noetic-ros-base-focal</span><br><span class="line">docker run --<span class="built_in">rm</span> -it ros:noetic-ros-base-focal bash</span><br></pre></td></tr></table></figure>
+
+<p>进入容器后检查：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> /etc/os-release</span><br><span class="line"><span class="built_in">uname</span> -r</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$ROS_DISTRO</span>&quot;</span></span><br><span class="line"><span class="built_in">which</span> roscore</span><br></pre></td></tr></table></figure>
+
+<p>这里查 ROS 1 的 <code>roscore</code> 路径。本次得到 <strong>Ubuntu 20.04.6 LTS（Focal Fossa）</strong>、<code>ROS_DISTRO=noetic</code>、<code>/opt/ros/noetic/bin/roscore</code>，Python 为 <strong>3.8.10</strong>；内核依然是主机的 <code>7.0.0-31-generic</code>。旧主机可以借容器使用新环境；反过来，新主机也能保留旧项目需要的软件环境。</p>
+<figure>
+  <img src="/images/8-docker-ROS/s07-ros1-noetic-ubuntu20-container.png" alt="Ubuntu 20.04 与 ROS 1 Noetic Container">
+  <figcaption>图 7：Ubuntu 20.04 与 ROS 1 Noetic Container</figcaption>
+</figure>
+
+<details>
+<summary>用 Agent 完成这一节</summary>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">请在当前 Ubuntu 24.04 Host 上运行退出后自动清理的 ros:noetic-ros-base-focal Container。</span><br><span class="line">读取 Container 的 Ubuntu 版本、ROS_DISTRO、roscore 路径、Python 版本和 <span class="built_in">uname</span> -r，同时读取 Host Kernel。</span><br><span class="line">根据实际输出说明 Noetic 用户空间是否能运行、它看到的 Kernel 来自哪里；不要修改 Host ROS 2 环境。</span><br><span class="line">最后附命令和结果。</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<h2 id="8-三种环境放在同一台-NUC-上"><a href="#8-三种环境放在同一台-NUC-上" class="headerlink" title="8. 三种环境放在同一台 NUC 上"></a>8. 三种环境放在同一台 NUC 上</h2><p>把刚才看到的版本排在一起，差别就很清楚了：</p>
+<table>
+<thead>
+<tr>
+<th>环境</th>
+<th>Ubuntu 用户空间</th>
+<th><code>uname -r</code></th>
+<th>ROS 发行版</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Host 原生 Jazzy</td>
+<td>24.04.4 LTS</td>
+<td><code>7.0.0-31-generic</code></td>
+<td>ROS 2 Jazzy</td>
+</tr>
+<tr>
+<td>Lyrical 容器</td>
+<td>26.04.1 LTS</td>
+<td><code>7.0.0-31-generic</code></td>
+<td>ROS 2 Lyrical</td>
+</tr>
+<tr>
+<td>Jazzy 容器</td>
+<td>24.04.5 LTS</td>
+<td><code>7.0.0-31-generic</code></td>
+<td>ROS 2 Jazzy</td>
+</tr>
+<tr>
+<td>Noetic 容器</td>
+<td>20.04.6 LTS</td>
+<td><code>7.0.0-31-generic</code></td>
+<td>ROS 1 Noetic</td>
+</tr>
+</tbody></table>
+<p>我的 NUC 仍然是 Ubuntu 24.04。三个容器分别有 26.04、24.04 和 20.04 的用户空间，但 <code>uname -r</code> 都指向同一个 Host Kernel。Docker 给了我多套 ROS 环境，并没有把主机“升级”为 Ubuntu 26.04。</p>
+<figure>
+  <img src="/images/8-docker-ROS/s08-three-ros-environments-comparison.png" alt="三组 Container 用户空间与 Host Kernel 对比">
+  <figcaption>图 8：三组 Container 用户空间与 Host Kernel 对比</figcaption>
+</figure>
+
+<h3 id="如果你只是想先学会-Docker，到这里已经够了"><a href="#如果你只是想先学会-Docker，到这里已经够了" class="headerlink" title="如果你只是想先学会 Docker，到这里已经够了"></a>如果你只是想先学会 Docker，到这里已经够了</h3><p>到这里，Docker 最核心的入门操作其实已经走完了：安装 Docker、拉取 Image、启动 Container，以及理解 Host 和 Container 之间的 Ubuntu 用户空间与 Kernel 关系。</p>
+<p>如果你只是想解决“我的 Ubuntu 和 ROS 版本对不上”，做到这里其实已经可以开始自己用了。</p>
+<p>不过我还想再往前走一步。Docker 真正放进机器人项目以后，代码放哪儿？ROS 节点怎么通信？真实串口设备怎么进 Container？最后又怎么把这些命令固定下来？</p>
+<p>所以接下来的第 9～13 节，是我继续把 Docker 用到机器人开发里的过程。第一次接触 Docker 不必一次把这些内容全吃透，可以先看看每一节在解决什么，再按自己的需要往下做。</p>
+<table>
+<thead>
+<tr>
+<th>接下来解决的问题</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Bind Mount</td>
+<td>代码怎么留在 Host</td>
+</tr>
+<tr>
+<td>DDS</td>
+<td>Host 和 Container 里的 ROS 2 怎么通信</td>
+</tr>
+<tr>
+<td>H30 IMU</td>
+<td>Container 怎么访问真实硬件</td>
+</tr>
+<tr>
+<td>Dockerfile</td>
+<td>怎么把环境和驱动做进 Image</td>
+</tr>
+<tr>
+<td>Compose</td>
+<td>怎么把启动参数固定下来</td>
+</tr>
+</tbody></table>
+<h2 id="9-Bind-Mount：代码留在-Host"><a href="#9-Bind-Mount：代码留在-Host" class="headerlink" title="9. Bind Mount：代码留在 Host"></a>9. Bind Mount：代码留在 Host</h2><p>Container 能跑了，但代码总不能一直放在临时 Container 里。退出时 Container 被删除，里面的修改也可能随之消失。我希望源码仍留在 Host，用 <a target="_blank" rel="noopener" href="https://docs.docker.com/engine/storage/bind-mounts/">Bind Mount</a>把主机目录呈现给 Container。这里用显式的 <code>--mount type=bind</code>，Host 源目录写错时会直接报错。</p>
+<p>我单独建了一个 <code>mount_demo</code> 目录，映射到 Jazzy Container 的 <code>/workspace</code>，再查看 Container 身份和目录：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p <span class="string">&quot;<span class="variable">$HOME</span>/docker_ros_blog_lab/mount_demo&quot;</span></span><br><span class="line">docker run --<span class="built_in">rm</span> \</span><br><span class="line">  --mount <span class="built_in">type</span>=<span class="built_in">bind</span>,<span class="built_in">source</span>=<span class="string">&quot;<span class="variable">$HOME</span>/docker_ros_blog_lab/mount_demo&quot;</span>,target=/workspace \</span><br><span class="line">  ros:jazzy-ros-base-noble \</span><br><span class="line">  bash -c <span class="string">&#x27;id; ls -ln /workspace&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>--mount</code>共享的是同一目录，不是复制文件。我先在 Host 写下 <code>from_host.txt</code>，进容器确认能读；再反过来，在容器写下 <code>from_container.txt</code>，回到 Host 也看到了它。文件确实共享了，但马上又冒出一个 Docker 新手容易忽略的问题：谁创建的文件，回到 Host 后到底属于谁？这次容器默认以 <code>uid=0(root) gid=0(root)</code> 运行，Host 创建的文件是 <code>1000:1000</code>，容器创建的文件则是 <code>0:0</code>。我没有用 <code>chmod</code> 或 <code>chown</code> 把差异盖掉；以后长期开发还得安排合适的容器用户。</p>
+<figure>
+  <img src="/images/8-docker-ROS/s09-bind-mount-host-container.png" alt="Bind Mount 双向文件共享及 UID/GID 差异">
+  <figcaption>图 9：Bind Mount 双向共享与 UID/GID 差异</figcaption>
+</figure>
+
+<details>
+<summary>用 Agent 完成这一节</summary>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">请创建独立的 mount_demo 目录，用 Bind Mount 挂入临时 Jazzy Container。</span><br><span class="line">在 Host 创建文件并从 Container 读取，再由 Container 创建文件并回到 Host 读取；显示两边文件的 UID/GID。</span><br><span class="line">只操作测试目录，不用 <span class="built_in">chmod</span> 或 <span class="built_in">chown</span> 掩盖差异；最后给出命令和实际结果。</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<h2 id="10-DDS：Container-和-Host-能不能直接通信"><a href="#10-DDS：Container-和-Host-能不能直接通信" class="headerlink" title="10. DDS：Container 和 Host 能不能直接通信"></a>10. DDS：Container 和 Host 能不能直接通信</h2><p>代码能共享了，接下来是通信。我先让两端都用 Jazzy：一边是原生 Host，另一边是容器，这样先不引入跨 ROS 版本的问题。我一开始最关心的也不是 <code>topic list</code> 里能不能看到名字，而是另一端到底有没有收到消息。</p>
+<h3 id="先分清“环境变量未设置”和“实际-RMW”"><a href="#先分清“环境变量未设置”和“实际-RMW”" class="headerlink" title="先分清“环境变量未设置”和“实际 RMW”"></a>先分清“环境变量未设置”和“实际 RMW”</h3><table>
+<thead>
+<tr>
+<th>位置</th>
+<th><code>RMW_IMPLEMENTATION</code></th>
+<th>实际加载</th>
+<th>可用实现</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Host 原生 Jazzy</td>
+<td><code>NOT_SET</code></td>
+<td><code>rmw_fastrtps_cpp</code></td>
+<td><code>[&#39;rmw_fastrtps_cpp&#39;]</code></td>
+</tr>
+<tr>
+<td>Jazzy 容器</td>
+<td><code>NOT_SET</code></td>
+<td><code>rmw_fastrtps_cpp</code></td>
+<td><code>[&#39;rmw_fastrtps_cpp&#39;]</code></td>
+</tr>
+</tbody></table>
+<p>两边的 <code>ROS_DOMAIN_ID</code>、<code>ROS_LOCALHOST_ONLY</code> 环境变量在基线中也都未显式设置。这里有个容易看错的地方：<code>RMW_IMPLEMENTATION=NOT_SET</code> 只是没有用环境变量指定实现，<strong>实际加载的仍是 <code>rmw_fastrtps_cpp</code></strong>。通信测试时，我临时让两边都使用 <code>ROS_DOMAIN_ID=42</code>，没有把它写进 <code>.bashrc</code>。</p>
+<h3 id="默认-bridge：两个方向都收到实际-String-消息"><a href="#默认-bridge：两个方向都收到实际-String-消息" class="headerlink" title="默认 bridge：两个方向都收到实际 String 消息"></a>默认 bridge：两个方向都收到实际 String 消息</h3><p>我先用普通 <code>docker run</code>，让容器走 Docker 默认 bridge。容器发布 <code>/docker_blog_chatter</code>，Host 用同一 domain 订阅：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run --<span class="built_in">rm</span> -it -e ROS_DOMAIN_ID=42 ros:jazzy-ros-base-noble \</span><br><span class="line">  ros2 topic pub --rate 2 /docker_blog_chatter std_msgs/msg/String \</span><br><span class="line">  <span class="string">&quot;&#123;data: &#x27;hello from docker bridge&#x27;&#125;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ROS_DOMAIN_ID=42 ros2 topic <span class="built_in">echo</span> /docker_blog_chatter</span><br></pre></td></tr></table></figure>
+
+<p><code>-e</code> 把本次 domain 值传进容器，<code>topic pub</code> 周期性发送 <code>std_msgs/msg/String</code>。Host 的 <code>topic echo</code> 收到了 <code>data: hello from docker bridge</code>；我再反过来让 Host 在 <code>/host_blog_chatter</code> 发布 <code>hello from native jazzy host</code>，容器也收到了。在这台 NUC 上，普通 bridge 就完成了两个方向的消息传递。</p>
+<figure>
+  <a href="/images/8-docker-ROS/s10-jazzy-container-host-dds.png" target="_blank" rel="noopener"><img src="/images/8-docker-ROS/s10-jazzy-container-host-dds.png" alt="Jazzy Container 与 Host 的 DDS 通信"></a>
+  <figcaption>图 10：Container 与 Host 的 DDS 通信</figcaption>
+</figure>
+
+<p>图 10 拍的是容器到 Host；反方向也在同一轮实验中收到了消息。</p>
+<h3 id="host-network-IPC-对照：发现成功，数据接收失败"><a href="#host-network-IPC-对照：发现成功，数据接收失败" class="headerlink" title="host network + IPC 对照：发现成功，数据接收失败"></a>host network + IPC 对照：发现成功，数据接收失败</h3><p>普通 bridge 已经能通信后，我又顺手试了 <code>--network host</code> 加 <code>--ipc host</code>。结果反而有点意外：节点能发现对方，Host 却在 15 秒内没收到实际 String 数据。<code>/dev/shm</code> 里同时出现了 Container root 创建、owner 为 <code>root:root</code> 的 Fast DDS SHM 对象。当时比较可疑的是这里的权限问题，不过我没有继续做独立实验去证明两者之间的因果关系。</p>
+<p>后面的 H30 实验继续用已经收到双向消息的普通 bridge。<a target="_blank" rel="noopener" href="https://docs.docker.com/engine/network/drivers/host/">Docker 文档</a>介绍了 host 网络模式共享主机网络命名空间的含义。</p>
+<details>
+<summary>用 Agent 完成这一节</summary>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">请完成一次 Host Jazzy 与 Jazzy Container 的 ROS 2 双向通信实验。</span><br><span class="line"></span><br><span class="line">开始前：</span><br><span class="line">- 记录 Host 和 Container 实际加载的 RMW；</span><br><span class="line">- 两边临时使用相同 ROS_DOMAIN_ID；</span><br><span class="line">- 先使用普通 docker run 默认 bridge，不改 Host 网络配置。</span><br><span class="line"></span><br><span class="line">然后分别完成：</span><br><span class="line">1. Container 发布 String，Host 实际收到；</span><br><span class="line">2. Host 发布 String，Container 实际收到。</span><br><span class="line"></span><br><span class="line">不要只根据 topic list 判断成功。</span><br><span class="line">所有持续 pub / <span class="built_in">echo</span> 命令都设置 <span class="built_in">timeout</span>。</span><br><span class="line"></span><br><span class="line">结束后清理临时 Container 和 ROS 进程。</span><br><span class="line">最后给出实际命令、两个方向收到的消息和结果。</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<h2 id="11-真实硬件：让-Container-读取-H30-IMU"><a href="#11-真实硬件：让-Container-读取-H30-IMU" class="headerlink" title="11. 真实硬件：让 Container 读取 H30 IMU"></a>11. 真实硬件：让 Container 读取 H30 IMU</h2><p>前面都还在软件环境里打转。对机器人开发来说，我更想知道：<strong>Container 到底能不能碰到真实硬件？</strong> 我的 NUC 接着两只 H30 IMU，这里只取其中一只 Base H30，把整条链走通：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">H30 → /dev/ttyACM0 → --device → Jazzy Container → h30_imu</span><br><span class="line">    → /imu/data → Docker bridge → Host 原生 Jazzy</span><br></pre></td></tr></table></figure>
+
+<p>Host 当时枚举到 <code>/dev/ttyACM0</code> 和 <code>/dev/ttyACM1</code> 两个串口。结合稳定的 by-id 路径和现有 H30 配置，我这次选 Base H30 对应的 <code>/dev/ttyACM0</code> 做实验；它的 by-id 是 <code>/dev/serial/by-id/usb-1a86_USB_Single_Serial_5B32028000-if00</code>。图 11 拍下了当时的设备节点和 USB 属性。USB 重新插拔后，<code>ttyACM</code> 编号可能改变。</p>
+<figure>
+  <img src="/images/8-docker-ROS/s11-dual-h30-imu-serial-devices.png" alt="Host 枚举到的两路 H30 串口设备">
+  <figcaption>图 11：Host 枚举到的两路 H30 串口设备</figcaption>
+</figure>
+
+<p>驱动原本在 <code>/home/lyapunov/bone_drill/bone_ws/src/h30_imu</code>。为了不碰已经工作的项目，我把这个 ROS package 单独复制到实验 Workspace <code>/home/lyapunov/docker_ros_blog_lab/ros2_ws/src/h30_imu</code>。它用到了 <code>rclcpp</code>、<code>sensor_msgs</code>、<code>geometry_msgs</code>、<code>tf2_ros</code> 和 POSIX termios，这次没有额外安装 ROS package 就在 <code>ros:jazzy-ros-base-noble</code> 中完成构建：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> /opt/ros/jazzy/setup.bash</span><br><span class="line"><span class="built_in">cd</span> /workspace/ros2_ws</span><br><span class="line">colcon build --symlink-install</span><br></pre></td></tr></table></figure>
+
+<p>构建输出是 <code>Finished &lt;&lt;&lt; h30_imu [8.19s]</code>、<code>Summary: 1 package finished [8.30s]</code>。</p>
+<p>接着才让容器访问设备。<a target="_blank" rel="noopener" href="https://docs.docker.com/engine/containers/run/">Docker 的 <code>--device</code></a>可以只开放指定设备。我这里只需要一个串口，就用 <code>--device=/dev/ttyACM0:/dev/ttyACM0</code>，没有为了它给容器开启 <code>--privileged</code>。运行时把独立 Workspace 映射进去，并让容器使用本次测试的 <code>ROS_DOMAIN_ID=42</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker run --<span class="built_in">rm</span> -it \</span><br><span class="line">  --device=/dev/ttyACM0:/dev/ttyACM0 \</span><br><span class="line">  --mount <span class="built_in">type</span>=<span class="built_in">bind</span>,<span class="built_in">source</span>=/home/lyapunov/docker_ros_blog_lab/ros2_ws,target=/workspace/ros2_ws \</span><br><span class="line">  -e ROS_DOMAIN_ID=42 \</span><br><span class="line">  ros:jazzy-ros-base-noble \</span><br><span class="line">  bash -c <span class="string">&#x27;source /opt/ros/jazzy/setup.bash &amp;&amp; source /workspace/ros2_ws/install/setup.bash &amp;&amp; ros2 launch h30_imu h30.launch.py port:=/dev/ttyACM0&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>驱动日志显示 <code>Opened H30 serial port /dev/ttyACM0</code>，串口配置为 <strong>460800 baud</strong>。容器内运行的节点是 <code>/h30_imu</code>，可见 <code>/imu/data</code>、<code>/imu/euler</code>、<code>/imu/temperature</code> 和 <code>/tf</code>；其中 <code>/imu/data</code> 是 <code>sensor_msgs/msg/Imu</code>，<code>ros2 topic hz /imu/data</code> 测得约 <strong>200 Hz</strong>。图 12 左侧是设备映射与驱动日志，右侧是容器内的 Topic 和频率。</p>
+<figure>
+  <a href="/images/8-docker-ROS/s12-docker-h30-imu.png" target="_blank" rel="noopener"><img src="/images/8-docker-ROS/s12-docker-h30-imu.png" alt="Container 内 H30 Driver 与约 200 Hz IMU Topic"></a>
+  <figcaption>图 12：Container 内 H30 与约 200 Hz IMU Topic</figcaption>
+</figure>
+
+<p>但我的目标不只是容器自己看见数据。沿用上一节已经跑通的普通 Docker bridge，我在 Host 原生 Jazzy 中使用相同的 domain 查询：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ROS_DOMAIN_ID=42 ros2 topic list | grep <span class="string">&#x27;^/imu&#x27;</span></span><br><span class="line"><span class="built_in">timeout</span> 6s <span class="built_in">env</span> ROS_DOMAIN_ID=42 ros2 topic hz /imu/data</span><br><span class="line">ROS_DOMAIN_ID=42 ros2 topic <span class="built_in">echo</span> --once /imu/data</span><br></pre></td></tr></table></figure>
+
+<p>Host 发现了 <code>/imu/data</code>、<code>/imu/euler</code>、<code>/imu/temperature</code>，并以约 <strong>200 Hz</strong> 收到 <code>/imu/data</code>，还实际解析出一帧 <code>sensor_msgs/msg/Imu</code>。这帧包含姿态四元数、三轴角速度和三轴线加速度；静止时记录的 <code>linear_acceleration.z=9.787308 m/s²</code> 与 <strong>1g 的量级一致</strong>。频率统计本身不能逐帧核对数据是否全部送达。</p>
+<figure>
+  <a href="/images/8-docker-ROS/s13-container-imu-host-subscriber.png" target="_blank" rel="noopener"><img src="/images/8-docker-ROS/s13-container-imu-host-subscriber.png" alt="H30 数据从 Container 到达 Host 原生 Jazzy"></a>
+  <figcaption>图 13：H30 数据到达 Host 原生 Jazzy</figcaption>
+</figure>
+
+<p>图 13 保留了 Topic、频率和 IMU 消息开头。下面折叠保存同次 Host 端的完整终端输出：</p>
+<details>
+<summary>展开查看 Host 端完整 IMU 接收结果</summary>
+
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">=== HOST TOPICS ===</span><br><span class="line">/imu/data</span><br><span class="line">/imu/euler</span><br><span class="line">/imu/temperature</span><br><span class="line"></span><br><span class="line">=== HOST /imu/data RATE ===</span><br><span class="line">average rate: 200.207</span><br><span class="line">   min: 0.003s max: 0.007s std dev: 0.00110s window: 201</span><br><span class="line">average rate: 200.079</span><br><span class="line">   min: 0.003s max: 0.007s std dev: 0.00106s window: 401</span><br><span class="line">average rate: 200.051</span><br><span class="line">   min: 0.003s max: 0.007s std dev: 0.00105s window: 601</span><br><span class="line">average rate: 200.006</span><br><span class="line">   min: 0.003s max: 0.007s std dev: 0.00105s window: 802</span><br><span class="line">average rate: 199.988</span><br><span class="line">   min: 0.003s max: 0.007s std dev: 0.00105s window: 1002</span><br><span class="line"></span><br><span class="line">=== HOST REAL IMU SAMPLE ===</span><br><span class="line">header:</span><br><span class="line">  stamp:</span><br><span class="line">    sec: 1789733353</span><br><span class="line">    nanosec: 692897321</span><br><span class="line">  frame_id: imu_link</span><br><span class="line">orientation:</span><br><span class="line">  x: 0.022615016607637543</span><br><span class="line">  y: 0.006782004980455353</span><br><span class="line">  z: -0.7447135468902752</span><br><span class="line">  w: 0.6669664897956922</span><br><span class="line">orientation_covariance:</span><br><span class="line">- 0.0</span><br><span class="line">- 0.0</span><br><span class="line">- 0.0</span><br><span class="line">- 0.0</span><br><span class="line">- 0.0</span><br><span class="line">- 0.0</span><br><span class="line">- 0.0</span><br><span class="line">- 0.0</span><br><span class="line">- 0.0</span><br><span class="line">angular_velocity:</span><br><span class="line">  x: -0.0008171282491987052</span><br><span class="line">  y: 0.0013967346404935022</span><br><span class="line">  z: 0.0007764969842122771</span><br><span class="line">angular_velocity_covariance:</span><br><span class="line">- 0.0</span><br><span class="line">- 0.0</span><br><span class="line">- 0.0</span><br><span class="line">- 0.0</span><br><span class="line">- 0.0</span><br><span class="line">- 0.0</span><br><span class="line">- 0.0</span><br><span class="line">- 0.0</span><br><span class="line">- 0.0</span><br><span class="line">linear_acceleration:</span><br><span class="line">  x: -0.414803</span><br><span class="line">  y: 0.195497</span><br><span class="line">  z: 9.787308</span><br><span class="line">linear_acceleration_covariance:</span><br><span class="line">- 0.0</span><br><span class="line">- 0.0</span><br><span class="line">- 0.0</span><br><span class="line">- 0.0</span><br><span class="line">- 0.0</span><br><span class="line">- 0.0</span><br><span class="line">- 0.0</span><br><span class="line">- 0.0</span><br><span class="line">- 0.0</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<details>
+<summary>用 Agent 完成这一节</summary>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">请把一个已经能在 Host 上工作的 ROS 2 串口传感器驱动放进 Jazzy Container 运行。</span><br><span class="line"></span><br><span class="line">开始前先确认：</span><br><span class="line">- 目标串口当前真实路径；</span><br><span class="line">- 驱动 package 的位置；</span><br><span class="line">- baudrate；</span><br><span class="line">- Host 当前 ROS_DOMAIN_ID / RMW。</span><br><span class="line"></span><br><span class="line">不要修改原机器人项目。</span><br><span class="line">把驱动复制到独立测试 Workspace，再在 ros:jazzy-ros-base-noble 中构建。</span><br><span class="line"></span><br><span class="line">只用 --device 精确映射目标串口，不用 --privileged。</span><br><span class="line">如果缺依赖或 build 失败，先报告，不要随意修改原 package 或安装一堆软件。</span><br><span class="line"></span><br><span class="line">启动 Driver 后检查：</span><br><span class="line">- Container 内真实 Topic、消息类型和频率；</span><br><span class="line">- Host 使用相同 ROS_DOMAIN_ID 后是否实际收到传感器消息。</span><br><span class="line"></span><br><span class="line">所有持续命令设置 <span class="built_in">timeout</span>。</span><br><span class="line">结束后清理临时 Container / ROS 进程，并汇总实际命令与结果。</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<h2 id="12-Dockerfile：把驱动做进镜像"><a href="#12-Dockerfile：把驱动做进镜像" class="headerlink" title="12. Dockerfile：把驱动做进镜像"></a>12. Dockerfile：把驱动做进镜像</h2><p>前面 H30 已经跑起来了，但驱动源码还放在 Host 的独立 Workspace 中，Container 靠 Bind Mount 才拿得到它。开发时这样很方便；如果要把环境交给同事，总不能每次都先解释“请把这个目录放到这个路径，再挂进去”。既然流程已经走通，我就想试着把 Jazzy 环境和 <code>h30_imu</code> 驱动真正做进 Image。</p>
+<p>最终使用的 <code>docker/Dockerfile</code> 很短：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ros:jazzy-ros-base-noble</span><br><span class="line"></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /opt/h30_ws</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> ros2_ws/src/h30_imu /opt/h30_ws/src/h30_imu</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> . /opt/ros/jazzy/setup.sh &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    colcon build --symlink-install</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;bash&quot;</span>, <span class="string">&quot;-c&quot;</span>, <span class="string">&quot;source /opt/ros/jazzy/setup.bash &amp;&amp; source /opt/h30_ws/install/setup.bash &amp;&amp; ros2 launch h30_imu h30.launch.py port:=/dev/ttyACM0&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+
+<p><code>FROM</code>沿用前面验证的 Jazzy <code>ros-base</code>；<code>COPY</code>取的是独立实验 Workspace 中的驱动副本；<code>RUN</code>在构建时完成 <code>colcon build</code>；<code>CMD</code>让容器启动后直接运行 H30 节点。从实验目录 <code>/home/lyapunov/docker_ros_blog_lab</code> 构建时，我执行的是：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker build --no-cache --progress=plain \</span><br><span class="line">  -f docker/Dockerfile -t docker-ros-h30:jazzy .</span><br></pre></td></tr></table></figure>
+
+<p>日志中出现 <code>Finished &lt;&lt;&lt; h30_imu</code> 与 <code>Summary: 1 package finished</code>，生成 <code>docker-ros-h30:jazzy</code>。这次 <code>docker images</code> 显示镜像约 <strong>1.31 GB</strong>。</p>
+<figure>
+  <a href="/images/8-docker-ROS/s14-dockerfile-build.png" target="_blank" rel="noopener"><img src="/images/8-docker-ROS/s14-dockerfile-build.png" alt="Dockerfile 构建 h30_imu 自定义镜像"></a>
+  <figcaption>图 14：Dockerfile 构建 H30 镜像</figcaption>
+</figure>
+
+<p>我还单独运行了这个新镜像：只映射 <code>/dev/ttyACM0</code>，<strong>不再挂载 Host 的 <code>ros2_ws</code></strong>。驱动照样启动，容器内有 <code>/imu/data</code>、<code>/imu/euler</code>、<code>/imu/temperature</code>、<code>/tf</code>，<code>/imu/data</code> 约 <strong>199.98 Hz</strong>；Host 原生 Jazzy 约 <strong>199.93 Hz</strong>，并收到真实 <code>sensor_msgs/msg/Imu</code>。</p>
+<p>做到这里我才觉得 Dockerfile 真正有用了：以后不用再记得“当时这台电脑到底怎么配出来的”，环境本身也有了可以重新构建的来源。</p>
+<details>
+<summary>用 Agent 完成这一节</summary>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">请把前面已经跑通的 ROS 2 传感器流程固化成最小 Dockerfile。</span><br><span class="line"></span><br><span class="line">要求：</span><br><span class="line">- 使用已经验证的 ROS base image；</span><br><span class="line">- COPY 独立实验 Workspace 中的目标 package；</span><br><span class="line">- 在 build 时完成 colcon build；</span><br><span class="line">- 不修改原机器人项目；</span><br><span class="line">- 不为了“优化”额外安装未经验证的依赖。</span><br><span class="line"></span><br><span class="line">Build 自定义 Image 后，</span><br><span class="line">不要再挂载 Host ROS Workspace，只映射真实硬件设备重新启动 Driver。</span><br><span class="line"></span><br><span class="line">确认 Container Topic 和 Host 实际消息都正常。</span><br><span class="line">最后给出 Dockerfile、build 命令、Image 信息和运行结果。</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<h2 id="13-Compose：把启动参数写进配置"><a href="#13-Compose：把启动参数写进配置" class="headerlink" title="13. Compose：把启动参数写进配置"></a>13. Compose：把启动参数写进配置</h2><p>Dockerfile 解决后，还有最后一个麻烦：环境不用重新配了，但每次启动 H30 仍要记得 <code>--device</code>、<code>ROS_DOMAIN_ID</code> 和那串 <code>docker run</code> 参数。这些是服务<strong>启动时</strong>需要的条件，我把它们收进 <code>docker/compose.yaml</code>：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">h30_imu:</span></span><br><span class="line">    <span class="attr">build:</span></span><br><span class="line">      <span class="attr">context:</span> <span class="string">..</span></span><br><span class="line">      <span class="attr">dockerfile:</span> <span class="string">docker/Dockerfile</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">docker-ros-h30:jazzy</span></span><br><span class="line">    <span class="attr">devices:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/dev/ttyACM0:/dev/ttyACM0</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ROS_DOMAIN_ID=42</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">unless-stopped</span></span><br></pre></td></tr></table></figure>
+
+<p>这里的 <code>build.context: ..</code> 相对 <code>docker</code> 目录指向实验根目录，<code>Dockerfile</code> 因而能 COPY 那份独立的 <code>h30_imu</code> 源码。<code>image</code> 命名构建结果；<code>devices</code> 精确开放串口；<code>environment</code> 沿用已验证的 domain。驱动启动命令已经写在镜像的 <code>CMD</code> 中。进入 <code>docker</code> 目录后，启动只需：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose up</span><br></pre></td></tr></table></figure>
+
+<p>Compose 会创建自己的项目网络，不等于普通 <code>docker run</code> 的默认 bridge。我原本想，如果默认网络不通，就回到前面用过的 bridge。结果没指定 <code>network_mode</code> 也通了：Compose 创建 <code>docker_default</code> 后，Host 看到了 IMU Topic，还收到了约 <strong>200 Hz</strong> 的 <code>/imu/data</code> 和真实 <code>sensor_msgs/msg/Imu</code> 消息。最终就没额外写网络参数。</p>
+<figure>
+  <a href="/images/8-docker-ROS/s15-docker-compose-validation.png" target="_blank" rel="noopener"><img src="/images/8-docker-ROS/s15-docker-compose-validation.png" alt="Docker Compose 启动 H30 并由 Host 接收 IMU 数据"></a>
+  <figcaption>图 15：Compose 启动 H30 并向 Host 发布数据</figcaption>
+</figure>
+
+<details>
+<summary>用 Agent 完成这一节</summary>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">请把已经验证通过的 docker run 启动方式改成最小 compose.yaml。</span><br><span class="line"></span><br><span class="line">固化：</span><br><span class="line">- image / build；</span><br><span class="line">- 目标设备映射；</span><br><span class="line">- ROS_DOMAIN_ID；</span><br><span class="line">- Driver 启动方式。</span><br><span class="line"></span><br><span class="line">不要使用 privileged，也不要预先加入 host network。</span><br><span class="line"></span><br><span class="line">先运行 docker compose config 检查最终配置，</span><br><span class="line">再 docker compose up。</span><br><span class="line"></span><br><span class="line">使用 Compose 默认网络，</span><br><span class="line">确认 Container 内传感器 Topic 正常，并确认 Host 实际收到消息。</span><br><span class="line"></span><br><span class="line">如果默认网络失败，先报告现象，不要自动尝试一堆网络方案。</span><br><span class="line"></span><br><span class="line">验证完成后 docker compose down。</span><br><span class="line">最后给出 compose.yaml、实际启动命令和结果。</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<h2 id="14-常见问题与排错"><a href="#14-常见问题与排错" class="headerlink" title="14. 常见问题与排错"></a>14. 常见问题与排错</h2><p>这次最费解的并不是镜像命令，而是“明明进了 <code>docker</code> 组，却访问不了 socket”。如果你也遇到 <code>docker info</code> 的 <code>permission denied</code>，先看系统组记录、socket owner 和当前 Session 的 <code>id</code>。旧登录会话没刷新时，可以临时用 <code>sg docker -c &quot;命令&quot;</code>，或在当前 shell 考虑 <code>newgrp docker</code>；长期还是注销重登。别用 <code>chmod 666 /var/run/docker.sock</code> 把 socket 向所有用户开放。</p>
+<p>其余问题我习惯沿着链路往下查，而不是一看到没有数据就怪 DDS 或传感器：</p>
+<table>
+<thead>
+<tr>
+<th>看到什么</th>
+<th>接着查什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>容器没有预期 ROS 命令</td>
+<td>镜像标签、ROS 环境是否加载</td>
+</tr>
+<tr>
+<td>Workspace 文件不可见或不能写</td>
+<td>Bind Mount 源目录、容器身份、文件 UID&#x2F;GID</td>
+</tr>
+<tr>
+<td>Host 找不到容器 Topic</td>
+<td>两边节点是否启动、<code>ROS_DOMAIN_ID</code>、实际 RMW、网络</td>
+</tr>
+<tr>
+<td>只能在 <code>topic list</code> 看到名称</td>
+<td>再用 <code>ros2 topic hz</code> 和 <code>ros2 topic echo</code> 看真实消息</td>
+</tr>
+<tr>
+<td>容器看不到 IMU 串口</td>
+<td>Host 设备是否仍存在、<code>--device</code> 是否映射、容器内设备节点</td>
+</tr>
+<tr>
+<td>串口可见但 H30 Node 打不开</td>
+<td><code>port</code>、460800 baud、权限、是否有进程占用</td>
+</tr>
+<tr>
+<td>容器有 <code>/imu/data</code>，Host 没数据</td>
+<td>domain、RMW、网络、消息类型，再看 Host 的 <code>hz</code> 与 <code>echo</code></td>
+</tr>
+</tbody></table>
+<p>本文的 H30 排查顺序就是 <strong>Host Device → <code>--device</code> → <code>port</code> &#x2F; baudrate → Node → Topic → Host Subscriber</strong>。</p>
+<h2 id="15-回到最初那台-ROS-1-NUC"><a href="#15-回到最初那台-ROS-1-NUC" class="headerlink" title="15. 回到最初那台 ROS 1 NUC"></a>15. 回到最初那台 ROS 1 NUC</h2><p>同学那台 Franka NUC 还在正常跑实验，所以这次我一直没去动它。前面的多版本 ROS、DDS 和真实 H30 都是在自己的 Ubuntu 24.04 NUC 上试的。  </p>
+<p>以后真的要迁过去，我会先把原来的 Ubuntu 20.04 + ROS 1 环境完整保留，再按那台机器自己的 CPU、Kernel、Franka 驱动和网络条件，把 Jazzy Container 一点点加进去。至少现在已经不是“Docker 到底能不能干这个”的问题了，而只是换一台机器重新把条件核对一遍。</p>
+<p>换到另一台机器后，软件环境可以复用，但 Kernel、架构和硬件还是它自己的。</p>
+<h2 id="16-Docker-能解决什么，不能解决什么"><a href="#16-Docker-能解决什么，不能解决什么" class="headerlink" title="16. Docker 能解决什么，不能解决什么"></a>16. Docker 能解决什么，不能解决什么</h2><table>
+<thead>
+<tr>
+<th>Docker 帮我做的事</th>
+<th>Docker 本身替代不了的事</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>隔离 Ubuntu &#x2F; ROS 用户空间</td>
+<td>Host Kernel 与底层硬件驱动</td>
+</tr>
+<tr>
+<td>把依赖和启动方式写进镜像与 Compose</td>
+<td>ROS 1 代码迁移到 ROS 2</td>
+</tr>
+<tr>
+<td>让项目环境更容易复现、迁移和部署</td>
+<td>另一种 CPU 架构的兼容性</td>
+</tr>
+<tr>
+<td>精确映射本文需要的串口</td>
+<td>设备实际存在、权限和传感器状态</td>
+</tr>
+</tbody></table>
+<h2 id="17-总结"><a href="#17-总结" class="headerlink" title="17. 总结"></a>17. 总结</h2><p>最开始做这件事，其实只是因为同学那台 Ubuntu 20.04 + ROS 1 NUC 不方便重装。我想找一种不破坏原环境，又能继续尝试新 ROS 环境的方法，所以才真正开始用 Docker。  </p>
+<p>自己完整走一遍之后，我对 Docker 的理解已经不只是“在 Ubuntu 里再跑一个 Ubuntu”了。代码怎么留在 Host、ROS 2 怎么跨 Container 通信、真实串口设备怎么进去、驱动怎么做进 Image、启动参数怎么交给 Compose，这些都是机器人项目里迟早会碰到的问题。  </p>
+<p>对我来说，这次最大的变化不是记住了多少 Docker 命令，而是以后再遇到一台“已经配好、不能随便重装，但又需要新环境”的机器人电脑时，多了一条可以先试的路。当然 Docker 也不是万能层，Kernel、硬件和 ROS 1 到 ROS 2 的代码迁移还是各自的问题。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>刘宇杭
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://liorenyuhang.github.io/2026/09/19/ros-docker-cross-ubuntu-development/" title="从一个 ROS 环境问题开始：Docker 入门、ROS 实践与真实硬件部署">https://liorenyuhang.github.io/2026/09/19/ros-docker-cross-ubuntu-development/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/ROS-2/" rel="tag"># ROS 2</a>
+              <a href="/tags/Docker/" rel="tag"># Docker</a>
+              <a href="/tags/Ubuntu/" rel="tag"># Ubuntu</a>
+              <a href="/tags/Jazzy/" rel="tag"># Jazzy</a>
+              <a href="/tags/Lyrical/" rel="tag"># Lyrical</a>
+              <a href="/tags/ROS-1/" rel="tag"># ROS 1</a>
+              <a href="/tags/Noetic/" rel="tag"># Noetic</a>
+              <a href="/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA/" rel="tag"># 机器人</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/09/16/6-pus-stewart-3-ros2-real-hardware/" rel="prev" title="6-PUS Stewart并联机构研究（三）：从仿真到实机——ROS 2 控制系统设计与任务空间运动验证">
+                  <i class="fa fa-angle-left"></i> 6-PUS Stewart并联机构研究（三）：从仿真到实机——ROS 2 控制系统设计与任务空间运动验证
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">LiorenYuhang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script src="/js/click-effect.js"></script>
+<script src="/js/ai-markdown.js"></script>
+<script src="/js/ai-assistant.js"></script>
+<script>
+// 把顶部菜单移到侧边栏-社交链接之前
+(function() {
+  var menu = document.querySelector('.site-nav');
+  var overview = document.querySelector('.site-overview-wrap');
+  if (menu && overview) {
+    menu.classList.add('sidebar-menu');
+    // 菜单插到社交链接之前（统计已隐藏，直接找社交链接）
+    var social = overview.querySelector('.links-of-author');
+    if (social) {
+      social.before(menu);
+    } else {
+      overview.appendChild(menu);
+    }
+  }
+})();
+</script>
+
+<script>
+// 邮箱点击复制到剪贴板
+(function() {
+  // 归档页标语
+  (function() {
+    if (!window.location.pathname.includes('/archives')) return;
+    var header = document.querySelector('.collection-header');
+    if (header) header.textContent = '记录思考，对抗遗忘。';
+  })();
+
+  var emailLinks = document.querySelectorAll(
+    '.links-of-author-item a[href^="mailto:"], .email-copy-link[href^="mailto:"]'
+  );
+
+  emailLinks.forEach(function(emailLink) {
+    var email = emailLink.getAttribute('href').replace('mailto:', '');
+    var item = emailLink.closest('.links-of-author-item') || emailLink.parentElement;
+
+    emailLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      navigator.clipboard.writeText(email).then(function() {
+        var toast = document.createElement('span');
+        toast.className = 'email-copied-toast';
+        toast.textContent = '已复制';
+        item.style.position = 'relative';
+        item.appendChild(toast);
+        setTimeout(function() { toast.remove(); }, 1500);
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
