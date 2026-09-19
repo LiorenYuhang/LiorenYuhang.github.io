@@ -416,9 +416,9 @@ mjx-container[display="true"] + br {
     
     
     
-    <div class="post-body" itemprop="articleBody"><h2 id="引言：一台不能随便重装的-ROS-1-NUC"><a href="#引言：一台不能随便重装的-ROS-1-NUC" class="headerlink" title="引言：一台不能随便重装的 ROS 1 NUC"></a>引言：一台不能随便重装的 ROS 1 NUC</h2><p>最近我在帮组里一位同门处理 ROS 环境问题。实验室里还有一些 Ubuntu 20.04 + ROS 1 Noetic 的机器人 NUC；这位同门就用 ROS 1 控制 Franka。机器并不是不能用，驱动、Workspace 和脚本都已经配好，平时实验跑得很稳定。考虑到 ROS 1 Noetic 已经结束官方维护，我建议后续开发逐渐转向 ROS 2，但不想为此打乱现有环境。</p>
+    <div class="post-body" itemprop="articleBody"><h2 id="引言：一台不能随便重装的-ROS-1-NUC"><a href="#引言：一台不能随便重装的-ROS-1-NUC" class="headerlink" title="引言：一台不能随便重装的 ROS 1 NUC"></a>引言：一台不能随便重装的 ROS 1 NUC</h2><p>最近我在帮组里一位同门处理 ROS 环境问题。实验室里还有一些 Ubuntu 20.04 + ROS 1 Noetic 的机器人 NUC；他一直用 ROS 1 控制 Franka。机器并不是不能用，驱动、Workspace 和脚本都已经配好，平时实验跑得很稳定。考虑到 ROS 1 Noetic 已经结束官方维护，我建议后续开发逐渐转向 ROS 2，但不想为此打乱现有环境。</p>
 <p>如果只为换一个 ROS 版本，就把整台工作电脑的 Ubuntu、驱动和依赖重装一遍，代价太大。我想弄清楚的是：<strong>能不能保留 Ubuntu 20.04 + ROS 1，同时获得一套新的 ROS 2 环境？</strong></p>
-<p>同门的 Franka NUC 还在工作，我没有直接拿它练习。自己的 NUC 正好是 Ubuntu 24.04 + ROS 2 Jazzy，这也成了我第一次比较完整地学习 Docker：先试着运行三种 ROS 环境，再把 Workspace、DDS 通信和真实 H30 IMU 接进来，最后用 Dockerfile 和 Compose 固定已经跑通的构建与启动过程。</p>
+<p>那台 Franka NUC 还在工作，我没有直接拿它练习。自己的 NUC 正好是 Ubuntu 24.04 + ROS 2 Jazzy，这也成了我第一次比较完整地学习 Docker：先试着运行三种 ROS 环境，再把 Workspace、DDS 通信和真实 H30 IMU 接进来，最后用 Dockerfile 和 Compose 固定已经跑通的构建与启动过程。</p>
 <p>我的主机基线是 <strong>Ubuntu 24.04.4 LTS、x86_64、内核 <code>7.0.0-31-generic</code></strong>；原生 <code>ROS_DISTRO=jazzy</code>，<code>ros2</code> 位于 <code>/opt/ros/jazzy/bin/ros2</code>。下图是系统版本、内核与 ROS 路径的终端记录。</p>
 <figure>
   <img src="/images/8-docker-ROS/s01-ubuntu24-04-ros2-jazzy-host-baseline.png" alt="Ubuntu 24.04.4 主机与原生 ROS 2 Jazzy 环境">
@@ -558,7 +558,7 @@ mjx-container[display="true"] + br {
 </details>
 
 <h2 id="6-实验二：Jazzy——Host-已经有了，为什么还要放进-Docker"><a href="#6-实验二：Jazzy——Host-已经有了，为什么还要放进-Docker" class="headerlink" title="6. 实验二：Jazzy——Host 已经有了，为什么还要放进 Docker"></a>6. 实验二：Jazzy——Host 已经有了，为什么还要放进 Docker</h2><p>第二组看起来有点多此一举：我的主机本来就是 Ubuntu 24.04，也原生装了 Jazzy，为什么还要在 Docker 里再运行一次 Jazzy？</p>
-<p>因为机器人项目不只有一个。项目 A 可能需要一组 Python 库和 ROS package，项目 B 又需要另一组。都直接装在 Host 上，项目多了以后，更新一个依赖可能影响另一个已经工作的环境。我更希望 Host 保持自己的 Jazzy 开发环境，让每个项目把所需软件放进各自的容器。将来换电脑、交给同事或部署到另一台 NUC，需要迁移的就不只是源码，还有项目的环境定义。</p>
+<p>因为机器人项目不只有一个。项目 A 可能需要一组 Python 库和 ROS package，项目 B 又需要另一组。都直接装在 Host 上，项目多了以后，更新一个依赖可能影响另一个已经工作的环境。我更希望 Host 保持自己的 Jazzy 开发环境，让每个项目把所需软件放进各自的容器。将来换电脑、交给组里其他人或部署到另一台 NUC，需要迁移的就不只是源码，还有项目的环境定义。</p>
 <p>如果用过 Python 的 <code>venv</code> 或 Conda，可以借这个思路理解 Docker：别让不同项目的依赖互相打架。Docker 管得更宽，除了 Python package，Ubuntu 用户空间、系统库、ROS package 和启动方式也可以放进项目自己的环境里。</p>
 <p>所以我用相同的步骤，再启动一套 Jazzy：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull ros:jazzy-ros-base-noble</span><br><span class="line">docker run --<span class="built_in">rm</span> -it ros:jazzy-ros-base-noble bash</span><br></pre></td></tr></table></figure>
@@ -777,7 +777,7 @@ mjx-container[display="true"] + br {
 
 </details>
 
-<h2 id="12-Dockerfile：把驱动做进镜像"><a href="#12-Dockerfile：把驱动做进镜像" class="headerlink" title="12. Dockerfile：把驱动做进镜像"></a>12. Dockerfile：把驱动做进镜像</h2><p>前面 H30 已经跑起来了，但驱动源码还放在 Host 的独立 Workspace 中，Container 靠 Bind Mount 才拿得到它。开发时这样很方便；如果要把环境交给同事，总不能每次都先解释“请把这个目录放到这个路径，再挂进去”。既然流程已经走通，我就想试着把 Jazzy 环境和 <code>h30_imu</code> 驱动真正做进 Image。</p>
+<h2 id="12-Dockerfile：把驱动做进镜像"><a href="#12-Dockerfile：把驱动做进镜像" class="headerlink" title="12. Dockerfile：把驱动做进镜像"></a>12. Dockerfile：把驱动做进镜像</h2><p>前面 H30 已经跑起来了，但驱动源码还放在 Host 的独立 Workspace 中，Container 靠 Bind Mount 才拿得到它。开发时这样很方便；如果要把环境交给组里其他人，总不能每次都先解释“请把这个目录放到这个路径，再挂进去”。既然流程已经走通，我就想试着把 Jazzy 环境和 <code>h30_imu</code> 驱动真正做进 Image。</p>
 <p>最终使用的 <code>docker/Dockerfile</code> 很短：</p>
 <figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ros:jazzy-ros-base-noble</span><br><span class="line"></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /opt/h30_ws</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> ros2_ws/src/h30_imu /opt/h30_ws/src/h30_imu</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> . /opt/ros/jazzy/setup.sh &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    colcon build --symlink-install</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;bash&quot;</span>, <span class="string">&quot;-c&quot;</span>, <span class="string">&quot;source /opt/ros/jazzy/setup.bash &amp;&amp; source /opt/h30_ws/install/setup.bash &amp;&amp; ros2 launch h30_imu h30.launch.py port:=/dev/ttyACM0&quot;</span>]</span></span><br></pre></td></tr></table></figure>
 
@@ -857,7 +857,7 @@ mjx-container[display="true"] + br {
 </tr>
 </tbody></table>
 <p>本文的 H30 排查顺序就是 <strong>Host Device → <code>--device</code> → <code>port</code> &#x2F; baudrate → Node → Topic → Host Subscriber</strong>。</p>
-<h2 id="15-回到最初那台-ROS-1-NUC"><a href="#15-回到最初那台-ROS-1-NUC" class="headerlink" title="15. 回到最初那台 ROS 1 NUC"></a>15. 回到最初那台 ROS 1 NUC</h2><p>同学那台 Franka NUC 还在正常跑实验，所以这次我一直没去动它。前面的多版本 ROS、DDS 和真实 H30 都是在自己的 Ubuntu 24.04 NUC 上试的。  </p>
+<h2 id="15-回到最初那台-ROS-1-NUC"><a href="#15-回到最初那台-ROS-1-NUC" class="headerlink" title="15. 回到最初那台 ROS 1 NUC"></a>15. 回到最初那台 ROS 1 NUC</h2><p>那台 Franka NUC 还在正常跑实验，所以这次我一直没去动它。前面的多版本 ROS、DDS 和真实 H30 都是在自己的 Ubuntu 24.04 NUC 上试的。</p>
 <p>以后真的要迁过去，我会先把原来的 Ubuntu 20.04 + ROS 1 环境完整保留，再按那台机器自己的 CPU、Kernel、Franka 驱动和网络条件，把 Jazzy Container 一点点加进去。至少现在已经不是“Docker 到底能不能干这个”的问题了，而只是换一台机器重新把条件核对一遍。</p>
 <p>换到另一台机器后，软件环境可以复用，但 Kernel、架构和硬件还是它自己的。</p>
 <h2 id="16-Docker-能解决什么，不能解决什么"><a href="#16-Docker-能解决什么，不能解决什么" class="headerlink" title="16. Docker 能解决什么，不能解决什么"></a>16. Docker 能解决什么，不能解决什么</h2><table>
@@ -884,8 +884,8 @@ mjx-container[display="true"] + br {
 <td>设备实际存在、权限和传感器状态</td>
 </tr>
 </tbody></table>
-<h2 id="17-总结"><a href="#17-总结" class="headerlink" title="17. 总结"></a>17. 总结</h2><p>最开始做这件事，其实只是因为同学那台 Ubuntu 20.04 + ROS 1 NUC 不方便重装。我想找一种不破坏原环境，又能继续尝试新 ROS 环境的方法，所以才真正开始用 Docker。  </p>
-<p>自己完整走一遍之后，我对 Docker 的理解已经不只是“在 Ubuntu 里再跑一个 Ubuntu”了。代码怎么留在 Host、ROS 2 怎么跨 Container 通信、真实串口设备怎么进去、驱动怎么做进 Image、启动参数怎么交给 Compose，这些都是机器人项目里迟早会碰到的问题。  </p>
+<h2 id="17-总结"><a href="#17-总结" class="headerlink" title="17. 总结"></a>17. 总结</h2><p>最开始做这件事，其实只是因为那台 Ubuntu 20.04 + ROS 1 NUC 不方便重装。我想找一种不破坏原环境，又能继续尝试新 ROS 环境的方法，所以才真正开始用 Docker。</p>
+<p>自己完整走一遍之后，我对 Docker 的理解已经不只是“在 Ubuntu 里再跑一个 Ubuntu”了。代码怎么留在 Host、ROS 2 怎么跨 Container 通信、真实串口设备怎么进去、驱动怎么做进 Image、启动参数怎么交给 Compose，这些都是机器人项目里迟早会碰到的问题。</p>
 <p>对我来说，这次最大的变化不是记住了多少 Docker 命令，而是以后再遇到一台“已经配好、不能随便重装，但又需要新环境”的机器人电脑时，多了一条可以先试的路。当然 Docker 也不是万能层，Kernel、硬件和 ROS 1 到 ROS 2 的代码迁移还是各自的问题。</p>
 
     </div>
