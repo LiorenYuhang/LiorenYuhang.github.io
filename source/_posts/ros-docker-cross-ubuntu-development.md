@@ -8,11 +8,11 @@ description: 从实验室一个真实 ROS 环境问题出发，完整记录 Dock
 
 ## 引言：一台不能随便重装的 ROS 1 NUC
 
-最近我在帮组里一位同门处理 ROS 环境问题。实验室里还有一些 Ubuntu 20.04 + ROS 1 Noetic 的机器人 NUC；这位同门就用 ROS 1 控制 Franka。机器并不是不能用，驱动、Workspace 和脚本都已经配好，平时实验跑得很稳定。考虑到 ROS 1 Noetic 已经结束官方维护，我建议后续开发逐渐转向 ROS 2，但不想为此打乱现有环境。
+最近我在帮组里一位同门处理 ROS 环境问题。实验室里还有一些 Ubuntu 20.04 + ROS 1 Noetic 的机器人 NUC；他一直用 ROS 1 控制 Franka。机器并不是不能用，驱动、Workspace 和脚本都已经配好，平时实验跑得很稳定。考虑到 ROS 1 Noetic 已经结束官方维护，我建议后续开发逐渐转向 ROS 2，但不想为此打乱现有环境。
 
 如果只为换一个 ROS 版本，就把整台工作电脑的 Ubuntu、驱动和依赖重装一遍，代价太大。我想弄清楚的是：**能不能保留 Ubuntu 20.04 + ROS 1，同时获得一套新的 ROS 2 环境？**
 
-同门的 Franka NUC 还在工作，我没有直接拿它练习。自己的 NUC 正好是 Ubuntu 24.04 + ROS 2 Jazzy，这也成了我第一次比较完整地学习 Docker：先试着运行三种 ROS 环境，再把 Workspace、DDS 通信和真实 H30 IMU 接进来，最后用 Dockerfile 和 Compose 固定已经跑通的构建与启动过程。
+那台 Franka NUC 还在工作，我没有直接拿它练习。自己的 NUC 正好是 Ubuntu 24.04 + ROS 2 Jazzy，这也成了我第一次比较完整地学习 Docker：先试着运行三种 ROS 环境，再把 Workspace、DDS 通信和真实 H30 IMU 接进来，最后用 Dockerfile 和 Compose 固定已经跑通的构建与启动过程。
 
 我的主机基线是 **Ubuntu 24.04.4 LTS、x86_64、内核 `7.0.0-31-generic`**；原生 `ROS_DISTRO=jazzy`，`ros2` 位于 `/opt/ros/jazzy/bin/ros2`。下图是系统版本、内核与 ROS 路径的终端记录。
 
@@ -209,7 +209,7 @@ which ros2
 
 第二组看起来有点多此一举：我的主机本来就是 Ubuntu 24.04，也原生装了 Jazzy，为什么还要在 Docker 里再运行一次 Jazzy？
 
-因为机器人项目不只有一个。项目 A 可能需要一组 Python 库和 ROS package，项目 B 又需要另一组。都直接装在 Host 上，项目多了以后，更新一个依赖可能影响另一个已经工作的环境。我更希望 Host 保持自己的 Jazzy 开发环境，让每个项目把所需软件放进各自的容器。将来换电脑、交给同事或部署到另一台 NUC，需要迁移的就不只是源码，还有项目的环境定义。
+因为机器人项目不只有一个。项目 A 可能需要一组 Python 库和 ROS package，项目 B 又需要另一组。都直接装在 Host 上，项目多了以后，更新一个依赖可能影响另一个已经工作的环境。我更希望 Host 保持自己的 Jazzy 开发环境，让每个项目把所需软件放进各自的容器。将来换电脑、交给组里其他人或部署到另一台 NUC，需要迁移的就不只是源码，还有项目的环境定义。
 
 如果用过 Python 的 `venv` 或 Conda，可以借这个思路理解 Docker：别让不同项目的依赖互相打架。Docker 管得更宽，除了 Python package，Ubuntu 用户空间、系统库、ROS package 和启动方式也可以放进项目自己的环境里。
 
@@ -576,7 +576,7 @@ linear_acceleration_covariance:
 
 ## 12. Dockerfile：把驱动做进镜像
 
-前面 H30 已经跑起来了，但驱动源码还放在 Host 的独立 Workspace 中，Container 靠 Bind Mount 才拿得到它。开发时这样很方便；如果要把环境交给同事，总不能每次都先解释“请把这个目录放到这个路径，再挂进去”。既然流程已经走通，我就想试着把 Jazzy 环境和 `h30_imu` 驱动真正做进 Image。
+前面 H30 已经跑起来了，但驱动源码还放在 Host 的独立 Workspace 中，Container 靠 Bind Mount 才拿得到它。开发时这样很方便；如果要把环境交给组里其他人，总不能每次都先解释“请把这个目录放到这个路径，再挂进去”。既然流程已经走通，我就想试着把 Jazzy 环境和 `h30_imu` 驱动真正做进 Image。
 
 最终使用的 `docker/Dockerfile` 很短：
 
@@ -712,7 +712,7 @@ Compose 会创建自己的项目网络，不等于普通 `docker run` 的默认 
 
 ## 15. 回到最初那台 ROS 1 NUC
 
-同学那台 Franka NUC 还在正常跑实验，所以这次我一直没去动它。前面的多版本 ROS、DDS 和真实 H30 都是在自己的 Ubuntu 24.04 NUC 上试的。  
+那台 Franka NUC 还在正常跑实验，所以这次我一直没去动它。前面的多版本 ROS、DDS 和真实 H30 都是在自己的 Ubuntu 24.04 NUC 上试的。
 
 以后真的要迁过去，我会先把原来的 Ubuntu 20.04 + ROS 1 环境完整保留，再按那台机器自己的 CPU、Kernel、Franka 驱动和网络条件，把 Jazzy Container 一点点加进去。至少现在已经不是“Docker 到底能不能干这个”的问题了，而只是换一台机器重新把条件核对一遍。
 
@@ -729,8 +729,8 @@ Compose 会创建自己的项目网络，不等于普通 `docker run` 的默认 
 
 ## 17. 总结
 
-最开始做这件事，其实只是因为同学那台 Ubuntu 20.04 + ROS 1 NUC 不方便重装。我想找一种不破坏原环境，又能继续尝试新 ROS 环境的方法，所以才真正开始用 Docker。  
+最开始做这件事，其实只是因为那台 Ubuntu 20.04 + ROS 1 NUC 不方便重装。我想找一种不破坏原环境，又能继续尝试新 ROS 环境的方法，所以才真正开始用 Docker。
 
-自己完整走一遍之后，我对 Docker 的理解已经不只是“在 Ubuntu 里再跑一个 Ubuntu”了。代码怎么留在 Host、ROS 2 怎么跨 Container 通信、真实串口设备怎么进去、驱动怎么做进 Image、启动参数怎么交给 Compose，这些都是机器人项目里迟早会碰到的问题。  
+自己完整走一遍之后，我对 Docker 的理解已经不只是“在 Ubuntu 里再跑一个 Ubuntu”了。代码怎么留在 Host、ROS 2 怎么跨 Container 通信、真实串口设备怎么进去、驱动怎么做进 Image、启动参数怎么交给 Compose，这些都是机器人项目里迟早会碰到的问题。
 
 对我来说，这次最大的变化不是记住了多少 Docker 命令，而是以后再遇到一台“已经配好、不能随便重装，但又需要新环境”的机器人电脑时，多了一条可以先试的路。当然 Docker 也不是万能层，Kernel、硬件和 ROS 1 到 ROS 2 的代码迁移还是各自的问题。
