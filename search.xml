@@ -65,8 +65,6 @@
             
             <tag> 6-PUS </tag>
             
-            <tag> 工作空间 </tag>
-            
             <tag> ROS 2 </tag>
             
             <tag> 实机控制 </tag>
@@ -76,6 +74,8 @@
             <tag> 正运动学 </tag>
             
             <tag> 双IMU </tag>
+            
+            <tag> 工作空间 </tag>
             
         </tags>
       
@@ -106,8 +106,6 @@
             
             <tag> 6-PUS </tag>
             
-            <tag> 仿真 </tag>
-            
             <tag> Simscape </tag>
             
             <tag> PID控制 </tag>
@@ -117,6 +115,8 @@
             <tag> ADRC </tag>
             
             <tag> 多体动力学 </tag>
+            
+            <tag> 仿真 </tag>
             
         </tags>
       
@@ -190,13 +190,13 @@
             
             <tag> 6-PUS </tag>
             
-            <tag> MATLAB </tag>
-            
-            <tag> 运动学 </tag>
-            
             <tag> 工作空间 </tag>
             
             <tag> 仿真 </tag>
+            
+            <tag> MATLAB </tag>
+            
+            <tag> 运动学 </tag>
             
         </tags>
       
