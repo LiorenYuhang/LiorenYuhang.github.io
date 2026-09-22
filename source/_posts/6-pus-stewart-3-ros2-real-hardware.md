@@ -48,7 +48,7 @@ mathjax: true
 前两篇关注“模型能不能运动”，这一篇追问：**真实机器人能否听懂任务空间目标、执行它，并解释自己的运动状态。**
 
 <figure>
-  <img src="/images/7-stewart-3/1.png" alt="6PUS Stewart 实机平台及双 IMU 安装">
+  <img src="/images/7-stewart-3/1.png" alt="6PUS Stewart 实机平台及双 IMU 安装" style="display: block; width: 100%; max-width: 640px; height: auto; margin: 0 auto;">
   <figcaption>图 1：6PUS Stewart 实机平台及双 IMU 安装</figcaption>
 </figure>
 
