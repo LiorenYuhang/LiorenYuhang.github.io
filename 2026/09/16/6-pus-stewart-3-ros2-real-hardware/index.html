@@ -431,9 +431,9 @@ mjx-container[display="true"] + br {
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">控制下行：Cartesian Pose → Analytical IK → Joint Target</span><br><span class="line">          → Trajectory Shaper → 50 Hz Servo → Six Actuators</span><br><span class="line"></span><br><span class="line">状态上行：StatusFeedback → Per-axis Timestamp → Fixed-Lag</span><br><span class="line">          → Synchronized Joint State → FK → Task-Space State</span><br><span class="line"></span><br><span class="line">旁路感知：Base IMU + Platform IMU</span><br></pre></td></tr></table></figure>
 
 <p>前两篇关注“模型能不能运动”，这一篇追问：<strong>真实机器人能否听懂任务空间目标、执行它，并解释自己的运动状态。</strong></p>
-<figure>
-  <img src="/images/7-stewart-3/1.png" alt="6PUS Stewart 实机平台及双 IMU 安装" style="display: block; width: 100%; max-width: 640px; height: auto; margin: 0 auto;">
-  <figcaption>图 1：6PUS Stewart 实机平台及双 IMU 安装</figcaption>
+<figure style="text-align: center; margin: 1.5em auto;">
+  <img src="/images/7-stewart-3/1.png" alt="6PUS Stewart 实机平台及双 IMU 安装" style="display: block; width: 100%; max-width: 560px; height: auto; margin: 0 auto;">
+  <figcaption style="position: static; display: block; margin-top: 10px; text-align: center;">图 1：6PUS Stewart 实机平台及双 IMU 安装</figcaption>
 </figure>
 
 <hr>
