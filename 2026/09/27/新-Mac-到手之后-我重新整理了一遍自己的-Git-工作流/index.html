@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/LYH.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/LYH.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"liorenyuhang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"language":false,"highlight_theme":"night eighties"},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fade","post_header":"fade","post_body":"fade","coll_header":"fade","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="借第一台 Mac 加入开发环境的机会，重新整理 Windows、macOS 与 Ubuntu 之间长期使用的 Git&#x2F;GitHub 工作流，以及多设备同步、SSH、环境重建、冲突与分支管理中的工程实践。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流">
+<meta property="og:url" content="https://liorenyuhang.github.io/2026/09/27/%E6%96%B0-Mac-%E5%88%B0%E6%89%8B%E4%B9%8B%E5%90%8E-%E6%88%91%E9%87%8D%E6%96%B0%E6%95%B4%E7%90%86%E4%BA%86%E4%B8%80%E9%81%8D%E8%87%AA%E5%B7%B1%E7%9A%84-Git-%E5%B7%A5%E4%BD%9C%E6%B5%81/index.html">
+<meta property="og:site_name" content="吾性自足，不假外求&lt;br&gt;明心见性，知行合一">
+<meta property="og:description" content="借第一台 Mac 加入开发环境的机会，重新整理 Windows、macOS 与 Ubuntu 之间长期使用的 Git&#x2F;GitHub 工作流，以及多设备同步、SSH、环境重建、冲突与分支管理中的工程实践。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-09-27T12:27:39.000Z">
+<meta property="article:author" content="刘宇杭">
+<meta property="article:tag" content="Git">
+<meta property="article:tag" content="GitHub">
+<meta property="article:tag" content="SSH">
+<meta property="article:tag" content="Ubuntu">
+<meta property="article:tag" content="Windows">
+<meta property="article:tag" content="macOS">
+<meta property="article:tag" content="网站与AI工程实践">
+<meta property="article:tag" content="跨平台开发">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://liorenyuhang.github.io/2026/09/27/%E6%96%B0-Mac-%E5%88%B0%E6%89%8B%E4%B9%8B%E5%90%8E-%E6%88%91%E9%87%8D%E6%96%B0%E6%95%B4%E7%90%86%E4%BA%86%E4%B8%80%E9%81%8D%E8%87%AA%E5%B7%B1%E7%9A%84-Git-%E5%B7%A5%E4%BD%9C%E6%B5%81/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://liorenyuhang.github.io/2026/09/27/%E6%96%B0-Mac-%E5%88%B0%E6%89%8B%E4%B9%8B%E5%90%8E-%E6%88%91%E9%87%8D%E6%96%B0%E6%95%B4%E7%90%86%E4%BA%86%E4%B8%80%E9%81%8D%E8%87%AA%E5%B7%B1%E7%9A%84-Git-%E5%B7%A5%E4%BD%9C%E6%B5%81/","path":"2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/","title":"新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流 | 吾性自足，不假外求<br>明心见性，知行合一</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+<script>document.title = "刘宇杭";</script>
+<script>
+(function() {
+  if (!location.pathname.includes('/about')) return;
+  document.documentElement.className += ' is-about-page';
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var overview = document.querySelector('.site-overview-wrap');
+    if (!overview) return;
+
+    var author = overview.querySelector('.site-author');
+    var links = overview.querySelector('.links-of-author');
+    if (author && !overview.querySelector('.about-profile-card')) {
+      var profile = document.createElement('div');
+      profile.className = 'about-profile-card';
+      overview.insertBefore(profile, author);
+      profile.appendChild(author);
+      author.innerHTML = '<p class="about-profile-name">刘宇杭</p><p class="about-profile-role">博士研究生</p><p class="about-profile-focus">Robotics · Control · Sensing</p>';
+    }
+
+    if (links) links.remove();
+  });
+})();
+</script>
+<style>
+/* 关于页默认显示个人概览，隐藏文章目录 */
+html.is-about-page .site-overview-wrap { display: block !important; opacity: 1 !important; visibility: visible !important; height: auto !important; transform: none !important; }
+html.is-about-page .post-toc-wrap { display: none !important; }
+html.is-about-page .sidebar-nav { display: none !important; }
+html.is-about-page .sidebar-nav-overview { font-weight: bold; }
+html.is-about-page .sidebar-nav-toc { font-weight: normal; }
+</style>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">吾性自足，不假外求<br>明心见性，知行合一</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-文章"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>文章</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-I%EF%BC%9A%E6%88%91%E7%9A%84%E8%B7%A8%E5%B9%B3%E5%8F%B0-Git-%E5%B7%A5%E4%BD%9C%E6%B5%81"><span class="nav-text">Part I：我的跨平台 Git 工作流</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%8E%B0%E5%9C%A8%E9%87%8D%E6%96%B0%E6%95%B4%E7%90%86-Git"><span class="nav-text">1. 为什么现在重新整理 Git</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%88%91%E7%9A%84%E5%AE%9E%E9%99%85%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83"><span class="nav-text">2. 我的实际开发环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%88%91%E7%9A%84-Git-%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%85%B6%E5%AE%9E%E5%8F%AF%E4%BB%A5%E5%8E%8B%E7%BC%A9%E6%88%90%E4%B8%80%E6%9D%A1%E7%BA%BF"><span class="nav-text">3. 我的 Git 工作流其实可以压缩成一条线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Agent-%E5%B7%B2%E7%BB%8F%E6%98%AF%E8%BF%99%E5%A5%97%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%9A%84%E4%B8%80%E9%83%A8%E5%88%86"><span class="nav-text">4. Agent 已经是这套工作流的一部分</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-II%EF%BC%9A%E8%AE%A9%E4%B8%80%E5%8F%B0%E6%96%B0%E8%AE%BE%E5%A4%87%E7%9C%9F%E6%AD%A3%E5%8A%A0%E5%85%A5%E5%BC%80%E5%8F%91%E4%BD%93%E7%B3%BB"><span class="nav-text">Part II：让一台新设备真正加入开发体系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E8%BA%AB%E4%BB%BD%EF%BC%9AGit-%E4%B8%8E-SSH"><span class="nav-text">1. 身份：Git 与 SSH</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%BB%93%E5%BA%93%EF%BC%9AClone%E3%80%81Remote-%E4%B8%8E-Branch"><span class="nav-text">2. 仓库：Clone、Remote 与 Branch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%8E%AF%E5%A2%83%EF%BC%9A%E4%BE%9D%E8%B5%96%E5%BA%94%E8%AF%A5%E9%87%8D%E5%BB%BA%EF%BC%8C%E8%80%8C%E4%B8%8D%E6%98%AF%E5%A4%8D%E5%88%B6"><span class="nav-text">3. 环境：依赖应该重建，而不是复制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Windows%E3%80%81macOS-%E4%B8%8E-Ubuntu-%E7%9A%84%E5%A4%96%E5%9B%B4%E5%B7%AE%E5%BC%82"><span class="nav-text">4. Windows、macOS 与 Ubuntu 的外围差异</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E6%96%B0%E8%AE%BE%E5%A4%87%E6%8E%A5%E5%85%A5%E6%A3%80%E6%9F%A5%E6%B8%85%E5%8D%95"><span class="nav-text">5. 新设备接入检查清单</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-III%EF%BC%9A%E6%94%AF%E6%92%91%E5%A4%9A%E8%AE%BE%E5%A4%87%E5%BC%80%E5%8F%91%E7%9A%84-Git-%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5"><span class="nav-text">Part III：支撑多设备开发的 Git 工程实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%90%8C%E6%AD%A5%E4%B8%8E%E7%89%88%E6%9C%AC%EF%BC%9APull%E3%80%81Push-%E5%92%8C-Commit"><span class="nav-text">1. 同步与版本：Pull、Push 和 Commit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%BB%93%E5%BA%93%E5%8D%AB%E7%94%9F%EF%BC%9A%E6%A3%80%E6%9F%A5%E3%80%81-gitignore-%E4%B8%8E%E5%8F%AF%E9%87%8D%E5%BB%BA%E7%8E%AF%E5%A2%83"><span class="nav-text">2. 仓库卫生：检查、.gitignore 与可重建环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%A4%9A%E8%AE%BE%E5%A4%87%E5%B9%B6%E8%A1%8C%EF%BC%9AConflict-%E4%B8%8E-Branch"><span class="nav-text">3. 多设备并行：Conflict 与 Branch</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Part-IV%EF%BC%9AAgent-%E6%97%B6%E4%BB%A3%EF%BC%8C%E6%88%91%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8F%8D%E8%80%8C%E6%9B%B4%E4%BE%9D%E8%B5%96-Git"><span class="nav-text">Part IV：Agent 时代，我为什么反而更依赖 Git</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%BB%8E-Human-Develop-%E5%88%B0-Human-Agent-Develop"><span class="nav-text">1. 从 Human Develop 到 Human &#x2F; Agent Develop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%88%91%E5%A6%82%E4%BD%95%E7%BB%99-Agent-%E5%AE%9A%E4%B9%89%E4%BB%BB%E5%8A%A1%E8%BE%B9%E7%95%8C"><span class="nav-text">2. 我如何给 Agent 定义任务边界</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E4%BF%AE%E6%94%B9%E6%9D%83%E9%99%90%E4%B8%8D%E7%AD%89%E4%BA%8E%E5%8F%91%E5%B8%83%E6%9D%83%E9%99%90"><span class="nav-text">3. 修改权限不等于发布权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E4%B8%BA%E4%BB%80%E4%B9%88-Agent-%E8%B6%8A%E5%BC%BA%EF%BC%8CGit-%E8%B6%8A%E9%87%8D%E8%A6%81"><span class="nav-text">4. 为什么 Agent 越强，Git 越重要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E6%9C%80%E7%BB%88%E5%B7%A5%E4%BD%9C%E6%B5%81"><span class="nav-text">5. 最终工作流</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E6%9C%80%E5%90%8E%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E6%8A%8A%E8%BF%99%E7%AF%87%E6%96%87%E7%AB%A0%E9%80%81%E7%BB%99%E6%96%B0-Mac"><span class="nav-text">写在最后：为什么把这篇文章送给新 Mac</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="刘宇杭"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">刘宇杭</p>
+  <div class="site-description" itemprop="description">机器人方向博士生 · 医工交叉 · 感知与控制</div>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/LiorenYuhang" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;LiorenYuhang" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:liu999yh@qq.com" title="E-Mail → mailto:liu999yh@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://liorenyuhang.github.io/2026/09/27/%E6%96%B0-Mac-%E5%88%B0%E6%89%8B%E4%B9%8B%E5%90%8E-%E6%88%91%E9%87%8D%E6%96%B0%E6%95%B4%E7%90%86%E4%BA%86%E4%B8%80%E9%81%8D%E8%87%AA%E5%B7%B1%E7%9A%84-Git-%E5%B7%A5%E4%BD%9C%E6%B5%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="刘宇杭">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="吾性自足，不假外求<br>明心见性，知行合一">
+      <meta itemprop="description" content="机器人方向博士生 · 医工交叉 · 感知与控制">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流 | 吾性自足，不假外求<br>明心见性，知行合一">
+      <meta itemprop="description" content="借第一台 Mac 加入开发环境的机会，重新整理 Windows、macOS 与 Ubuntu 之间长期使用的 Git&#x2F;GitHub 工作流，以及多设备同步、SSH、环境重建、冲突与分支管理中的工程实践。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-09-27 20:27:39" itemprop="dateCreated datePublished" datetime="2026-09-27T20:27:39+08:00">2026-09-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%BD%91%E7%AB%99%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">网站开发</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">借第一台 Mac 加入开发环境的机会，重新整理 Windows、macOS 与 Ubuntu 之间长期使用的 Git/GitHub 工作流，以及多设备同步、SSH、环境重建、冲突与分支管理中的工程实践。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>最近，我的开发环境里多了一台 MacBook Neo。</p>
+<p>买它最初并不是为了专门写代码，也不是原有的 Windows 设备无法开发，而是我需要一台更轻、更便携，适合随身携带和出差的笔记本，用来处理文档、网页、PPT、PDF、远程连接等日常工作。</p>
+<p>购买前，我对比过不同轻薄本的重量、尺寸、屏幕、续航、接口、性能、存储、价格和实际使用场景，最后也去线下体验了一遍。综合参数和实际感受后，我选择了 MacBook Neo。这篇文章不是它的硬件测评；真正与本文有关的是，我也因此第一次正式进入了 macOS 生态。</p>
+<p>过去我一直听说 macOS 基于 Unix，在终端、Shell 和开发工具链方面与编程、工程开发衔接得比较自然。拿到机器后，Git、SSH、Node.js 和 Hexo 很快跑通，我也就自然产生了一个想法：既然已经有了一台 Unix-like 的移动设备，除了日常办公和远程连接，也可以把个人网站的一部分开发与维护迁移到 Mac 上。</p>
+<p>也正因为这次迁移，我重新审视了长期以来一直在使用、却没有专门完整整理过的 Git 工作流。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="Part-I：我的跨平台-Git-工作流"><a href="#Part-I：我的跨平台-Git-工作流" class="headerlink" title="Part I：我的跨平台 Git 工作流"></a>Part I：我的跨平台 Git 工作流</h2><h3 id="1-为什么现在重新整理-Git"><a href="#1-为什么现在重新整理-Git" class="headerlink" title="1. 为什么现在重新整理 Git"></a>1. 为什么现在重新整理 Git</h3><p>在 Mac 加入之前，Windows 一直是我的绝对主力；Ubuntu 则分别存在于 PC 双系统和机器人 NUC 中，承担 Linux 科研开发与实机控制。Git、GitHub、SSH、commit、push、pull 都不是这次才开始接触的新工具。</p>
+<p>Mac 的加入改变的不是我是否使用 Git，而是整个工作流的形状：网站维护多了一个移动节点，Windows、macOS 和两种 Ubuntu 环境第一次形成了一套更完整的跨平台开发体系。这篇文章因此不是 Git 入门，也不是 Mac 配置大全，而是一次阶段性的工作流整理。</p>
+<h3 id="2-我的实际开发环境"><a href="#2-我的实际开发环境" class="headerlink" title="2. 我的实际开发环境"></a>2. 我的实际开发环境</h3><p>三套系统并不是地位相同的三台电脑，也不是共同维护同一个项目。Windows 仍然是主力，macOS 和 Ubuntu 分别承担移动与科研场景；其中 Ubuntu 又有 PC 双系统和 NUC 两种实际形态。</p>
+<table>
+<thead>
+<tr>
+<th>环境</th>
+<th>定位</th>
+<th>主要任务</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Windows</td>
+<td>主力环境</td>
+<td>网站开发、文档与日常工作、MATLAB &#x2F; Simulink、其他工程开发</td>
+</tr>
+<tr>
+<td>macOS</td>
+<td>移动开发终端</td>
+<td>便携办公、出差与随身使用、macOS 生态体验、个人网站开发与维护</td>
+</tr>
+<tr>
+<td>Ubuntu PC</td>
+<td>Linux 科研环境</td>
+<td>深度学习、强化学习、对 Linux 环境要求更高的科研开发</td>
+</tr>
+<tr>
+<td>Ubuntu NUC</td>
+<td>博士课题实机环境</td>
+<td>ROS 2、Stewart &#x2F; 6PUS、传感器、电机、控制算法与真实机器人实验</td>
+</tr>
+</tbody></table>
+<p>它们之间的关系更接近下面这样：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Windows（主力）</span><br><span class="line">├── 网站 / MATLAB / Simulink</span><br><span class="line">├── 文档与日常工程工作</span><br><span class="line">└── Git / GitHub</span><br><span class="line">        │</span><br><span class="line">        ├──────── macOS</span><br><span class="line">        │         ├── 移动办公 / 出差</span><br><span class="line">        │         ├── macOS 生态体验</span><br><span class="line">        │         └── 网站维护 + Git / GitHub</span><br><span class="line">        │</span><br><span class="line">        └──────── Ubuntu</span><br><span class="line">                  ├── PC 双系统：深度学习 / 强化学习 / Linux 科研开发</span><br><span class="line">                  ├── NUC：ROS 2 / Stewart / 6PUS / 实机控制</span><br><span class="line">                  └── 科研项目 + Git / GitHub</span><br></pre></td></tr></table></figure>
+
+<p>网站项目主要在 Windows 与 macOS 之间延续；PC 双系统 Ubuntu 管理 Linux 科研项目，Ubuntu NUC 则管理 ROS 2 与机器人实机代码。深度学习和强化学习属于 PC 双系统 Ubuntu 的主要任务，不是 NUC 的主要职责。</p>
+<p>GitHub 在这里不是让所有设备共享同一工作目录的网络硬盘，而是多个远程仓库的集合。不同项目对应不同 Repository，每台设备都有自己的本地仓库、工作区和环境；Git 负责记录版本，并在需要时交换提交历史。</p>
+<h3 id="3-我的-Git-工作流其实可以压缩成一条线"><a href="#3-我的-Git-工作流其实可以压缩成一条线" class="headerlink" title="3. 我的 Git 工作流其实可以压缩成一条线"></a>3. 我的 Git 工作流其实可以压缩成一条线</h3><p>无论在哪个系统，也无论修改由我还是 Agent 完成，主线都可以压缩成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Pull</span><br><span class="line">  ↓</span><br><span class="line">Define Task</span><br><span class="line">  ↓</span><br><span class="line">Human / Agent Develop</span><br><span class="line">  ↓</span><br><span class="line">Diff</span><br><span class="line">  ↓</span><br><span class="line">Build / Test</span><br><span class="line">  ↓</span><br><span class="line">Review</span><br><span class="line">  ↓</span><br><span class="line">Commit</span><br><span class="line">  ↓</span><br><span class="line">Push</span><br></pre></td></tr></table></figure>
+
+<p>开始工作前先同步并确认状态；随后定义一个边界清楚的任务，由我或 Agent 完成修改；再用 diff、构建和测试检查结果。Review 通过后，修改才成为一个有语义的 commit，最后再 push 到远程仓库。</p>
+<p>这里最重要的不是记住命令顺序，而是把“修改文件”“验证结果”“确认版本”“共享历史”分成几个明确步骤。</p>
+<h3 id="4-Agent-已经是这套工作流的一部分"><a href="#4-Agent-已经是这套工作流的一部分" class="headerlink" title="4. Agent 已经是这套工作流的一部分"></a>4. Agent 已经是这套工作流的一部分</h3><p>以前更多是我自己修改、测试，再 commit 和 push。现在，不少网站维护任务已经变成：我先定义目标和边界，Agent 阅读仓库、执行修改并完成初步验证，我再检查 diff 与最终页面，确认后决定是否 commit、push。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">我定义任务 → Agent 执行 → Agent 验证 → 我 Review → Commit / Push</span><br></pre></td></tr></table></figure>
+
+<p>Agent 并没有让 Git 变得不重要。恰恰相反，Agent 修改得越多，diff、branch、commit 和清晰的版本边界就越重要。具体如何约束 Agent、如何划分修改与发布权限，我会在 Part IV 再展开。</p>
+<blockquote>
+<p>如果只是想了解我现在如何在 Windows、macOS、Ubuntu 与 GitHub 之间组织开发，以及 Agent 怎样进入这套流程，那么读到这里已经足够了。</p>
+<p>后面的部分会继续拆开这条主线：一台新设备怎样可靠地接入已有项目，Windows、macOS、Ubuntu 的外围环境有哪些实际差异，以及同步、提交、仓库卫生、冲突、分支和 Agent 权限为什么能够支撑这套工作方式。</p>
+</blockquote>
+<hr>
+<h2 id="Part-II：让一台新设备真正加入开发体系"><a href="#Part-II：让一台新设备真正加入开发体系" class="headerlink" title="Part II：让一台新设备真正加入开发体系"></a>Part II：让一台新设备真正加入开发体系</h2><p>拿到一台新 Mac 或 PC 后，完成 <code>git clone</code> 并不等于它已经加入开发体系。对我来说，真正的接入至少包括身份、仓库、环境和验证四层。</p>
+<h3 id="1-身份：Git-与-SSH"><a href="#1-身份：Git-与-SSH" class="headerlink" title="1. 身份：Git 与 SSH"></a>1. 身份：Git 与 SSH</h3><p>先确认 Git 已经可用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git --version</span><br></pre></td></tr></table></figure>
+
+<p>然后为这台设备设置提交身份。这里使用通用占位符，不应把私人邮箱写进公开文章：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name <span class="string">&quot;Your Name&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;your-email@example.com&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>这两项决定提交记录里的作者信息，但不等同于 GitHub 登录凭据。真正访问远程仓库时，我使用每台设备各自的 SSH Key，而不会把同一份私钥复制到 Windows、Mac 和 Ubuntu。</p>
+<p>将新设备的公钥添加到 GitHub 后，可以验证认证链路：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+
+<p>认证成功时，GitHub 通常会显示类似提示：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hi USERNAME! You&#x27;ve successfully authenticated, but GitHub does not provide shell access.</span><br></pre></td></tr></table></figure>
+
+<p>GitHub 官方说明，这条测试命令即使认证成功，也可能正常以退出码 1 结束，因为 GitHub 不提供交互式 shell。因此应主要确认提示中包含 <code>successfully authenticated</code> 和正确的 GitHub 用户名，而不能只看退出码是否为 0。</p>
+<p>独立密钥让每台设备可以单独授权和撤销，也避免私钥在设备间流转。通过 SSH 访问仓库时，不需要反复输入 GitHub 账户凭据；如果私钥设置了 passphrase，是否需要再次输入则取决于本机 ssh-agent、Keychain 等配置。</p>
+<h3 id="2-仓库：Clone、Remote-与-Branch"><a href="#2-仓库：Clone、Remote-与-Branch" class="headerlink" title="2. 仓库：Clone、Remote 与 Branch"></a>2. 仓库：Clone、Remote 与 Branch</h3><p>SSH 验证完成后再 clone 仓库：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git@github.com:username/repository.git</span><br><span class="line"><span class="built_in">cd</span> repository</span><br></pre></td></tr></table></figure>
+
+<p>进入仓库后，我会先确认远程地址、当前分支和工作区状态：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git remote -v</span><br><span class="line">git branch --show-current</span><br><span class="line">git status</span><br></pre></td></tr></table></figure>
+
+<p>这一步能同时确认：我进入的是正确仓库，连接的是预期 remote，并且处在准备工作的分支上。源码到达电脑，只能证明仓库已经 clone；它并不代表依赖、运行时和构建链路已经建立。</p>
+<h3 id="3-环境：依赖应该重建，而不是复制"><a href="#3-环境：依赖应该重建，而不是复制" class="headerlink" title="3. 环境：依赖应该重建，而不是复制"></a>3. 环境：依赖应该重建，而不是复制</h3><p>网站仓库 clone 完成后，需要安装 Node.js 与 npm，再依据锁文件重建依赖：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">node --version</span><br><span class="line">npm --version</span><br><span class="line">npm ci</span><br></pre></td></tr></table></figure>
+
+<p>对于当前这个 Hexo 网站，验证链路是：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">npm run build</span><br><span class="line">npm run <span class="built_in">test</span>:4b</span><br><span class="line">node tests/search.test.js</span><br><span class="line">node tests/search-regression.test.js</span><br><span class="line">npm run server</span><br></pre></td></tr></table></figure>
+
+<p>能够安装依赖、完成 build、通过项目已有测试并在本地 preview，才说明新设备真正接入了项目。</p>
+<p>从 Windows 切到 Mac 时，我不会复制 Windows 的 <code>node_modules</code>。<code>package.json</code> 描述需要什么，<code>package-lock.json</code> 固定解析后的依赖版本，<code>npm ci</code> 根据锁文件重新安装。ROS 2 项目也是同样的原则：源码、接口定义、配置、launch 文件和依赖声明应该进入版本控制；编译产物、缓存、日志及设备相关临时文件不应靠 Git 搬运。</p>
+<p>代码同步与环境重建是两个问题：Git 保证源码、配置和版本历史连续；npm、colcon、rosdep 等包管理或构建工具负责恢复运行环境；驱动、系统库、硬件权限和本机密钥仍然属于设备自身。</p>
+<h3 id="4-Windows、macOS-与-Ubuntu-的外围差异"><a href="#4-Windows、macOS-与-Ubuntu-的外围差异" class="headerlink" title="4. Windows、macOS 与 Ubuntu 的外围差异"></a>4. Windows、macOS 与 Ubuntu 的外围差异</h3><p>Git 自身的仓库、分支、提交、工作区和暂存区模型不会因为操作系统变化。下面这些核心命令在三套系统上没有本质区别：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br><span class="line">git pull</span><br><span class="line">git diff</span><br><span class="line">git add path/to/file</span><br><span class="line">git commit -m <span class="string">&quot;type: describe the change&quot;</span></span><br><span class="line">git push</span><br><span class="line">git <span class="built_in">log</span> --oneline</span><br><span class="line">git branch</span><br></pre></td></tr></table></figure>
+
+<p>真正需要适应的是外围环境。</p>
+<p><strong>路径与 Shell</strong></p>
+<p>Windows 常见路径是 <code>E:\Code\project</code>，macOS 是 <code>/Users/username/Code/project</code>，Ubuntu 是 <code>/home/username/project</code>。Windows 常用 PowerShell 或 Git Bash，macOS 默认使用 zsh，Ubuntu 常见 bash 或 zsh。包含路径、环境变量、管道或系统工具的脚本不一定能直接跨平台运行。</p>
+<p><strong>安装方式与 PATH</strong></p>
+<p>Windows 可以使用安装程序或 <code>winget</code>，macOS 常用 Homebrew，Ubuntu 常用 <code>apt</code>。安装完成不代表当前 Shell 一定能找到程序；遇到“已经安装但命令不存在”时，我会先检查版本命令和 PATH。</p>
+<p><strong>权限与大小写</strong></p>
+<p>Unix-like 系统会直接暴露可执行权限问题，脚本缺少执行位时可能需要：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chmod</span> +x scripts/example.sh</span><br></pre></td></tr></table></figure>
+
+<p>某些默认文件系统对大小写不敏感，但 Linux 通常严格区分 <code>Config.js</code> 和 <code>config.js</code>。只修改文件名大小写时，应该明确让 Git 记录重命名，而不要假设所有系统都会得到相同结果。</p>
+<p><strong>换行符</strong></p>
+<p>Windows 常见 CRLF，macOS 与 Ubuntu 常见 LF。<code>core.autocrlf</code> 可以参与转换，但我不会在不了解仓库约定时盲目修改全局配置。如果项目确实需要统一规则，更稳定的方式是通过仓库级 <code>.gitattributes</code> 明确约定。</p>
+<h3 id="5-新设备接入检查清单"><a href="#5-新设备接入检查清单" class="headerlink" title="5. 新设备接入检查清单"></a>5. 新设备接入检查清单</h3><p>最后，我会用一份短清单判断新设备是否已经可靠接入：</p>
+<ol>
+<li>Git、运行时和构建工具可用，提交身份与独立 SSH Key 正确；</li>
+<li>仓库来自正确 remote，当前分支、工作区和跟踪关系清楚；</li>
+<li>可以依据锁文件或依赖声明重建环境，而不是复制旧机器的产物；</li>
+<li>build、test、preview 真正跑通；</li>
+<li><code>.gitignore</code> 能挡住系统文件、缓存、构建产物和 secret。</li>
+</ol>
+<hr>
+<h2 id="Part-III：支撑多设备开发的-Git-工程实践"><a href="#Part-III：支撑多设备开发的-Git-工程实践" class="headerlink" title="Part III：支撑多设备开发的 Git 工程实践"></a>Part III：支撑多设备开发的 Git 工程实践</h2><p>设备接入以后，真正决定工作流能否长期稳定的，是怎样同步版本、保持仓库干净，以及在多设备并行时隔离风险。</p>
+<h3 id="1-同步与版本：Pull、Push-和-Commit"><a href="#1-同步与版本：Pull、Push-和-Commit" class="headerlink" title="1. 同步与版本：Pull、Push 和 Commit"></a>1. 同步与版本：Pull、Push 和 Commit</h3><p>我日常开始工作时会先确认位置和状态，再决定是否同步：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git status -sb</span><br><span class="line">git pull</span><br></pre></td></tr></table></figure>
+
+<p><code>git status -sb</code> 的意义之一，就是先确认当前分支和工作区。如果存在未提交修改，应先确认、提交、暂存或妥善处理，再决定是否执行 <code>git pull</code>，而不是机械地继续下一条命令。</p>
+<p>开发过程中，我会持续检查实际差异：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git diff</span><br><span class="line">git status</span><br></pre></td></tr></table></figure>
+
+<p>完成一个逻辑修改后，再精确暂存并检查即将提交的内容：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git add path/to/file</span><br><span class="line">git diff --cached</span><br><span class="line">git commit -m <span class="string">&quot;docs: document cross-platform Git workflow&quot;</span></span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
+
+<p>我更倾向于精确指定文件，而不是习惯性执行 <code>git add .</code>。push 之前，构建和测试应该已经完成。</p>
+<p>以网站项目为例，一次 Windows 与 Mac 的接力可能是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Windows：修改 → test → commit → push</span><br><span class="line">                         │</span><br><span class="line">                         ▼</span><br><span class="line">                 GitHub Repository</span><br><span class="line">                         │</span><br><span class="line">                         ▼</span><br><span class="line">macOS：           pull → 继续修改 → test → commit → push</span><br><span class="line">                                                     │</span><br><span class="line">                                                     ▼</span><br><span class="line">Windows：                                          pull</span><br></pre></td></tr></table></figure>
+
+<p>Push 与 Pull 传递的不是一包“最新版文件”，而是一串有父子关系、有作者、有时间、有说明的提交。Mac pull 下来的不仅是 Windows 修改后的结果，也包括这些结果如何一步步形成。</p>
+<p>同样，commit 也不是 Ctrl + S。文件保存只表示编辑器把当前内容写到磁盘；commit 则是在版本历史中建立一个有语义、可定位、可比较的项目状态。我的原则是：一个 commit 对应一个相对完整的逻辑修改，不混入无关变化，message 清楚说明修改目的，提交和 push 前都检查状态。</p>
+<h3 id="2-仓库卫生：检查、-gitignore-与可重建环境"><a href="#2-仓库卫生：检查、-gitignore-与可重建环境" class="headerlink" title="2. 仓库卫生：检查、.gitignore 与可重建环境"></a>2. 仓库卫生：检查、<code>.gitignore</code> 与可重建环境</h3><p>相比记住几十条命令，我更依赖少量高频检查：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 工作区与分支状态</span></span><br><span class="line">git status -sb</span><br><span class="line"></span><br><span class="line"><span class="comment"># 尚未暂存与已经暂存的差异</span></span><br><span class="line">git diff</span><br><span class="line">git diff --cached</span><br><span class="line"></span><br><span class="line"><span class="comment"># 简洁历史、分支与远程地址</span></span><br><span class="line">git <span class="built_in">log</span> --oneline --decorate --graph -n 15</span><br><span class="line">git branch</span><br><span class="line">git remote -v</span><br><span class="line"></span><br><span class="line"><span class="comment"># 当前仓库根目录</span></span><br><span class="line">git rev-parse --show-toplevel</span><br></pre></td></tr></table></figure>
+
+<p>这些命令共同回答一个问题：我在哪个仓库、哪个分支，改了什么，即将提交什么，历史和 remote 又是什么。</p>
+<p>当前网站仓库已经明确忽略了这些典型内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.DS_Store</span><br><span class="line">Thumbs.db</span><br><span class="line">node_modules/</span><br><span class="line">public/</span><br><span class="line">.env</span><br><span class="line">.env.*</span><br><span class="line">.wrangler/</span><br></pre></td></tr></table></figure>
+
+<p><code>.DS_Store</code> 来自 macOS，<code>Thumbs.db</code> 常见于 Windows；<code>node_modules/</code> 和 <code>public/</code> 分别属于可重建依赖与构建输出；<code>.env</code> 一类文件还可能包含敏感配置。让它们进入仓库，只会给其他系统制造无关 diff，甚至带来凭据泄漏风险。</p>
+<p>ROS 2 工作区通常还会排除下面这些构建目录：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">build/</span><br><span class="line">install/</span><br><span class="line">log/</span><br></pre></td></tr></table></figure>
+
+<p>但 <code>.gitignore</code> 不能脱离具体仓库照抄。判断标准始终是：它是不是源码、能否重建、是否包含本机状态或敏感信息。仓库应该保留源码、配置与依赖声明，让包管理器和构建系统恢复环境，而不是把某台设备的缓存和产物带到下一台机器。</p>
+<h3 id="3-多设备并行：Conflict-与-Branch"><a href="#3-多设备并行：Conflict-与-Branch" class="headerlink" title="3. 多设备并行：Conflict 与 Branch"></a>3. 多设备并行：Conflict 与 Branch</h3><p>假设 Windows 和 Mac 都从提交 A 开始，并且修改了同一段内容：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">        ┌── B（Windows 修改并先 push）</span><br><span class="line">A ──────┤</span><br><span class="line">        └── C（macOS 基于旧版本继续修改）</span><br></pre></td></tr></table></figure>
+
+<p>当 Mac 随后尝试整合远程的 B 时，Git 可以知道两边都改了，却未必能判断哪一份内容才符合我的真实意图。冲突不是 Git 失效，而是它拒绝替我做一个信息不足的决定。</p>
+<p>我降低冲突概率的方法很朴素：开始工作前先 pull；不在多台设备上长期保留未同步修改；一个任务尽量在一个明确分支或主要设备上完成；完成逻辑单元后及时 commit 和 push；避免无意义的全文件格式化和批量换行变化。</p>
+<p>Branch 在这里用于隔离风险，而不是增加流程感。当前网站以 <code>main</code> 作为生产基线，并没有采用复杂 Git Flow。常见命名可以保持简单：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">main          稳定基线</span><br><span class="line">feature/*     相对独立的新功能或内容</span><br><span class="line">fix/*         明确的问题修复</span><br><span class="line">experiment/*  尚未确定是否保留的实验</span><br></pre></td></tr></table></figure>
+
+<p>小而明确、可以立即验证的修改不一定需要复杂分支层级；独立功能、高风险变更、较长周期任务、Agent 批量修改或实验性方案，则更适合放进单独分支。个人项目在需要隔离风险时同样适合使用分支，但不需要为了“看起来专业”而复制一套与项目规模不匹配的流程。</p>
+<hr>
+<h2 id="Part-IV：Agent-时代，我为什么反而更依赖-Git"><a href="#Part-IV：Agent-时代，我为什么反而更依赖-Git" class="headerlink" title="Part IV：Agent 时代，我为什么反而更依赖 Git"></a>Part IV：Agent 时代，我为什么反而更依赖 Git</h2><p>Agent 辅助开发已经逐渐成为我的日常工作方式。但它带来的并不是“Git 可以省略”，而是修改速度提高以后，版本边界和人工确认变得更加重要。</p>
+<h3 id="1-从-Human-Develop-到-Human-Agent-Develop"><a href="#1-从-Human-Develop-到-Human-Agent-Develop" class="headerlink" title="1. 从 Human Develop 到 Human &#x2F; Agent Develop"></a>1. 从 Human Develop 到 Human &#x2F; Agent Develop</h3><p>现在，我的不少网站维护工作已经不是自己逐行手动修改。更多时候，我先提出目标，再由 ChatGPT、Codex 或其他具备仓库操作能力的 coding agent 阅读项目、分析现有结构、修改文件并运行验证，最后由我检查结果。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">我定义任务</span><br><span class="line">  ↓</span><br><span class="line">Agent 阅读仓库</span><br><span class="line">  ↓</span><br><span class="line">Agent 修改</span><br><span class="line">  ↓</span><br><span class="line">Build / Test</span><br><span class="line">  ↓</span><br><span class="line">Diff / Status</span><br><span class="line">  ↓</span><br><span class="line">人工 Review</span><br><span class="line">  ↓</span><br><span class="line">Commit / Push</span><br></pre></td></tr></table></figure>
+
+<p>无论文件由我还是 Agent 修改，后半段的工程验证逻辑基本一致。</p>
+<h3 id="2-我如何给-Agent-定义任务边界"><a href="#2-我如何给-Agent-定义任务边界" class="headerlink" title="2. 我如何给 Agent 定义任务边界"></a>2. 我如何给 Agent 定义任务边界</h3><p>我通常不会只说一句“帮我改一下网站”，而是尽量给出当前仓库、分支、任务、允许与禁止修改的范围、已冻结内容、构建与测试命令，以及是否允许 commit、push。一个简化后的任务约束可能是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">任务：新增一篇文章</span><br><span class="line"></span><br><span class="line">允许：</span><br><span class="line">- 修改指定文章</span><br><span class="line"></span><br><span class="line">禁止：</span><br><span class="line">- 修改主题、导航和依赖</span><br><span class="line">- 修改其他文章</span><br><span class="line"></span><br><span class="line">验证：</span><br><span class="line">- git diff --check</span><br><span class="line">- npm run build</span><br><span class="line">- 运行已有测试</span><br><span class="line">- git status</span><br><span class="line"></span><br><span class="line">不要 commit</span><br><span class="line">不要 push</span><br></pre></td></tr></table></figure>
+
+<p>重点不是 Prompt 写得多复杂，而是让任务边界、禁止范围和完成标准都可以检查。Agent 在这里是受到仓库现状、Git 和工程规则约束的开发执行者。</p>
+<h3 id="3-修改权限不等于发布权限"><a href="#3-修改权限不等于发布权限" class="headerlink" title="3. 修改权限不等于发布权限"></a>3. 修改权限不等于发布权限</h3><p>Agent 可以阅读和修改代码、新建文件、执行命令、运行 build 和 test、查看 diff、分析错误，但 Modify、Commit 和 Push 是三层不同的权限。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Agent Modify</span><br><span class="line">  ↓</span><br><span class="line">Agent Verify</span><br><span class="line">  ↓</span><br><span class="line">Human Review</span><br><span class="line">  ↓</span><br><span class="line">Commit</span><br><span class="line">  ↓</span><br><span class="line">Push</span><br></pre></td></tr></table></figure>
+
+<p>在明确授权的自动化任务中，当然可以进一步放权。但默认情况下，我更倾向于把版本确认保留为独立步骤：Agent 完成修改和验证后，我查看 diff 与 status，确认范围和结果，再决定是否 commit、push。</p>
+<h3 id="4-为什么-Agent-越强，Git-越重要"><a href="#4-为什么-Agent-越强，Git-越重要" class="headerlink" title="4. 为什么 Agent 越强，Git 越重要"></a>4. 为什么 Agent 越强，Git 越重要</h3><p>Agent 可以在很短时间里修改多个文件，这使 diff、branch、commit、rollback、可追踪历史和清晰 scope 变得更加重要。Git 不只管理“我的修改”，也负责审计 Agent 的修改范围、隔离实验、比较前后状态，并为人工 Review 提供事实依据。</p>
+<p>这篇文章本身就在 <code>feature/cross-platform-git-workflow</code> 中完成。它不需要复杂 PR 流程，但仍然遵循清楚的边界：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">main</span><br><span class="line">└── feature/cross-platform-git-workflow</span><br><span class="line">      ↓</span><br><span class="line">    Agent 修改</span><br><span class="line">      ↓</span><br><span class="line">    Build / Test</span><br><span class="line">      ↓</span><br><span class="line">    Diff Review</span><br><span class="line">      ↓</span><br><span class="line">    人工确认</span><br><span class="line">      ↓</span><br><span class="line">    Commit</span><br><span class="line">      ↓</span><br><span class="line">    Merge（如需要）</span><br></pre></td></tr></table></figure>
+
+<p>分支隔离修改，Git 展示事实，测试验证结果，最后的版本确认仍然是一个独立决定。Commit 形成正式的版本节点；Merge 用于在需要时整合分支历史，可以稍后进行。</p>
+<h3 id="5-最终工作流"><a href="#5-最终工作流" class="headerlink" title="5. 最终工作流"></a>5. 最终工作流</h3><p>把设备、仓库和 Agent 放在一起，我现在的整体结构是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Windows Website Local Repository</span><br><span class="line">              ↕</span><br><span class="line">     Website GitHub Repository</span><br><span class="line">              ↕</span><br><span class="line">macOS Website Local Repository</span><br><span class="line"></span><br><span class="line">Ubuntu PC：本地 DL / RL / Linux Research Projects</span><br><span class="line">└── 受 Git 管理的项目 ──按需↔ Remote Repository</span><br><span class="line"></span><br><span class="line">Ubuntu NUC：ROS 2 / Stewart / 6PUS Projects</span><br><span class="line">└── 受 Git 管理的项目 ↔ 对应的 Remote Repository</span><br><span class="line"></span><br><span class="line">每个仓库内的工作链路：</span><br><span class="line">Pull → Define Task</span><br><span class="line">     → Human / Agent Develop</span><br><span class="line">     → Diff → Build / Test → Review</span><br><span class="line">     → Commit → Push</span><br></pre></td></tr></table></figure>
+
+<p>每台设备都有完整的本地历史；网站仓库可以存在于 Windows 和 macOS，科研与机器人项目则有各自独立的 Repository。对于受 Git 管理并需要远程同步或共享的项目，本地仓库再与对应 Remote Repository 交换提交历史。无论一次修改由我还是 Agent 完成，它都要经过 diff、build、test 和 review，再成为正式版本。</p>
+<hr>
+<h2 id="写在最后：为什么把这篇文章送给新-Mac"><a href="#写在最后：为什么把这篇文章送给新-Mac" class="headerlink" title="写在最后：为什么把这篇文章送给新 Mac"></a>写在最后：为什么把这篇文章送给新 Mac</h2><p>MacBook Neo 最开始只是为了获得一台更轻、更适合出差和随身携带的电脑。真正使用以后，它又成为了个人开发体系里的一个新节点：网站项目多了一个移动终端，Windows 与 macOS 开始共同参与维护；Ubuntu 的 PC 双系统继续承担 Linux 科研开发，NUC 则继续承载 ROS 2、Stewart &#x2F; 6PUS 并联机器人和实机控制。</p>
+<p>Git 早已是我的日常工具。新 Mac 没有让我突然理解 commit，也不是我第一次把代码 push 到 GitHub。但也正因为这个新节点的加入，我第一次把 Windows、macOS、两种 Ubuntu 环境、GitHub，以及已经逐渐常态化的 Agent 辅助开发工作流放在一起重新审视，也重新看清了这套工作流里最重要的部分。</p>
+<p>电脑会更换，操作系统会变化，开发工具和依赖版本也会不断更新。真正让一个项目从旧设备延续到新设备、从一个系统延续到另一个系统的，不是某个被完整复制的文件夹，而是仓库里连续、清楚、可验证的版本历史。</p>
+<p>新电脑只是新的工作节点，真正保持项目连续性的，是版本历史本身。</p>
+<p>这篇文章既是一次跨平台 Git 工作流整理，也算是送给第一台 Mac 的第一份开发者礼物。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>刘宇杭
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://liorenyuhang.github.io/2026/09/27/%E6%96%B0-Mac-%E5%88%B0%E6%89%8B%E4%B9%8B%E5%90%8E-%E6%88%91%E9%87%8D%E6%96%B0%E6%95%B4%E7%90%86%E4%BA%86%E4%B8%80%E9%81%8D%E8%87%AA%E5%B7%B1%E7%9A%84-Git-%E5%B7%A5%E4%BD%9C%E6%B5%81/" title="新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流">https://liorenyuhang.github.io/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Ubuntu/" rel="tag"># Ubuntu</a>
+              <a href="/tags/Git/" rel="tag"># Git</a>
+              <a href="/tags/GitHub/" rel="tag"># GitHub</a>
+              <a href="/tags/macOS/" rel="tag"># macOS</a>
+              <a href="/tags/Windows/" rel="tag"># Windows</a>
+              <a href="/tags/SSH/" rel="tag"># SSH</a>
+              <a href="/tags/%E8%B7%A8%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91/" rel="tag"># 跨平台开发</a>
+              <a href="/tags/%E7%BD%91%E7%AB%99%E4%B8%8EAI%E5%B7%A5%E7%A8%8B%E5%AE%9E%E8%B7%B5/" rel="tag"># 网站与AI工程实践</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/09/19/ros-docker-cross-ubuntu-development/" rel="prev" title="从一个 ROS 环境问题开始：Docker 入门、ROS 实践与真实硬件部署">
+                  <i class="fa fa-angle-left"></i> 从一个 ROS 环境问题开始：Docker 入门、ROS 实践与真实硬件部署
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">LiorenYuhang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script src="/js/click-effect.js"></script>
+<script src="/js/ai-markdown.js"></script>
+<script src="/js/ai-assistant.js"></script>
+<script>
+// 把顶部菜单移到侧边栏-社交链接之前
+(function() {
+  var menu = document.querySelector('.site-nav');
+  var overview = document.querySelector('.site-overview-wrap');
+  if (menu && overview) {
+    menu.classList.add('sidebar-menu');
+    // 菜单插到社交链接之前（统计已隐藏，直接找社交链接）
+    var social = overview.querySelector('.links-of-author');
+    if (social) {
+      social.before(menu);
+    } else {
+      overview.appendChild(menu);
+    }
+  }
+})();
+</script>
+
+<script>
+// 邮箱点击复制到剪贴板
+(function() {
+  // 归档页标语
+  (function() {
+    if (!window.location.pathname.includes('/archives')) return;
+    var header = document.querySelector('.collection-header');
+    if (header) header.textContent = '记录思考，对抗遗忘。';
+  })();
+
+  var emailLinks = document.querySelectorAll(
+    '.links-of-author-item a[href^="mailto:"], .email-copy-link[href^="mailto:"]'
+  );
+
+  emailLinks.forEach(function(emailLink) {
+    var email = emailLink.getAttribute('href').replace('mailto:', '');
+    var item = emailLink.closest('.links-of-author-item') || emailLink.parentElement;
+
+    emailLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      navigator.clipboard.writeText(email).then(function() {
+        var toast = document.createElement('span');
+        toast.className = 'email-copied-toast';
+        toast.textContent = '已复制';
+        item.style.position = 'relative';
+        item.appendChild(toast);
+        setTimeout(function() { toast.remove(); }, 1500);
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
