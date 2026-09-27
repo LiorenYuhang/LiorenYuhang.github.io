@@ -1,7 +1,7 @@
 ---
 title: 新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流
 date: 2026-09-27 20:27:39
-tags: [Git, GitHub, macOS, Windows, Ubuntu, SSH, 跨平台开发, 网站与AI工程实践]
+tags: [Git, GitHub, macOS, Windows, Ubuntu, SSH, 跨平台开发]
 categories: 网站开发
 description: 借第一台 Mac 加入开发环境的机会，重新整理 Windows、macOS 与 Ubuntu 之间长期使用的 Git/GitHub 工作流，以及多设备同步、SSH、环境重建、冲突与分支管理中的工程实践。
 ---
