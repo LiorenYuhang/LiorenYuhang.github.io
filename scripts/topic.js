@@ -87,6 +87,7 @@ hexo.extend.generator.register('curated_topics', function(locals) {
         title: topic.title,
         subtitle: topic.subtitle,
         description: topic.description,
+        hero: topic.hero,
         curated_posts: curatedPosts
       }
     });

@@ -14,6 +14,11 @@
       <p>{{ page.description | escape }}</p>
     {% endif %}
   </header>
+  {% if page.hero %}
+    <div class="topic-hero">
+      <img src="{{ url_for(page.hero) }}" alt="{{ page.title | escape }}专题主视觉" width="2098" height="749" decoding="async">
+    </div>
+  {% endif %}
   <section aria-labelledby="topic-posts-title">
     <h2 id="topic-posts-title">专题文章 <span>/ Articles</span></h2>
     {% for post in page.curated_posts %}
