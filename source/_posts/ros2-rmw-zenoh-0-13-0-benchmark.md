@@ -1,6 +1,7 @@
 ---
 title: ROS 2 换掉 DDS 会发生什么？实测 rmw_zenoh 0.13.0、Fast DDS 与 Cyclone DDS
 date: 2026-10-07 00:00:00
+permalink: 2026/10/07/ros2-rmw-zenoh-0-13-0-benchmark/
 tags: [ROS 2, Zenoh, 性能测试]
 categories: 机器人
 description: 在同一套 ROS 2 Rolling 应用、二进制、消息和 QoS 下，对比 Fast DDS、Cyclone DDS 与 rmw_zenoh_cpp 0.13.0 的 RTT，观察载荷、发送节奏、尾延迟与重复性如何改变工程选型判断。
