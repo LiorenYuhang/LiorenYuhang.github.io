@@ -1620,7 +1620,7 @@ export default [
       "机器人"
     ],
     "published_at": "2026-09-16",
-    "content_hash": "4332c8cfa37bb64f",
+    "content_hash": "8e36c9949e041f63",
     "links": []
   },
   {
@@ -1646,7 +1646,7 @@ export default [
       "机器人"
     ],
     "published_at": "2026-09-16",
-    "content_hash": "4332c8cfa37bb64f",
+    "content_hash": "8e36c9949e041f63",
     "links": []
   },
   {
@@ -1672,7 +1672,7 @@ export default [
       "机器人"
     ],
     "published_at": "2026-09-16",
-    "content_hash": "4332c8cfa37bb64f",
+    "content_hash": "8e36c9949e041f63",
     "links": []
   },
   {
@@ -1698,7 +1698,7 @@ export default [
       "机器人"
     ],
     "published_at": "2026-09-16",
-    "content_hash": "4332c8cfa37bb64f",
+    "content_hash": "8e36c9949e041f63",
     "links": []
   },
   {
@@ -1724,7 +1724,7 @@ export default [
       "机器人"
     ],
     "published_at": "2026-09-16",
-    "content_hash": "4332c8cfa37bb64f",
+    "content_hash": "8e36c9949e041f63",
     "links": []
   },
   {
@@ -1750,7 +1750,7 @@ export default [
       "机器人"
     ],
     "published_at": "2026-09-16",
-    "content_hash": "4332c8cfa37bb64f",
+    "content_hash": "8e36c9949e041f63",
     "links": []
   },
   {
@@ -1776,7 +1776,7 @@ export default [
       "机器人"
     ],
     "published_at": "2026-09-16",
-    "content_hash": "4332c8cfa37bb64f",
+    "content_hash": "8e36c9949e041f63",
     "links": []
   },
   {
@@ -1802,7 +1802,7 @@ export default [
       "机器人"
     ],
     "published_at": "2026-09-16",
-    "content_hash": "4332c8cfa37bb64f",
+    "content_hash": "8e36c9949e041f63",
     "links": []
   },
   {
@@ -1828,7 +1828,7 @@ export default [
       "机器人"
     ],
     "published_at": "2026-09-16",
-    "content_hash": "4332c8cfa37bb64f",
+    "content_hash": "8e36c9949e041f63",
     "links": []
   },
   {
@@ -1854,7 +1854,7 @@ export default [
       "机器人"
     ],
     "published_at": "2026-09-16",
-    "content_hash": "4332c8cfa37bb64f",
+    "content_hash": "8e36c9949e041f63",
     "links": []
   },
   {
@@ -1880,7 +1880,7 @@ export default [
       "机器人"
     ],
     "published_at": "2026-09-16",
-    "content_hash": "4332c8cfa37bb64f",
+    "content_hash": "8e36c9949e041f63",
     "links": []
   },
   {
@@ -1906,7 +1906,7 @@ export default [
       "机器人"
     ],
     "published_at": "2026-09-16",
-    "content_hash": "4332c8cfa37bb64f",
+    "content_hash": "8e36c9949e041f63",
     "links": []
   },
   {
@@ -1932,7 +1932,7 @@ export default [
       "机器人"
     ],
     "published_at": "2026-09-16",
-    "content_hash": "4332c8cfa37bb64f",
+    "content_hash": "8e36c9949e041f63",
     "links": []
   },
   {
@@ -1958,7 +1958,7 @@ export default [
       "机器人"
     ],
     "published_at": "2026-09-16",
-    "content_hash": "4332c8cfa37bb64f",
+    "content_hash": "8e36c9949e041f63",
     "links": []
   },
   {
@@ -1984,7 +1984,7 @@ export default [
       "机器人"
     ],
     "published_at": "2026-09-16",
-    "content_hash": "4332c8cfa37bb64f",
+    "content_hash": "8e36c9949e041f63",
     "links": []
   },
   {
@@ -2010,7 +2010,7 @@ export default [
       "机器人"
     ],
     "published_at": "2026-09-16",
-    "content_hash": "4332c8cfa37bb64f",
+    "content_hash": "8e36c9949e041f63",
     "links": []
   },
   {
@@ -2036,7 +2036,7 @@ export default [
       "机器人"
     ],
     "published_at": "2026-09-16",
-    "content_hash": "4332c8cfa37bb64f",
+    "content_hash": "8e36c9949e041f63",
     "links": []
   },
   {
@@ -2062,7 +2062,7 @@ export default [
       "机器人"
     ],
     "published_at": "2026-09-16",
-    "content_hash": "4332c8cfa37bb64f",
+    "content_hash": "8e36c9949e041f63",
     "links": []
   },
   {
@@ -2088,7 +2088,7 @@ export default [
       "机器人"
     ],
     "published_at": "2026-09-16",
-    "content_hash": "4332c8cfa37bb64f",
+    "content_hash": "8e36c9949e041f63",
     "links": []
   },
   {
@@ -2114,7 +2114,7 @@ export default [
       "机器人"
     ],
     "published_at": "2026-09-16",
-    "content_hash": "4332c8cfa37bb64f",
+    "content_hash": "8e36c9949e041f63",
     "links": []
   },
   {
@@ -2140,7 +2140,7 @@ export default [
       "机器人"
     ],
     "published_at": "2026-09-16",
-    "content_hash": "4332c8cfa37bb64f",
+    "content_hash": "8e36c9949e041f63",
     "links": []
   },
   {
@@ -2166,7 +2166,7 @@ export default [
       "机器人"
     ],
     "published_at": "2026-09-16",
-    "content_hash": "4332c8cfa37bb64f",
+    "content_hash": "8e36c9949e041f63",
     "links": []
   },
   {
@@ -2192,7 +2192,7 @@ export default [
       "机器人"
     ],
     "published_at": "2026-09-16",
-    "content_hash": "4332c8cfa37bb64f",
+    "content_hash": "8e36c9949e041f63",
     "links": []
   },
   {
@@ -2218,7 +2218,7 @@ export default [
       "机器人"
     ],
     "published_at": "2026-09-16",
-    "content_hash": "4332c8cfa37bb64f",
+    "content_hash": "8e36c9949e041f63",
     "links": []
   },
   {
@@ -2244,7 +2244,7 @@ export default [
       "机器人"
     ],
     "published_at": "2026-09-16",
-    "content_hash": "4332c8cfa37bb64f",
+    "content_hash": "8e36c9949e041f63",
     "links": []
   },
   {
@@ -2270,7 +2270,7 @@ export default [
       "机器人"
     ],
     "published_at": "2026-09-16",
-    "content_hash": "4332c8cfa37bb64f",
+    "content_hash": "8e36c9949e041f63",
     "links": []
   },
   {
@@ -2296,7 +2296,7 @@ export default [
       "机器人"
     ],
     "published_at": "2026-09-16",
-    "content_hash": "4332c8cfa37bb64f",
+    "content_hash": "8e36c9949e041f63",
     "links": []
   },
   {
@@ -2322,7 +2322,7 @@ export default [
       "机器人"
     ],
     "published_at": "2026-09-16",
-    "content_hash": "4332c8cfa37bb64f",
+    "content_hash": "8e36c9949e041f63",
     "links": []
   },
   {
@@ -2348,7 +2348,7 @@ export default [
       "机器人"
     ],
     "published_at": "2026-09-16",
-    "content_hash": "4332c8cfa37bb64f",
+    "content_hash": "8e36c9949e041f63",
     "links": []
   },
   {
@@ -4711,6 +4711,399 @@ export default [
     ],
     "published_at": "2026-09-19",
     "content_hash": "34ca940131061151",
+    "links": []
+  },
+  {
+    "id": "94b736d7cd-000",
+    "document_id": "94b736d7cd",
+    "title": "ROS 2 换掉 DDS 会发生什么？实测 rmw_zenoh 0.13.0、Fast DDS 与 Cyclone DDS",
+    "url": "/2026/10/07/ros2-rmw-zenoh-0-13-0-benchmark/",
+    "section": "1. rmw_zenoh 0.13.0 发布后，我重新做了一次 RMW 对比",
+    "content": "rmwzenohcpp 0.13.0 在 2026 年 9 月 11 日发布时，我已经注意到了这次更新。可惜 9 月开学后，科研、项目和其他事情比较集中，真正抽出完整时间，在同一套 benchmark 下系统测试 Fast DDS、Cyclone DDS 和 Zenoh 0.13.0，已经到了 10 月。\n\n截至本文整理时的 2026-10-07，0.13.0 是当时最新的正式发布版本。日期可查官方 changelog 的 0.13.0 (2026-09-11) 条目，以及对应的 0.13.0 release tag。我测的是这个明确的版本包，不是不断变化的 Rolling HEAD。\n\n我关注它，是因为 Zenoh 已经通过 RMW 接到了 ROS 2 的应用接口下。对一个已有的机器人软件项目，这意味着一个值得实测的问题：如果 application、消息和业务逻辑完全不变，只替换 RMW，往返通信会发生什么？\n\n先透露一组结果：1 MiB、back-to-back request/reply 下，Fast DDS 的 pooled median 约 2.01 ms，P99 约 24.26 ms；Zenoh 0.13.0 的 median 约 2.76 ms，P99 约 5.37 ms。只看 median，Fast DDS 更低；换成 P99，Zenoh 又明显更低。\n\n同一组对照里，Cyclone DDS 的 median 约 1.61 ms，P99 约 3.84 ms。这些数值来自同一套应用条件，但选择看分布的哪个位置，会改变我对其中两个实现的判断。\n\n所以我想问的不只是“谁更快”，还包括：小包和大包会不会得到不同答案？回复后停一段时间，与立即继续发送有什么差别？一条漂亮的汇总曲线能否经得住重复运行？下面从 RMW 的可替换位置出发，把这几个问题拆开看。",
+    "content_type": "paragraph",
+    "tags": [
+      "ROS 2",
+      "Zenoh",
+      "性能测试"
+    ],
+    "categories": [
+      "机器人"
+    ],
+    "published_at": "2026-10-06",
+    "content_hash": "c130928a018ece72",
+    "links": [
+      {
+        "text": "官方 changelog",
+        "url": "https://github.com/ros2/rmw_zenoh/blob/0.13.0/rmw_zenoh_cpp/CHANGELOG.rst"
+      },
+      {
+        "text": "0.13.0 release tag",
+        "url": "https://github.com/ros2/rmw_zenoh/tree/0.13.0"
+      }
+    ]
+  },
+  {
+    "id": "94b736d7cd-001",
+    "document_id": "94b736d7cd",
+    "title": "ROS 2 换掉 DDS 会发生什么？实测 rmw_zenoh 0.13.0、Fast DDS 与 Cyclone DDS",
+    "url": "/2026/10/07/ros2-rmw-zenoh-0-13-0-benchmark/",
+    "section": "2. RMW：ROS 2 为什么能“只换底层”",
+    "content": "要让“应用不变，只换底层”成为一个有意义的实验，先要知道切换发生在哪里。用 rclcpp 写节点时，应用面对的是 ROS 2 的消息、节点和通信接口；下面经过 rcl，再由 RMW 对接具体中间件。业务逻辑因此不必直接绑定到某一家 DDS 的 API。\n\n这一层也给非 DDS 实现留下了位置：rmwfastrtpscpp 对接 Fast DDS，rmwcycloneddscpp 对接 Cyclone DDS，rmwzenohcpp 则对接 Zenoh。ROS 2 官方的 RMW 实现说明 已将两类实现放在同一接口体系中讨论。\n\n \n \n图 1：同一应用下的三种 RMW 可替换方案。每次运行选择一个分支，三个分支不是同时参与同一次测量。\nFig. 1. ROS 2 RMW abstraction and interchangeable middleware implementations.\n\n在支持运行时选择、已安装对应实现和消息 type support 的环境里，可以在进程启动前设置 RMW_IMPLEMENTATION。例如下面三行分别代表三种运行选择，不是一起执行的启动脚本：",
+    "content_type": "paragraph",
+    "tags": [
+      "ROS 2",
+      "Zenoh",
+      "性能测试"
+    ],
+    "categories": [
+      "机器人"
+    ],
+    "published_at": "2026-10-06",
+    "content_hash": "c130928a018ece72",
+    "links": [
+      {
+        "text": "RMW 实现说明",
+        "url": "https://github.com/ros2/ros2_documentation/blob/rolling/source/ROS-Framework/client-libraries/About-Middleware-Implementations.rst"
+      }
+    ]
+  },
+  {
+    "id": "94b736d7cd-002",
+    "document_id": "94b736d7cd",
+    "title": "ROS 2 换掉 DDS 会发生什么？实测 rmw_zenoh 0.13.0、Fast DDS 与 Cyclone DDS",
+    "url": "/2026/10/07/ros2-rmw-zenoh-0-13-0-benchmark/",
+    "section": "2. RMW：ROS 2 为什么能“只换底层”",
+    "content": "export RMW_IMPLEMENTATION=rmw_fastrtps_cpp\nexport RMW_IMPLEMENTATION=rmw_cyclonedds_cpp\nexport RMW_IMPLEMENTATION=rmw_zenoh_cpp",
+    "content_type": "code",
+    "tags": [
+      "ROS 2",
+      "Zenoh",
+      "性能测试"
+    ],
+    "categories": [
+      "机器人"
+    ],
+    "published_at": "2026-10-06",
+    "content_hash": "c130928a018ece72",
+    "links": []
+  },
+  {
+    "id": "94b736d7cd-003",
+    "document_id": "94b736d7cd",
+    "title": "ROS 2 换掉 DDS 会发生什么？实测 rmw_zenoh 0.13.0、Fast DDS 与 Cyclone DDS",
+    "url": "/2026/10/07/ros2-rmw-zenoh-0-13-0-benchmark/",
+    "section": "2. RMW：ROS 2 为什么能“只换底层”",
+    "content": "官方的多 RMW 使用说明解释了这种选择方式；RMW 实现指南进一步说明了运行时加载机制。\n\n这里切换的是进程启动时使用的实现，不是对一个正在运行的节点做热切换。Ping 和 Pong 也始终使用同一个 RMW；这里不讨论不同实现之间能否互通。\n\n图 1 要表达的就是这个替换位置：上面保留同一套应用，下面每次选择一个分支。这样做 same-source benchmark，我就不用拿三份实现方式不同的 Ping/Pong 程序比较，而能让同一套源码和二进制走不同 RMW，观察应用最终看到的 RTT。",
+    "content_type": "paragraph",
+    "tags": [
+      "ROS 2",
+      "Zenoh",
+      "性能测试"
+    ],
+    "categories": [
+      "机器人"
+    ],
+    "published_at": "2026-10-06",
+    "content_hash": "c130928a018ece72",
+    "links": [
+      {
+        "text": "多 RMW 使用说明",
+        "url": "https://github.com/ros2/ros2_documentation/blob/rolling/source/Get-Started/Installation/RMW-Implementations/Working-with-multiple-RMW-implementations.rst"
+      },
+      {
+        "text": "RMW 实现指南",
+        "url": "https://github.com/ros2/ros2_documentation/blob/rolling/source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Creating-An-RMW-Implementation.rst"
+      }
+    ]
+  },
+  {
+    "id": "94b736d7cd-004",
+    "document_id": "94b736d7cd",
+    "title": "ROS 2 换掉 DDS 会发生什么？实测 rmw_zenoh 0.13.0、Fast DDS 与 Cyclone DDS",
+    "url": "/2026/10/07/ros2-rmw-zenoh-0-13-0-benchmark/",
+    "section": "3. 我怎么把三种 RMW 放到同一条起跑线上",
+    "content": "我先遇到的其实是环境问题。 实验 Host 原本承担 ROS 2 Jazzy 和机器人实机任务，我不想为一次中间件比较打乱它。 因此保留 Host Jazzy，在 Docker 中准备 基于 Ubuntu 26. 04. 1 LTS 的 ROS 2 Rolling 环境，再冻结实验 image。 三个实现使用同一 image、相同源码、同一次构建生成的 Ping/Pong 二进制、相同消息和 QoS。 Ping 发布 BenchmarkPacket，Pong 收到后原样回发，组成 Ping → Pong → Ping。 固定载荷和发送节奏后，应用通过 RMWIMPLEMENTATION 选择实现；程序也检查 requested 与 actual RMW identifier，确认真正加载的中间件。 QoS 统一为 KEEPLAST、depth 10、RELIABLE、VOLATILE。 中间件保持各自默认配置，Zenoh 使用默认的 rmwzenohd。 这条“起跑线”约束的是应用与环境，不代表三种实现内部走相同的传输路径。 我选了 64 B、1 KiB、16 KiB、64 KiB、1 MiB 五档 payload，搭配两种节奏：\n\n- paced10ms：收到回复并完成处理后，等待 10,000 μs 再发下一条。 周期还包含 RTT 和处理时间，因此不是严格 100 Hz。 - backtoback：回复处理完就立即发送下一条，但始终只有 1 个 request in flight。 它仍是 request/reply，不是 streaming throughput 或最大吞吐量测试。 每个 RMW × payload × mode 组合称为一个 cell。 矩阵为 3 middleware × 5 payload × 2 modes × 5 repeats，共 150 个 clean runs、30 个 experimental cells、150,000 个有效 RTT samples，0 timeout、0 invalid echo。 每个 cell 合并 5,000 个 samples 用来描述分布，重复运行的单位是 5 repeats，不能称为 5,000 次独立实验，也不假定五次运行在统计上完全独立。",
+    "content_type": "paragraph",
+    "tags": [
+      "ROS 2",
+      "Zenoh",
+      "性能测试"
+    ],
+    "categories": [
+      "机器人"
+    ],
+    "published_at": "2026-10-06",
+    "content_hash": "c130928a018ece72",
+    "links": []
+  },
+  {
+    "id": "94b736d7cd-005",
+    "document_id": "94b736d7cd",
+    "title": "ROS 2 换掉 DDS 会发生什么？实测 rmw_zenoh 0.13.0、Fast DDS 与 Cyclone DDS",
+    "url": "/2026/10/07/ros2-rmw-zenoh-0-13-0-benchmark/",
+    "section": "3. 我怎么把三种 RMW 放到同一条起跑线上",
+    "content": "RTT 用同一个 Ping 的 std::chrono::steadyclock 计时，衡量应用端到端往返时间。 它不是 one-way latency，也不能直接除以二当成单向延迟。 实验期间曾检测到一次环境冲突，对应结果被排除并重新完成测试。 正式统计只纳入 clean runs，没有按延迟高低筛选数据，也没有删除 outlier。 理解这些条件，就可以继续看结果。 精确版本、计时边界和统计实现放在下面，方便需要复核时展开。 展开查看完整实验版本与统计口径\n\n版本选择还有一个具体原因：这台 Host 的早期 Jazzy 环境记录中，rmwzenohcpp 为 0. 2. 10。 它与本文要测试的 0. 13. 0 不是同一个版本。 为获取当时可用的官方 0. 13. 0 二进制包，我选择 Docker 内的 ROS 2 Rolling 环境，而不是改变 Host 的 Jazzy。 正式实验使用基于 Ubuntu 26. 04. 1 LTS 的 ROS 2 Rolling 环境，运行参数包含 --network host --init --rm。 三个实现共用冻结后的 image：ros2-rmw-benchmark:rolling-zenoh-0. 13. 0-20261006。 | 项目 | 本次正式实验版本 |\n| --- | --- |\n| Host / CPU | Ubuntu 24. 04. 4 LTS / Intel Core i5-1340P |\n| Host CPU 状态 | intelpstate / powersave |\n| Fast DDS / RMW | 3. 6. 2 / rmwfastrtpscpp 9. 6. 0 |\n| Cyclone DDS / RMW | 11. 0. 1 / rmwcycloneddscpp 4. 2. 1 |\n| Zenoh RMW / vendor | rmwzenohcpp 0. 13. 0 / zenohcppvendor 0. 13. 0 |\n| Zenoh 底层库 | zenoh-c 1. 8. 0 / zenoh-cpp 1. 9. 0 |\n\n0. 13. 0 是 RMW 包版本，不能把它当成底层 Zenoh 库的版本。",
+    "content_type": "paragraph",
+    "tags": [
+      "ROS 2",
+      "Zenoh",
+      "性能测试"
+    ],
+    "categories": [
+      "机器人"
+    ],
+    "published_at": "2026-10-06",
+    "content_hash": "c130928a018ece72",
+    "links": []
+  },
+  {
+    "id": "94b736d7cd-006",
+    "document_id": "94b736d7cd",
+    "title": "ROS 2 换掉 DDS 会发生什么？实测 rmw_zenoh 0.13.0、Fast DDS 与 Cyclone DDS",
+    "url": "/2026/10/07/ros2-rmw-zenoh-0-13-0-benchmark/",
+    "section": "3. 我怎么把三种 RMW 放到同一条起跑线上",
+    "content": "本次安装的 ros-rolling-rmw-zenoh-cpp Debian 包为 0. 13. 0-1resolute. 20260915. 140302，来自官方 image 配置的 ROS testing channel。 上游正式版本、二进制发布渠道和 ROS 发行版是三件事；这不意味着 Rolling 是稳定发行版。 Docker 在这里承担的是环境隔离和快照作用。 --network host 使容器使用 Linux Host 的网络命名空间，但测量仍包含容器、进程、ROS 调用和中间件的整体条件，不能据此把结果称为裸机或纯网络延迟。 | 条件 | 设置 |\n| --- | --- |\n| 消息 payload 字段 | 64 B、1 KiB、16 KiB、64 KiB、1 MiB |\n| 应用节奏 | paced10ms、backtoback |\n| QoS | KEEPLAST，depth 10，RELIABLE，VOLATILE |\n| 在途请求 | 始终只有 1 个 request in flight |\n| 每次 run | 100 次 warmup + 1,000 次正式测量 |\n| 每个 cell | 同一 RMW × payload × mode，重复运行 5 次 |\n| 超时门限 | 每请求 2,000 ms |\n| 进程条件 | 每个 run 使用全新容器与全新 ROS 进程 |\n\n环境冲突对应的结果没有进入正式统计，重新完成对应测试后，最终纳入完整的 150 个 clean runs。 数据没有按延迟高低筛选，也没有删除 outlier、trim 或 winsorization。 RTT 由同一个 Ping 进程的 std::chrono::steady_clock 计时：发送前取时，包含 deadline reset 和 publish 路径，结束于回复接收回调入口。 当前回复的 payload 校验和实验结束后的 CSV 写入不计入该条 RTT。 它衡量的是应用端到端往返时间，不能当成 one-way latency，也不能除以二就认定单向延迟。 这里的 payload 是消息中 payload 字段的长度，不是 serialized size 或 wire size。",
+    "content_type": "paragraph",
+    "tags": [
+      "ROS 2",
+      "Zenoh",
+      "性能测试"
+    ],
+    "categories": [
+      "机器人"
+    ],
+    "published_at": "2026-10-06",
+    "content_hash": "c130928a018ece72",
+    "links": []
+  },
+  {
+    "id": "94b736d7cd-007",
+    "document_id": "94b736d7cd",
+    "title": "ROS 2 换掉 DDS 会发生什么？实测 rmw_zenoh 0.13.0、Fast DDS 与 Cyclone DDS",
+    "url": "/2026/10/07/ros2-rmw-zenoh-0-13-0-benchmark/",
+    "section": "3. 我怎么把三种 RMW 放到同一条起跑线上",
+    "content": "统计使用 Type 7 线性插值百分位；下文主曲线为每个 cell 的 5,000 个 samples 合并后得到的 pooled median / P99，图中阴影是 5 次重复运行对应指标的 min–max，不是置信区间。 5,000 个 samples 用于描述分布，重复运行的单位是 5 repeats。 我不会把它写成 5,000 次独立实验，也不假定这 5 次运行在统计上完全独立；本次没有做显著性检验。 repeat median CV 使用五个 repeat median 的 population std / mean，描述重复之间的相对波动；它与 cell 内 raw RTT 的 CV 不是同一个指标，也不是预设合格门限。 实验期间还有约 138. 79 分钟的中断恢复间隔。 排除已识别的冲突数据，并不代表不同时段的 Host 状态完全相同。 执行顺序做了确定性轮转，但不是随机化实验，因此这里采用描述性结论，不把同编号 repeat 的顺序比较当成严格配对试验。 Docker 和 Agent 在这里都是搭建与验证环境的工具，本文关注的仍是 RMW 的表现。 下面的提示词只用于建立隔离环境并验证三个实现能否运行，不会重跑完整 benchmark，也不能用来复现本文的 RTT 数值；它采用独立容器网络，与上面实验的 host network 条件不同。 用 Agent 搭建三种 RMW 的隔离验证环境",
+    "content_type": "paragraph",
+    "tags": [
+      "ROS 2",
+      "Zenoh",
+      "性能测试"
+    ],
+    "categories": [
+      "机器人"
+    ],
+    "published_at": "2026-10-06",
+    "content_hash": "c130928a018ece72",
+    "links": []
+  },
+  {
+    "id": "94b736d7cd-008",
+    "document_id": "94b736d7cd",
+    "title": "ROS 2 换掉 DDS 会发生什么？实测 rmw_zenoh 0.13.0、Fast DDS 与 Cyclone DDS",
+    "url": "/2026/10/07/ros2-rmw-zenoh-0-13-0-benchmark/",
+    "section": "3. 我怎么把三种 RMW 放到同一条起跑线上",
+    "content": "请建立一套隔离的 ROS 2 Rolling RMW 测试环境，只完成运行验证。\n不要运行本文的 150 次正式 benchmark，也不要做性能排名。\n先阅读官方 rmw_zenoh 0.13.0 的安装和 Test 说明：\nhttps://github.com/ros2/rmw_zenoh/blob/0.13.0/README.md\n\n先做 Host 只读检查：\n记录操作系统、CPU 架构、已有 ROS 发行版与当前 RMW 设置。\n检查 Docker CLI、daemon、当前 context 和已有容器，避免名称冲突。\n不要启动、停止或修改已有机器人 ROS 2 项目及其容器。\n若 Docker 不可用或权限不足，报告缺口并停止，不自行改系统。\n不要在 Host 安装 ROS 包、修改默认 RMW 或写入 .bashrc。\n不要挂载已有 ROS workspace，也不要读取或改写项目凭据。\n\n准备 Docker 环境：\n使用官方 ros:rolling-ros-base image，并记录 digest 和容器系统版本。\n为本测试建立独立命名的网络和容器，不使用 host network / host IPC。\n所有 smoke test 进程都在同一个测试容器内，不映射端口到 Host。\n将所用 Dockerfile、安装命令和测试日志保存在独立工作目录。\n仅在 Dockerfile / 容器内执行 apt-get update，再通过官方 ROS apt 源安装：\nros-rolling-rmw-fastrtps-cpp\nros-rolling-rmw-cyclonedds-cpp\nros-rolling-rmw-zenoh-cpp\nros-rolling-demo-nodes-cpp\n记录 apt 源、三个 RMW 的完整 Debian 包版本及相关依赖版本。\nsource /opt/ros/rolling/setup.bash 后，检查三个包均能被 ROS 找到。\n通过安装目录的 package.xml 确认 rmw_zenoh_cpp 为 0.13.0。\n只有版本确认为 0.13.0 才继续；否则停止并报告可用版本。\n若官方源仍提供所需版本，可显式指定完整 Deb 版本并重新核验。\n不要用其他版本冒充 0.13.0，不混装未知来源或偷偷改成源码构建。\n\n分别验证三个 RMW：\n为本测试选择独立 ROS_DOMAIN_ID，talker、listener、router 保持一致。\n每种实现单独启动全新进程，切换前结束本测试上一组进程。\n只在容器内处理测试 daemon；不要对 Host 执行全局 pkill。\n每个进程在临时 shell 中 source Rolling，并设置 RMW_IMPLEMENTATION。\n依次选择 rmw_fastrtps_cpp、rmw_cyclonedds_cpp、rmw_zenoh_cpp。\n对 Zenoh，按官方说明先执行 ros2 run rmw_zenoh_cpp rmw_zenohd。\n确认 router 正常运行后，再启动 Zenoh 的 talker 与 listener。\ntalker 命令：ros2 run demo_nodes_cpp talker\nlistener 命令：ros2 run demo_nodes_cpp listener\n为每组设置有限测试时长，以 listener 连续收到对应消息为 PASS 证据。\n保存发送、接收与进程错误日志；仅能列出包或节点不算 PASS。\n若某组失败，标记 FAIL 并定位当前失败层，不改 Host 来绕过问题。\n\n三种 RMW 均 PASS 后停止，不扩展为完整 benchmark。\n输出 image digest、实际版本、每组命令、PASS / FAIL 和日志路径。\n结束本测试创建的进程和容器；保留复现文件，不清理已有资源。\n若有版本或运行缺口，如实报告，不宣称复现了文章的性能结果。",
+    "content_type": "code",
+    "tags": [
+      "ROS 2",
+      "Zenoh",
+      "性能测试"
+    ],
+    "categories": [
+      "机器人"
+    ],
+    "published_at": "2026-10-06",
+    "content_hash": "c130928a018ece72",
+    "links": [
+      {
+        "text": "https://github.com/ros2/rmw_zenoh/blob/0.13.0/README.md",
+        "url": "https://github.com/ros2/rmw_zenoh/blob/0.13.0/README.md"
+      }
+    ]
+  },
+  {
+    "id": "94b736d7cd-009",
+    "document_id": "94b736d7cd",
+    "title": "ROS 2 换掉 DDS 会发生什么？实测 rmw_zenoh 0.13.0、Fast DDS 与 Cyclone DDS",
+    "url": "/2026/10/07/ros2-rmw-zenoh-0-13-0-benchmark/",
+    "section": "4. 第一眼：只看 Median，会得到什么答案",
+    "content": "如果先不看开头的 P99，只问“典型的一次往返要多久”，median 是一个直观的入口。图 2 的横轴是 payload 字段长度（log2），纵轴是 RTT，单位 μs（log10）；主线是每个 cell 的 pooled median，阴影是 5 次 repeat 的 min–max，不是置信区间。后面三张总览图沿用这个读法。\n\n \n \n图 2：paced10ms 的 median RTT。主线是每个 cell 的 pooled median，阴影是 5 次 repeat 的 min–max；坐标使用对数尺度。\nFig. 2. Median RTT versus payload under paced10ms.\n\n在全部 5 个 payload 下，Cyclone DDS 的 pooled median 最低。64 B 到 64 KiB 时，Zenoh 0.13.0 的 pooled median 高于两种 DDS；到 1 MiB，Zenoh 为约 5.14 ms，低于 Fast DDS 的约 13.12 ms，但仍高于 Cyclone DDS 的约 4.39 ms。\n\n如果只看到这里，我会倾向于先验证 Cyclone DDS。但图 2 还有一处值得记住：Zenoh 与 Fast DDS 在大包处交换了相对位置，不能拿一个小包数值概括整个载荷范围。\n\n接着只改变发送节奏，收到回复后立即继续。图 3 与图 2 共用 median 的纵轴范围，可以直接看出曲线整体下移了多少；再沿横轴看，相对顺序有没有变化。\n\n \n \n图 3：backto_back 的 median RTT。与图 2 共用 median 的纵轴范围，便于比较发送节奏造成的变化。\nFig. 3. Median RTT versus payload under back-to-back request/reply.\n\n64 B 时，Fast DDS 的 pooled median 约 63.46 μs，Cyclone DDS 约 70.59 μs；其余 4 个 payload 则是 Cyclone DDS 更低。仅看汇总表，小包处像是一次排名反转。\n\n但这两个 64 B 数字之间只差约 7.14 μs。按同编号 repeat 比较，Fast DDS 在 3/5 次更低，Cyclone DDS 在 2/5 次更低。这只是 pooled 排序的局部变化，还不足以支持迁移中间件：这个小差异在重复运行中也会反转。",
+    "content_type": "paragraph",
+    "tags": [
+      "ROS 2",
+      "Zenoh",
+      "性能测试"
+    ],
+    "categories": [
+      "机器人"
+    ],
+    "published_at": "2026-10-06",
+    "content_hash": "c130928a018ece72",
+    "links": []
+  },
+  {
+    "id": "94b736d7cd-010",
+    "document_id": "94b736d7cd",
+    "title": "ROS 2 换掉 DDS 会发生什么？实测 rmw_zenoh 0.13.0、Fast DDS 与 Cyclone DDS",
+    "url": "/2026/10/07/ros2-rmw-zenoh-0-13-0-benchmark/",
+    "section": "5. 真正改变判断的是 P99",
+    "content": "到这里，典型往返的表现已经比较清楚。 但如果系统在意较慢的那部分请求，一个 median 还不够；平均值虽然会受尾部影响，也不能单独告诉我尾部到了哪里。 我把 P95、P99 放进来继续看。 图 4、图 5 的主线改为 pooled P99，阴影相应变为五次 repeat 的 P99 范围；横轴仍为 log2、纵轴仍为 μs 的 log10，这两张 P99 图共用纵轴范围。 P95/P99 是经验分位数，不是未来运行的硬性上界或 real-time deadline 保证。 图 4：paced10ms 的 P99 RTT。 阴影为 5 次 repeat 的 P99 范围，不能解读为置信区间。 Fig. 4. P99 RTT versus payload under paced10ms. paced 下，Cyclone DDS 在全部 5 个 payload 的 pooled P95 和 P99 都最低。 不过，“这次 pooled 值最低”和“每次都稳定领先”仍然不同。 例如 1 MiB paced 的 Cyclone 与 Zenoh P99 约为 7. 12 ms 和 7. 44 ms，两者 repeat 范围重叠，Zenoh 在 2/5 次 repeat 的 P99 更低，不能夸大这里的微小排序。 图 5：backto_back 的 P99 RTT。 与图 4 共用 P99 的纵轴范围；1 MiB 下 median 的下降没有消除 Fast DDS 的高尾部。 Fig. 5. P99 RTT versus payload under back-to-back request/reply. 1 MiB back-to-back 是本文最值得放在一起看的一组对照。 下面数值取自正式汇总，单位统一为 ms，显示到两位小数：\n\n| Middleware | Median (ms) | P95 (ms) | P99 (ms) |\n| --- | ---: | ---: | ---: |\n| Fast DDS | 2. 01 | 23. 18 | 24. 26 |\n| Cyclone DDS | 1. 61 | 2. 92 | 3. 84 |\n| Zenoh 0. 13. 0 | 2. 76 | 4. 42 | 5.",
+    "content_type": "paragraph",
+    "tags": [
+      "ROS 2",
+      "Zenoh",
+      "性能测试"
+    ],
+    "categories": [
+      "机器人"
+    ],
+    "published_at": "2026-10-06",
+    "content_hash": "c130928a018ece72",
+    "links": []
+  },
+  {
+    "id": "94b736d7cd-011",
+    "document_id": "94b736d7cd",
+    "title": "ROS 2 换掉 DDS 会发生什么？实测 rmw_zenoh 0.13.0、Fast DDS 与 Cyclone DDS",
+    "url": "/2026/10/07/ros2-rmw-zenoh-0-13-0-benchmark/",
+    "section": "5. 真正改变判断的是 P99",
+    "content": "37 |\n\n如果只看 median，Fast DDS 比 Zenoh 更低；看 P99，Zenoh 又明显低于 Fast DDS。 Cyclone DDS 在这组 pooled median 和 P99 上都更低。 这就是开头那组结果最值得展开的地方：同一工况，只把评价指标从 median 换成 P99，Zenoh 与 Fast DDS 的工程判断就发生了变化。 相对 Fast DDS，Zenoh 的典型往返更慢，尾延迟却更低。 选择哪个，取决于应用在意分布的哪一部分；“Zenoh 比 Fast DDS 快”无法表达这件事。 back-to-back 的 64 KiB 还有一个局部交叉：Fast DDS 的 pooled P95/P99 低于 Cyclone DDS，其余 payload 是 Cyclone DDS 更低。 这个点的 P99 顺序也会在 repeats 间反转，同样不能泛化成稳定优势。",
+    "content_type": "paragraph",
+    "tags": [
+      "ROS 2",
+      "Zenoh",
+      "性能测试"
+    ],
+    "categories": [
+      "机器人"
+    ],
+    "published_at": "2026-10-06",
+    "content_hash": "c130928a018ece72",
+    "links": []
+  },
+  {
+    "id": "94b736d7cd-012",
+    "document_id": "94b736d7cd",
+    "title": "ROS 2 换掉 DDS 会发生什么？实测 rmw_zenoh 0.13.0、Fast DDS 与 Cyclone DDS",
+    "url": "/2026/10/07/ros2-rmw-zenoh-0-13-0-benchmark/",
+    "section": "6. 大包和通信节奏如何放大尾部",
+    "content": "图 5 的大包尾部让我想继续追问：这种差距是怎样拉开的？ 从 64 B 增大到 1 MiB，Fast DDS 在 back-to-back 下的 pooled P99 增长约 119. 44 倍。 其中 64 KiB → 1 MiB 这段，P99 增长约 64. 98 倍，是当前离散矩阵中很明显的尾部陡增区间。 我没有据此给出某个精确 payload 阈值：64 KiB 和 1 MiB 之间没有其他测点，连接两点的线只能帮助阅读，不能证明中间载荷的变化路径。 接下来要看完整分布，而不是仅盯着一个最大值。 ECDF 的纵轴表示“不超过当前 RTT 的样本比例”；同一比例下，曲线越靠左表示对应 RTT 越低，曲线交叉则意味着不同分位数可能给出不同排序。 图 6：64 B 与 1 MiB 的 RTT ECDF。 每条曲线包含该 cell 全部 5,000 个 samples，横轴为 log10，纵轴覆盖完整 0–1，不裁剪尾部。 Fig. 6. RTT ECDFs for 64 B and 1 MiB payloads. Fast DDS 1 MiB 的 ECDF 有平台和分段上升，主体与较高 RTT 区间存在分离。 这说明一个 median 无法充分表达其分布形状，但 pooled 曲线本身仍可能混合了 repeat 之间的差异。 要判断是不是某一个异常 run 拉高了 P99，还需要回到重复级结果。 Fast DDS 1 MiB 的五次 repeat 中，paced P99 均在约 24. 90–25. 12 ms，back-to-back P99 均在约 23. 84–24. 35 ms。 结合 ECDF，持续的高尾部不能只归结为一个 max 或一个特别差的 repeat。 目前能确认的是分布现象。 本次没有做正式多峰检验，也没有测 allocator、scheduler、copy 或 SHM 各自的耗时。 将平台或分段形状直接解释成某个底层机制，会超出这组数据能支持的范围。 再把两种发送节奏放在一起看，全部 15 个 RMW × payload 组合的 back-to-back pooled median、P95、P99 都低于 paced。 但不同指标下降的幅度并不一致，应用节奏也改变了部分 middleware 的相对顺序。",
+    "content_type": "paragraph",
+    "tags": [
+      "ROS 2",
+      "Zenoh",
+      "性能测试"
+    ],
+    "categories": [
+      "机器人"
+    ],
+    "published_at": "2026-10-06",
+    "content_hash": "c130928a018ece72",
+    "links": []
+  },
+  {
+    "id": "94b736d7cd-013",
+    "document_id": "94b736d7cd",
+    "title": "ROS 2 换掉 DDS 会发生什么？实测 rmw_zenoh 0.13.0、Fast DDS 与 Cyclone DDS",
+    "url": "/2026/10/07/ros2-rmw-zenoh-0-13-0-benchmark/",
+    "section": "6. 大包和通信节奏如何放大尾部",
+    "content": "Fast DDS 1 MiB 是一个清楚的例子：从 paced 切到 back-to-back，median 从约 13. 12 ms 降到 2. 01 ms，降幅约 84. 65%；P99 从约 25. 08 ms 到 24. 26 ms，只降低约 3. 24%。 典型 RTT 因而大幅改善，尾部却仍然处于较高区间。 我用 pooled P99 / pooled median 定义 tail amplification，两种节奏下分别约为 1. 91× 和 12. 04×。 图 7 将这个比值放到整个载荷范围里看：横轴仍为 payload 的 log2，纵轴改为从 0 开始的线性尺度。 图 7：尾部放大比 P99/median。 纵轴为从 0 开始的线性尺度；比值描述相对尾部，不是绝对延迟，也不是 repeat 置信区间。 Fig. 7. Tail amplification ratio (P99/median) across payloads and communication modes. 这并不意味着 back-to-back 让 Fast DDS 的绝对 P99 更差：它实际上略有下降。 真正变化的是 median 大幅降低，而 P99 没有同比改善，因此尾部相对主体显得更突出。 同样，较小的 P99/median 也不自动代表更低的绝对 RTT；如果 median 本来就高，比值可以较小。 选型时仍需把两项绝对值放回来看。 发送节奏也是测试条件的一部分：回复之后停一段时间，与持续 request/reply，观察到的 RTT 并不等价。 这是已有结果支持的条件差异；具体为何出现，还需要另外测量，不能凭本次数据猜测 CPU 电源状态或调度路径。",
+    "content_type": "paragraph",
+    "tags": [
+      "ROS 2",
+      "Zenoh",
+      "性能测试"
+    ],
+    "categories": [
+      "机器人"
+    ],
+    "published_at": "2026-10-06",
+    "content_hash": "c130928a018ece72",
+    "links": []
+  },
+  {
+    "id": "94b736d7cd-014",
+    "document_id": "94b736d7cd",
+    "title": "ROS 2 换掉 DDS 会发生什么？实测 rmw_zenoh 0.13.0、Fast DDS 与 Cyclone DDS",
+    "url": "/2026/10/07/ros2-rmw-zenoh-0-13-0-benchmark/",
+    "section": "7. 再看 Repeat：pooled 结果不等于稳定优势",
+    "content": "看完这些曲线，我还不能直接按 pooled 值选实现。把 5 次 run 的 5,000 个 samples 合在一起，可能会把一次较快、一次较慢的运行揉成一条平滑曲线；重复运行能否得到相近结果，需要另看。\n\n这组结果中，paced 的 repeat median CV 范围约为 1.48%–6.92%，back-to-back 为 5.97%–45.28%。这里看的是五次 median 之间的波动，不是单个 cell 内样本的离散程度；计算口径见前面的折叠区。\n\n例如 Cyclone DDS 的 64 KiB back-to-back，五次 median 分别约为 122.02、94.09、69.99、110.25、235.27 μs，整体范围为 69.99–235.27 μs。它的 pooled median 仍然很低，但不能因此说这个点的重复性最好。\n\n \n \n图 8（补充）：64 KiB 的 ECDF。用于观察 pooled 分布交叉；判断重复波动仍要结合每个 run 的 median/P99，不能只看这张合并曲线。\nFig. 8. RTT ECDFs for 64 KiB payloads.\n\n图 8 的读法沿用前面的 ECDF，可以看到 pooled 分布的平台与交叉；判断重复性仍需结合上面的 run 级数值。pooled ranking 不等于 repeatability，只展示最好的一次运行会漏掉这种波动。",
+    "content_type": "paragraph",
+    "tags": [
+      "ROS 2",
+      "Zenoh",
+      "性能测试"
+    ],
+    "categories": [
+      "机器人"
+    ],
+    "published_at": "2026-10-06",
+    "content_hash": "c130928a018ece72",
+    "links": []
+  },
+  {
+    "id": "94b736d7cd-015",
+    "document_id": "94b736d7cd",
+    "title": "ROS 2 换掉 DDS 会发生什么？实测 rmw_zenoh 0.13.0、Fast DDS 与 Cyclone DDS",
+    "url": "/2026/10/07/ros2-rmw-zenoh-0-13-0-benchmark/",
+    "section": "8. rmw_zenoh 0.13.0 到底表现到什么程度",
+    "content": "在这组 localhost RTT 对照中，Cyclone DDS 的 pooled median/P95/P99 整体更有优势；Zenoh 0.13.0 的特点则出现在部分大包尾部与 Fast DDS 的取舍上。它值得进入后续候选，但是否适合复杂网络仍需要单独验证。这里需要区分三类结论：实验直接测得的结果、由结果引出的工程判断，以及当前数据无法回答的问题。\n\n已测得（MEASURED）：在这里的默认配置、Rolling、localhost 和固定硬件下，Zenoh 0.13.0 在 64 B–64 KiB 范围内的 pooled median/P95/P99，没有形成对 Fast DDS 和 Cyclone DDS 的整体优势。paced 全部 payload 的这三项 pooled 指标都是 Cyclone DDS 更低。\n\n到了 1 MiB paced，Zenoh 的 pooled median 和 P99 均低于 Fast DDS，但高于 Cyclone DDS 的对应 pooled 值。Zenoh 相比 Fast DDS 的 P99 降低约 70.32%；在 1 MiB back-to-back，Zenoh 的 median 高于 Fast DDS，P99 则降低约 77.86%。这两种节奏下的 P99 比较均为 5/5 repeats 同方向。\n\n三种实现都完成了这套受限协议的功能与 RTT 测试，但还没有回答长时间稳定性、全量 ROS 功能兼容性或生产系统验证的问题。\n\n由结果引出的判断（INFERRED）：Zenoh 在部分大 payload 尾部指标上与 Fast DDS 呈现不同表现，值得将其作为有具体目标的候选继续评估。Fast DDS 的大包高尾部也给出了明确的后续诊断范围。这些判断用于决定下一步测什么，不能证明某个实现的设计天然优越或存在某个组件缺陷。\n\n尚未确认（UNKNOWN）：scheduler、CPU 频率/电源状态、allocator、copy、SHM、router 和 transport 各自贡献多少，当前没有分解测量。默认 router 是 Zenoh 部署的一部分，但本次 RTT 不能估计它单独的代价；同样也不能从 DDS 的 RTT 反推出实际走了哪条默认传输路径。\n\n在这些边界下，Zenoh 仍值得继续评估，但当前结果不足以支持“全面优于 DDS”这样的结论。是否用于具体机器人系统，还需要在目标系统的网络、功能和负载条件下进一步验证。",
+    "content_type": "paragraph",
+    "tags": [
+      "ROS 2",
+      "Zenoh",
+      "性能测试"
+    ],
+    "categories": [
+      "机器人"
+    ],
+    "published_at": "2026-10-06",
+    "content_hash": "c130928a018ece72",
+    "links": []
+  },
+  {
+    "id": "94b736d7cd-016",
+    "document_id": "94b736d7cd",
+    "title": "ROS 2 换掉 DDS 会发生什么？实测 rmw_zenoh 0.13.0、Fast DDS 与 Cyclone DDS",
+    "url": "/2026/10/07/ros2-rmw-zenoh-0-13-0-benchmark/",
+    "section": "9. 从实验结果到 RMW 选型",
+    "content": "如果这是一个新的 ROS 2 项目，而且通信条件接近本文的 localhost request/reply，我会先把 Cyclone DDS 作为验证起点。paced 全载荷的 pooled median/P95/P99，以及 1 MiB back-to-back 的 median/P99 都较低，足以支持这个初步选择。但 64 KiB back-to-back 的 repeat 波动同样需要关注，较低的 pooled 值不等于所有场景下都更稳健。\n\n如果系统已经围绕 Fast DDS 跑得成熟，我不会因为这一次 benchmark 就迁移。它在某些典型延迟指标上仍有竞争力，已有系统还要考虑兼容性、维护成本和此前完成的验证。如果实际业务包含大 payload，或对尾延迟敏感，就需要在实际硬件和负载下做一次针对性复测。\n\n如果需求包含边缘设备、复杂网络、跨网段通信，或者明确需要 Zenoh router 与原生 Zenoh 能力，我会把 rmw_zenoh 0.13.0 纳入后续候选。官方 0.13.0 README提供了 router 与跨 Host 连接的配置说明；本文没有测试这些场景下的表现，仍需在目标拓扑中单独验证。\n\n新项目从哪里开始验证、已有系统是否值得迁移，以及哪些实现需要继续纳入候选，是三个不同的问题，不能压成一个 middleware 总排名。\n\n不过，这次实验仍有一组没有回答的问题：\n\n- 仅一台 Linux Host、一种硬件平台上的 localhost + Docker host network，没有跨设备、有线网络或 Wi-Fi 对照。\n- 仅测试精确版本和 default configs，没有寻找最优参数，也没有隔离 SHM、router 或传输组件。\n- 仅覆盖单请求在途的 echo，没有多节点并发或真实机器人控制链测试。\n- 没有正式 throughput、discovery 或 CPU/RAM benchmark。\n- 只有 5 repeats，且有中断恢复间隔；未做显著性检验，min–max 不是置信区间。\n- 载荷点离散且间隔较大，不能确定 64 KiB 到 1 MiB 之间的精确阈值；ECDF 分段也不是多峰机制证明。\n\n这些结果不代表所有 DDS、所有 Zenoh 或所有 ROS 2 系统，也不提供机器人控制的实时性保证。",
+    "content_type": "paragraph",
+    "tags": [
+      "ROS 2",
+      "Zenoh",
+      "性能测试"
+    ],
+    "categories": [
+      "机器人"
+    ],
+    "published_at": "2026-10-06",
+    "content_hash": "c130928a018ece72",
+    "links": [
+      {
+        "text": "0.13.0 README",
+        "url": "https://github.com/ros2/rmw_zenoh/blob/0.13.0/README.md"
+      }
+    ]
+  },
+  {
+    "id": "94b736d7cd-017",
+    "document_id": "94b736d7cd",
+    "title": "ROS 2 换掉 DDS 会发生什么？实测 rmw_zenoh 0.13.0、Fast DDS 与 Cyclone DDS",
+    "url": "/2026/10/07/ros2-rmw-zenoh-0-13-0-benchmark/",
+    "section": "10. 结语",
+    "content": "如果 ROS 2 application 不变，只替换 RMW，到底会发生什么？这组结果没有给出一个简单的“速度排名”：payload、通信节奏、典型延迟、尾延迟与重复性，会让同一次比较得到不同答案。\n\nCyclone DDS 在这组 localhost RTT 测试中的 pooled 指标整体表现突出；Fast DDS 在 1 MiB 条件下出现了持续的高尾部；Zenoh 0.13.0 没有全面领先 DDS，但在大 payload 的 tail latency 上，与 Fast DDS 呈现出明显不同的取舍。这些现象限定在本文的实验条件内。\n\n如果继续这条线，下一步更值得做的是把同一套比较带到跨设备网络、throughput、discovery 和真实机器人通信链路里。RMW 让 middleware 从业务代码中抽离，成为可以独立测量、比较和重新选择的工程变量。这次测试没有找到适用于所有场景的“最快中间件”，但它把原本容易沿用默认值的 middleware 选择，变成了一个可以用数据检验的工程决策。",
+    "content_type": "paragraph",
+    "tags": [
+      "ROS 2",
+      "Zenoh",
+      "性能测试"
+    ],
+    "categories": [
+      "机器人"
+    ],
+    "published_at": "2026-10-06",
+    "content_hash": "c130928a018ece72",
     "links": []
   },
   {
@@ -7254,6 +7647,1782 @@ export default [
     ],
     "published_at": "2026-06-16",
     "content_hash": "df93bfc71ae7b62b",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-000",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "引言",
+    "content": "最近，我的开发环境里多了一台 MacBook Neo。\n\n买它最初并不是为了专门写代码，也不是原有的 Windows 设备无法开发，而是我需要一台更轻、更便携，适合随身携带和出差的笔记本，用来处理文档、网页、PPT、PDF、远程连接等日常工作。\n\n购买前，我对比过不同轻薄本的重量、尺寸、屏幕、续航、接口、性能、存储、价格和实际使用场景，最后也去线下体验了一遍。综合参数和实际感受后，我选择了 MacBook Neo。这篇文章不是它的硬件测评；真正与本文有关的是，我也因此第一次正式进入了 macOS 生态。\n\n过去我一直听说 macOS 基于 Unix，在终端、Shell 和开发工具链方面与编程、工程开发衔接得比较自然。拿到机器后，Git、SSH、Node.js 和 Hexo 很快跑通，我也就自然产生了一个想法：既然已经有了一台 Unix-like 的移动设备，除了日常办公和远程连接，也可以把个人网站的一部分开发与维护迁移到 Mac 上。\n\n也正因为这次迁移，我重新审视了长期以来一直在使用、却没有专门完整整理过的 Git 工作流。",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-001",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part I：我的跨平台 Git 工作流 › 1. 为什么现在重新整理 Git",
+    "content": "在 Mac 加入之前，Windows 一直是我的绝对主力；Ubuntu 则分别存在于 PC 双系统和机器人 NUC 中，承担 Linux 科研开发与实机控制。Git、GitHub、SSH、commit、push、pull 都不是这次才开始接触的新工具。\n\nMac 的加入改变的不是我是否使用 Git，而是整个工作流的形状：网站维护多了一个移动节点，Windows、macOS 和两种 Ubuntu 环境第一次形成了一套更完整的跨平台开发体系。这篇文章因此不是 Git 入门，也不是 Mac 配置大全，而是一次阶段性的工作流整理。",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-002",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part I：我的跨平台 Git 工作流 › 2. 我的实际开发环境",
+    "content": "三套系统并不是地位相同的三台电脑，也不是共同维护同一个项目。Windows 仍然是主力，macOS 和 Ubuntu 分别承担移动与科研场景；其中 Ubuntu 又有 PC 双系统和 NUC 两种实际形态。\n\n| 环境 | 定位 | 主要任务 |\n| --- | --- | --- |\n| Windows | 主力环境 | 网站开发、文档与日常工作、MATLAB / Simulink、其他工程开发 |\n| macOS | 移动开发终端 | 便携办公、出差与随身使用、macOS 生态体验、个人网站开发与维护 |\n| Ubuntu PC | Linux 科研环境 | 深度学习、强化学习、对 Linux 环境要求更高的科研开发 |\n| Ubuntu NUC | 博士课题实机环境 | ROS 2、Stewart / 6PUS、传感器、电机、控制算法与真实机器人实验 |\n\n它们之间的关系更接近下面这样：",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-003",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part I：我的跨平台 Git 工作流 › 2. 我的实际开发环境",
+    "content": "Windows（主力）\n├── 网站 / MATLAB / Simulink\n├── 文档与日常工程工作\n└── Git / GitHub\n        │\n        ├──────── macOS\n        │         ├── 移动办公 / 出差\n        │         ├── macOS 生态体验\n        │         └── 网站维护 + Git / GitHub\n        │\n        └──────── Ubuntu\n                  ├── PC 双系统：深度学习 / 强化学习 / Linux 科研开发\n                  ├── NUC：ROS 2 / Stewart / 6PUS / 实机控制\n                  └── 科研项目 + Git / GitHub",
+    "content_type": "code",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-004",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part I：我的跨平台 Git 工作流 › 2. 我的实际开发环境",
+    "content": "网站项目主要在 Windows 与 macOS 之间延续；PC 双系统 Ubuntu 管理 Linux 科研项目，Ubuntu NUC 则管理 ROS 2 与机器人实机代码。深度学习和强化学习属于 PC 双系统 Ubuntu 的主要任务，不是 NUC 的主要职责。\n\nGitHub 在这里不是让所有设备共享同一工作目录的网络硬盘，而是多个远程仓库的集合。不同项目对应不同 Repository，每台设备都有自己的本地仓库、工作区和环境；Git 负责记录版本，并在需要时交换提交历史。",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-005",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part I：我的跨平台 Git 工作流 › 3. 我的 Git 工作流其实可以压缩成一条线",
+    "content": "无论在哪个系统，也无论修改由我还是 Agent 完成，主线都可以压缩成：",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-006",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part I：我的跨平台 Git 工作流 › 3. 我的 Git 工作流其实可以压缩成一条线",
+    "content": "Pull\n  ↓\nDefine Task\n  ↓\nHuman / Agent Develop\n  ↓\nDiff\n  ↓\nBuild / Test\n  ↓\nReview\n  ↓\nCommit\n  ↓\nPush",
+    "content_type": "code",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-007",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part I：我的跨平台 Git 工作流 › 3. 我的 Git 工作流其实可以压缩成一条线",
+    "content": "开始工作前先同步并确认状态；随后定义一个边界清楚的任务，由我或 Agent 完成修改；再用 diff、构建和测试检查结果。Review 通过后，修改才成为一个有语义的 commit，最后再 push 到远程仓库。\n\n这里最重要的不是记住命令顺序，而是把“修改文件”“验证结果”“确认版本”“共享历史”分成几个明确步骤。",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-008",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part I：我的跨平台 Git 工作流 › 4. Agent 已经是这套工作流的一部分",
+    "content": "以前更多是我自己修改、测试，再 commit 和 push。现在，不少网站维护任务已经变成：我先定义目标和边界，Agent 阅读仓库、执行修改并完成初步验证，我再检查 diff 与最终页面，确认后决定是否 commit、push。",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-009",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part I：我的跨平台 Git 工作流 › 4. Agent 已经是这套工作流的一部分",
+    "content": "我定义任务 → Agent 执行 → Agent 验证 → 我 Review → Commit / Push",
+    "content_type": "code",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-010",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part I：我的跨平台 Git 工作流 › 4. Agent 已经是这套工作流的一部分",
+    "content": "Agent 并没有让 Git 变得不重要。恰恰相反，Agent 修改得越多，diff、branch、commit 和清晰的版本边界就越重要。具体如何约束 Agent、如何划分修改与发布权限，我会在 Part IV 再展开。\n\n如果只是想了解我现在如何在 Windows、macOS、Ubuntu 与 GitHub 之间组织开发，以及 Agent 怎样进入这套流程，那么读到这里已经足够了。\n后面的部分会继续拆开这条主线：一台新设备怎样可靠地接入已有项目，Windows、macOS、Ubuntu 的外围环境有哪些实际差异，以及同步、提交、仓库卫生、冲突、分支和 Agent 权限为什么能够支撑这套工作方式。",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-011",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part II：让一台新设备真正加入开发体系",
+    "content": "拿到一台新 Mac 或 PC 后，完成 git clone 并不等于它已经加入开发体系。对我来说，真正的接入至少包括身份、仓库、环境和验证四层。",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-012",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part II：让一台新设备真正加入开发体系 › 1. 身份：Git 与 SSH",
+    "content": "git --version",
+    "content_type": "code",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-013",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part II：让一台新设备真正加入开发体系 › 1. 身份：Git 与 SSH",
+    "content": "然后为这台设备设置提交身份。这里使用通用占位符，不应把私人邮箱写进公开文章：",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-014",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part II：让一台新设备真正加入开发体系 › 1. 身份：Git 与 SSH",
+    "content": "git config --global user.name \"Your Name\"\ngit config --global user.email \"your-email@example.com\"",
+    "content_type": "code",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-015",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part II：让一台新设备真正加入开发体系 › 1. 身份：Git 与 SSH",
+    "content": "这两项决定提交记录里的作者信息，但不等同于 GitHub 登录凭据。真正访问远程仓库时，我使用每台设备各自的 SSH Key，而不会把同一份私钥复制到 Windows、Mac 和 Ubuntu。\n\n将新设备的公钥添加到 GitHub 后，可以验证认证链路：",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-016",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part II：让一台新设备真正加入开发体系 › 1. 身份：Git 与 SSH",
+    "content": "ssh -T git@github.com",
+    "content_type": "code",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-017",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part II：让一台新设备真正加入开发体系 › 1. 身份：Git 与 SSH",
+    "content": "认证成功时，GitHub 通常会显示类似提示：",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-018",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part II：让一台新设备真正加入开发体系 › 1. 身份：Git 与 SSH",
+    "content": "Hi USERNAME! You've successfully authenticated, but GitHub does not provide shell access.",
+    "content_type": "code",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-019",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part II：让一台新设备真正加入开发体系 › 1. 身份：Git 与 SSH",
+    "content": "GitHub 官方说明，这条测试命令即使认证成功，也可能正常以退出码 1 结束，因为 GitHub 不提供交互式 shell。因此应主要确认提示中包含 successfully authenticated 和正确的 GitHub 用户名，而不能只看退出码是否为 0。\n\n独立密钥让每台设备可以单独授权和撤销，也避免私钥在设备间流转。通过 SSH 访问仓库时，不需要反复输入 GitHub 账户凭据；如果私钥设置了 passphrase，是否需要再次输入则取决于本机 ssh-agent、Keychain 等配置。",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-020",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part II：让一台新设备真正加入开发体系 › 2. 仓库：Clone、Remote 与 Branch",
+    "content": "git clone git@github.com:username/repository.git\ncd repository",
+    "content_type": "code",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-021",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part II：让一台新设备真正加入开发体系 › 2. 仓库：Clone、Remote 与 Branch",
+    "content": "进入仓库后，我会先确认远程地址、当前分支和工作区状态：",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-022",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part II：让一台新设备真正加入开发体系 › 2. 仓库：Clone、Remote 与 Branch",
+    "content": "git remote -v\ngit branch --show-current\ngit status",
+    "content_type": "code",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-023",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part II：让一台新设备真正加入开发体系 › 2. 仓库：Clone、Remote 与 Branch",
+    "content": "这一步能同时确认：我进入的是正确仓库，连接的是预期 remote，并且处在准备工作的分支上。源码到达电脑，只能证明仓库已经 clone；它并不代表依赖、运行时和构建链路已经建立。",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-024",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part II：让一台新设备真正加入开发体系 › 3. 环境：依赖应该重建，而不是复制",
+    "content": "网站仓库 clone 完成后，需要安装 Node.js 与 npm，再依据锁文件重建依赖：",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-025",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part II：让一台新设备真正加入开发体系 › 3. 环境：依赖应该重建，而不是复制",
+    "content": "node --version\nnpm --version\nnpm ci",
+    "content_type": "code",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-026",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part II：让一台新设备真正加入开发体系 › 3. 环境：依赖应该重建，而不是复制",
+    "content": "对于当前这个 Hexo 网站，验证链路是：",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-027",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part II：让一台新设备真正加入开发体系 › 3. 环境：依赖应该重建，而不是复制",
+    "content": "npm run build\nnpm run test:4b\nnode tests/search.test.js\nnode tests/search-regression.test.js\nnpm run server",
+    "content_type": "code",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-028",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part II：让一台新设备真正加入开发体系 › 3. 环境：依赖应该重建，而不是复制",
+    "content": "能够安装依赖、完成 build、通过项目已有测试并在本地 preview，才说明新设备真正接入了项目。\n\n从 Windows 切到 Mac 时，我不会复制 Windows 的 node_modules。package.json 描述需要什么，package-lock.json 固定解析后的依赖版本，npm ci 根据锁文件重新安装。ROS 2 项目也是同样的原则：源码、接口定义、配置、launch 文件和依赖声明应该进入版本控制；编译产物、缓存、日志及设备相关临时文件不应靠 Git 搬运。\n\n代码同步与环境重建是两个问题：Git 保证源码、配置和版本历史连续；npm、colcon、rosdep 等包管理或构建工具负责恢复运行环境；驱动、系统库、硬件权限和本机密钥仍然属于设备自身。",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-029",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part II：让一台新设备真正加入开发体系 › 4. Windows、macOS 与 Ubuntu 的外围差异",
+    "content": "Git 自身的仓库、分支、提交、工作区和暂存区模型不会因为操作系统变化。下面这些核心命令在三套系统上没有本质区别：",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-030",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part II：让一台新设备真正加入开发体系 › 4. Windows、macOS 与 Ubuntu 的外围差异",
+    "content": "git status\ngit pull\ngit diff\ngit add path/to/file\ngit commit -m \"type: describe the change\"\ngit push\ngit log --oneline\ngit branch",
+    "content_type": "code",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-031",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part II：让一台新设备真正加入开发体系 › 4. Windows、macOS 与 Ubuntu 的外围差异",
+    "content": "真正需要适应的是外围环境。\n\n路径与 Shell\n\nWindows 常见路径是 %PROJECT_ROOT%\\project，macOS 是 $HOME/Code/project，Ubuntu 是 $HOME/project。Windows 常用 PowerShell 或 Git Bash，macOS 默认使用 zsh，Ubuntu 常见 bash 或 zsh。包含路径、环境变量、管道或系统工具的脚本不一定能直接跨平台运行。\n\n安装方式与 PATH\n\nWindows 可以使用安装程序或 winget，macOS 常用 Homebrew，Ubuntu 常用 apt。安装完成不代表当前 Shell 一定能找到程序；遇到“已经安装但命令不存在”时，我会先检查版本命令和 PATH。\n\n权限与大小写\n\nUnix-like 系统会直接暴露可执行权限问题，脚本缺少执行位时可能需要：",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-032",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part II：让一台新设备真正加入开发体系 › 4. Windows、macOS 与 Ubuntu 的外围差异",
+    "content": "chmod +x scripts/example.sh",
+    "content_type": "code",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-033",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part II：让一台新设备真正加入开发体系 › 4. Windows、macOS 与 Ubuntu 的外围差异",
+    "content": "某些默认文件系统对大小写不敏感，但 Linux 通常严格区分 Config.js 和 config.js。只修改文件名大小写时，应该明确让 Git 记录重命名，而不要假设所有系统都会得到相同结果。\n\n换行符\n\nWindows 常见 CRLF，macOS 与 Ubuntu 常见 LF。core.autocrlf 可以参与转换，但我不会在不了解仓库约定时盲目修改全局配置。如果项目确实需要统一规则，更稳定的方式是通过仓库级 .gitattributes 明确约定。",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-034",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part II：让一台新设备真正加入开发体系 › 5. 新设备接入检查清单",
+    "content": "最后，我会用一份短清单判断新设备是否已经可靠接入：\n\n1. Git、运行时和构建工具可用，提交身份与独立 SSH Key 正确；\n2. 仓库来自正确 remote，当前分支、工作区和跟踪关系清楚；\n3. 可以依据锁文件或依赖声明重建环境，而不是复制旧机器的产物；\n4. build、test、preview 真正跑通；\n5. .gitignore 能挡住系统文件、缓存、构建产物和 secret。",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-035",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part III：支撑多设备开发的 Git 工程实践",
+    "content": "设备接入以后，真正决定工作流能否长期稳定的，是怎样同步版本、保持仓库干净，以及在多设备并行时隔离风险。",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-036",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part III：支撑多设备开发的 Git 工程实践 › 1. 同步与版本：Pull、Push 和 Commit",
+    "content": "我日常开始工作时会先确认位置和状态，再决定是否同步：",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-037",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part III：支撑多设备开发的 Git 工程实践 › 1. 同步与版本：Pull、Push 和 Commit",
+    "content": "git status -sb\ngit pull",
+    "content_type": "code",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-038",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part III：支撑多设备开发的 Git 工程实践 › 1. 同步与版本：Pull、Push 和 Commit",
+    "content": "git status -sb 的意义之一，就是先确认当前分支和工作区。如果存在未提交修改，应先确认、提交、暂存或妥善处理，再决定是否执行 git pull，而不是机械地继续下一条命令。\n\n开发过程中，我会持续检查实际差异：",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-039",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part III：支撑多设备开发的 Git 工程实践 › 1. 同步与版本：Pull、Push 和 Commit",
+    "content": "git diff\ngit status",
+    "content_type": "code",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-040",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part III：支撑多设备开发的 Git 工程实践 › 1. 同步与版本：Pull、Push 和 Commit",
+    "content": "完成一个逻辑修改后，再精确暂存并检查即将提交的内容：",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-041",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part III：支撑多设备开发的 Git 工程实践 › 1. 同步与版本：Pull、Push 和 Commit",
+    "content": "git add path/to/file\ngit diff --cached\ngit commit -m \"docs: document cross-platform Git workflow\"\ngit push",
+    "content_type": "code",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-042",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part III：支撑多设备开发的 Git 工程实践 › 1. 同步与版本：Pull、Push 和 Commit",
+    "content": "我更倾向于精确指定文件，而不是习惯性执行 git add .。push 之前，构建和测试应该已经完成。\n\n以网站项目为例，一次 Windows 与 Mac 的接力可能是：",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-043",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part III：支撑多设备开发的 Git 工程实践 › 1. 同步与版本：Pull、Push 和 Commit",
+    "content": "Windows：修改 → test → commit → push\n                         │\n                         ▼\n                 GitHub Repository\n                         │\n                         ▼\nmacOS：           pull → 继续修改 → test → commit → push\n                                                     │\n                                                     ▼\nWindows：                                          pull",
+    "content_type": "code",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-044",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part III：支撑多设备开发的 Git 工程实践 › 1. 同步与版本：Pull、Push 和 Commit",
+    "content": "Push 与 Pull 传递的不是一包“最新版文件”，而是一串有父子关系、有作者、有时间、有说明的提交。Mac pull 下来的不仅是 Windows 修改后的结果，也包括这些结果如何一步步形成。\n\n同样，commit 也不是 Ctrl + S。文件保存只表示编辑器把当前内容写到磁盘；commit 则是在版本历史中建立一个有语义、可定位、可比较的项目状态。我的原则是：一个 commit 对应一个相对完整的逻辑修改，不混入无关变化，message 清楚说明修改目的，提交和 push 前都检查状态。",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-045",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part III：支撑多设备开发的 Git 工程实践 › 2. 仓库卫生：检查、`.gitignore` 与可重建环境",
+    "content": "相比记住几十条命令，我更依赖少量高频检查：",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-046",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part III：支撑多设备开发的 Git 工程实践 › 2. 仓库卫生：检查、`.gitignore` 与可重建环境",
+    "content": "# 工作区与分支状态\ngit status -sb\n\n# 尚未暂存与已经暂存的差异\ngit diff\ngit diff --cached\n\n# 简洁历史、分支与远程地址\ngit log --oneline --decorate --graph -n 15\ngit branch\ngit remote -v\n\n# 当前仓库根目录\ngit rev-parse --show-toplevel",
+    "content_type": "code",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-047",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part III：支撑多设备开发的 Git 工程实践 › 2. 仓库卫生：检查、`.gitignore` 与可重建环境",
+    "content": "这些命令共同回答一个问题：我在哪个仓库、哪个分支，改了什么，即将提交什么，历史和 remote 又是什么。\n\n当前网站仓库已经明确忽略了这些典型内容：",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-048",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part III：支撑多设备开发的 Git 工程实践 › 2. 仓库卫生：检查、`.gitignore` 与可重建环境",
+    "content": ".DS_Store\nThumbs.db\nnode_modules/\npublic/\n.env\n.env.*\n.wrangler/",
+    "content_type": "code",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-049",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part III：支撑多设备开发的 Git 工程实践 › 2. 仓库卫生：检查、`.gitignore` 与可重建环境",
+    "content": ".DSStore 来自 macOS，Thumbs.db 常见于 Windows；nodemodules/ 和 public/ 分别属于可重建依赖与构建输出；.env 一类文件还可能包含敏感配置。让它们进入仓库，只会给其他系统制造无关 diff，甚至带来凭据泄漏风险。\n\nROS 2 工作区通常还会排除下面这些构建目录：",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-050",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part III：支撑多设备开发的 Git 工程实践 › 2. 仓库卫生：检查、`.gitignore` 与可重建环境",
+    "content": "build/\ninstall/\nlog/",
+    "content_type": "code",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-051",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part III：支撑多设备开发的 Git 工程实践 › 2. 仓库卫生：检查、`.gitignore` 与可重建环境",
+    "content": "但 .gitignore 不能脱离具体仓库照抄。判断标准始终是：它是不是源码、能否重建、是否包含本机状态或敏感信息。仓库应该保留源码、配置与依赖声明，让包管理器和构建系统恢复环境，而不是把某台设备的缓存和产物带到下一台机器。",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-052",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part III：支撑多设备开发的 Git 工程实践 › 3. 多设备并行：Conflict 与 Branch",
+    "content": "假设 Windows 和 Mac 都从提交 A 开始，并且修改了同一段内容：",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-053",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part III：支撑多设备开发的 Git 工程实践 › 3. 多设备并行：Conflict 与 Branch",
+    "content": "┌── B（Windows 修改并先 push）\nA ──────┤\n        └── C（macOS 基于旧版本继续修改）",
+    "content_type": "code",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-054",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part III：支撑多设备开发的 Git 工程实践 › 3. 多设备并行：Conflict 与 Branch",
+    "content": "当 Mac 随后尝试整合远程的 B 时，Git 可以知道两边都改了，却未必能判断哪一份内容才符合我的真实意图。冲突不是 Git 失效，而是它拒绝替我做一个信息不足的决定。\n\n我降低冲突概率的方法很朴素：开始工作前先 pull；不在多台设备上长期保留未同步修改；一个任务尽量在一个明确分支或主要设备上完成；完成逻辑单元后及时 commit 和 push；避免无意义的全文件格式化和批量换行变化。\n\nBranch 在这里用于隔离风险，而不是增加流程感。当前网站以 main 作为生产基线，并没有采用复杂 Git Flow。常见命名可以保持简单：",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-055",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part III：支撑多设备开发的 Git 工程实践 › 3. 多设备并行：Conflict 与 Branch",
+    "content": "main          稳定基线\nfeature/*     相对独立的新功能或内容\nfix/*         明确的问题修复\nexperiment/*  尚未确定是否保留的实验",
+    "content_type": "code",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-056",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part III：支撑多设备开发的 Git 工程实践 › 3. 多设备并行：Conflict 与 Branch",
+    "content": "小而明确、可以立即验证的修改不一定需要复杂分支层级；独立功能、高风险变更、较长周期任务、Agent 批量修改或实验性方案，则更适合放进单独分支。个人项目在需要隔离风险时同样适合使用分支，但不需要为了“看起来专业”而复制一套与项目规模不匹配的流程。",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-057",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part IV：Agent 时代，我为什么反而更依赖 Git",
+    "content": "Agent 辅助开发已经逐渐成为我的日常工作方式。但它带来的并不是“Git 可以省略”，而是修改速度提高以后，版本边界和人工确认变得更加重要。",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-058",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part IV：Agent 时代，我为什么反而更依赖 Git › 1. 从 Human Develop 到 Human / Agent Develop",
+    "content": "现在，我的不少网站维护工作已经不是自己逐行手动修改。更多时候，我先提出目标，再由 ChatGPT、Codex 或其他具备仓库操作能力的 coding agent 阅读项目、分析现有结构、修改文件并运行验证，最后由我检查结果。",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-059",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part IV：Agent 时代，我为什么反而更依赖 Git › 1. 从 Human Develop 到 Human / Agent Develop",
+    "content": "我定义任务\n  ↓\nAgent 阅读仓库\n  ↓\nAgent 修改\n  ↓\nBuild / Test\n  ↓\nDiff / Status\n  ↓\n人工 Review\n  ↓\nCommit / Push",
+    "content_type": "code",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-060",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part IV：Agent 时代，我为什么反而更依赖 Git › 1. 从 Human Develop 到 Human / Agent Develop",
+    "content": "无论文件由我还是 Agent 修改，后半段的工程验证逻辑基本一致。",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-061",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part IV：Agent 时代，我为什么反而更依赖 Git › 2. 我如何给 Agent 定义任务边界",
+    "content": "我通常不会只说一句“帮我改一下网站”，而是尽量给出当前仓库、分支、任务、允许与禁止修改的范围、已冻结内容、构建与测试命令，以及是否允许 commit、push。一个简化后的任务约束可能是：",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-062",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part IV：Agent 时代，我为什么反而更依赖 Git › 2. 我如何给 Agent 定义任务边界",
+    "content": "任务：新增一篇文章\n\n允许：\n- 修改指定文章\n\n禁止：\n- 修改主题、导航和依赖\n- 修改其他文章\n\n验证：\n- git diff --check\n- npm run build\n- 运行已有测试\n- git status\n\n不要 commit\n不要 push",
+    "content_type": "code",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-063",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part IV：Agent 时代，我为什么反而更依赖 Git › 2. 我如何给 Agent 定义任务边界",
+    "content": "重点不是 Prompt 写得多复杂，而是让任务边界、禁止范围和完成标准都可以检查。Agent 在这里是受到仓库现状、Git 和工程规则约束的开发执行者。",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-064",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part IV：Agent 时代，我为什么反而更依赖 Git › 3. 修改权限不等于发布权限",
+    "content": "Agent 可以阅读和修改代码、新建文件、执行命令、运行 build 和 test、查看 diff、分析错误，但 Modify、Commit 和 Push 是三层不同的权限。",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-065",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part IV：Agent 时代，我为什么反而更依赖 Git › 3. 修改权限不等于发布权限",
+    "content": "Agent Modify\n  ↓\nAgent Verify\n  ↓\nHuman Review\n  ↓\nCommit\n  ↓\nPush",
+    "content_type": "code",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-066",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part IV：Agent 时代，我为什么反而更依赖 Git › 3. 修改权限不等于发布权限",
+    "content": "在明确授权的自动化任务中，当然可以进一步放权。但默认情况下，我更倾向于把版本确认保留为独立步骤：Agent 完成修改和验证后，我查看 diff 与 status，确认范围和结果，再决定是否 commit、push。",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-067",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part IV：Agent 时代，我为什么反而更依赖 Git › 4. 为什么 Agent 越强，Git 越重要",
+    "content": "Agent 可以在很短时间里修改多个文件，这使 diff、branch、commit、rollback、可追踪历史和清晰 scope 变得更加重要。Git 不只管理“我的修改”，也负责审计 Agent 的修改范围、隔离实验、比较前后状态，并为人工 Review 提供事实依据。\n\n这篇文章本身就在 feature/cross-platform-git-workflow 中完成。它不需要复杂 PR 流程，但仍然遵循清楚的边界：",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-068",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part IV：Agent 时代，我为什么反而更依赖 Git › 4. 为什么 Agent 越强，Git 越重要",
+    "content": "main\n└── feature/cross-platform-git-workflow\n      ↓\n    Agent 修改\n      ↓\n    Build / Test\n      ↓\n    Diff Review\n      ↓\n    人工确认\n      ↓\n    Commit\n      ↓\n    Merge（如需要）",
+    "content_type": "code",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-069",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part IV：Agent 时代，我为什么反而更依赖 Git › 4. 为什么 Agent 越强，Git 越重要",
+    "content": "分支隔离修改，Git 展示事实，测试验证结果，最后的版本确认仍然是一个独立决定。Commit 形成正式的版本节点；Merge 用于在需要时整合分支历史，可以稍后进行。",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-070",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part IV：Agent 时代，我为什么反而更依赖 Git › 5. 最终工作流",
+    "content": "把设备、仓库和 Agent 放在一起，我现在的整体结构是：",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-071",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part IV：Agent 时代，我为什么反而更依赖 Git › 5. 最终工作流",
+    "content": "Windows Website Local Repository\n              ↕\n     Website GitHub Repository\n              ↕\nmacOS Website Local Repository\n\nUbuntu PC：本地 DL / RL / Linux Research Projects\n└── 受 Git 管理的项目 ──按需↔ Remote Repository\n\nUbuntu NUC：ROS 2 / Stewart / 6PUS Projects\n└── 受 Git 管理的项目 ↔ 对应的 Remote Repository\n\n每个仓库内的工作链路：\nPull → Define Task\n     → Human / Agent Develop\n     → Diff → Build / Test → Review\n     → Commit → Push",
+    "content_type": "code",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-072",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "Part IV：Agent 时代，我为什么反而更依赖 Git › 5. 最终工作流",
+    "content": "每台设备都有完整的本地历史；网站仓库可以存在于 Windows 和 macOS，科研与机器人项目则有各自独立的 Repository。对于受 Git 管理并需要远程同步或共享的项目，本地仓库再与对应 Remote Repository 交换提交历史。无论一次修改由我还是 Agent 完成，它都要经过 diff、build、test 和 review，再成为正式版本。",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
+    "links": []
+  },
+  {
+    "id": "1b47fed52e-073",
+    "document_id": "1b47fed52e",
+    "title": "新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流",
+    "url": "/2026/09/27/新-Mac-到手之后-我重新整理了一遍自己的-Git-工作流/",
+    "section": "写在最后：为什么把这篇文章送给新 Mac",
+    "content": "MacBook Neo 最开始只是为了获得一台更轻、更适合出差和随身携带的电脑。真正使用以后，它又成为了个人开发体系里的一个新节点：网站项目多了一个移动终端，Windows 与 macOS 开始共同参与维护；Ubuntu 的 PC 双系统继续承担 Linux 科研开发，NUC 则继续承载 ROS 2、Stewart / 6PUS 并联机器人和实机控制。\n\nGit 早已是我的日常工具。新 Mac 没有让我突然理解 commit，也不是我第一次把代码 push 到 GitHub。但也正因为这个新节点的加入，我第一次把 Windows、macOS、两种 Ubuntu 环境、GitHub，以及已经逐渐常态化的 Agent 辅助开发工作流放在一起重新审视，也重新看清了这套工作流里最重要的部分。\n\n电脑会更换，操作系统会变化，开发工具和依赖版本也会不断更新。真正让一个项目从旧设备延续到新设备、从一个系统延续到另一个系统的，不是某个被完整复制的文件夹，而是仓库里连续、清楚、可验证的版本历史。\n\n新电脑只是新的工作节点，真正保持项目连续性的，是版本历史本身。\n\n这篇文章既是一次跨平台 Git 工作流整理，也算是送给第一台 Mac 的第一份开发者礼物。",
+    "content_type": "paragraph",
+    "tags": [
+      "Git",
+      "GitHub",
+      "macOS",
+      "Windows",
+      "Ubuntu",
+      "SSH",
+      "跨平台开发"
+    ],
+    "categories": [
+      "网站开发"
+    ],
+    "published_at": "2026-09-27",
+    "content_hash": "2cd45604d46d9a47",
     "links": []
   },
   {

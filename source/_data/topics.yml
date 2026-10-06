@@ -17,6 +17,7 @@ robotics-systems:
   description: 记录机器人软件从开发环境、通信链路、执行器与传感器接入，到 ROS 系统集成和真实硬件部署的工程实践。
   hero: /images/topics/robotics-systems/hero.webp
   posts:
+    - ros2-rmw-zenoh-0-13-0-benchmark
     - ros-docker-cross-ubuntu-development
     - 因时微型伺服电缸-ROS2控制-从UART到Modbus总线
     - 6-pus-stewart-3-ros2-real-hardware
