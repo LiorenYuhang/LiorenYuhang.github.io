@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/LYH.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/LYH.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"liorenyuhang.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"mac"},"fold":{"enable":false,"height":500},"language":false,"highlight_theme":"night eighties"},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fade","post_header":"fade","post_body":"fade","coll_header":"fade","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false,"trigger":"auto"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="在同一套 ROS 2 Rolling 应用、二进制、消息和 QoS 下，对比 Fast DDS、Cyclone DDS 与 rmw_zenoh_cpp 0.13.0 的 RTT，观察载荷、发送节奏、尾延迟与重复性如何改变工程选型判断。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ROS 2 换掉 DDS 会发生什么？实测 rmw_zenoh 0.13.0、Fast DDS 与 Cyclone DDS">
+<meta property="og:url" content="https://liorenyuhang.github.io/2026/10/06/ros2-rmw-zenoh-0-13-0-benchmark/index.html">
+<meta property="og:site_name" content="吾性自足，不假外求&lt;br&gt;明心见性，知行合一">
+<meta property="og:description" content="在同一套 ROS 2 Rolling 应用、二进制、消息和 QoS 下，对比 Fast DDS、Cyclone DDS 与 rmw_zenoh_cpp 0.13.0 的 RTT，观察载荷、发送节奏、尾延迟与重复性如何改变工程选型判断。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://liorenyuhang.github.io/images/9-ros2-rmw-zenoh-0-13-0-benchmark/00-rmw-abstraction.svg">
+<meta property="og:image" content="https://liorenyuhang.github.io/images/9-ros2-rmw-zenoh-0-13-0-benchmark/01-rtt-median-paced-10ms.png">
+<meta property="og:image" content="https://liorenyuhang.github.io/images/9-ros2-rmw-zenoh-0-13-0-benchmark/03-rtt-median-back-to-back.png">
+<meta property="og:image" content="https://liorenyuhang.github.io/images/9-ros2-rmw-zenoh-0-13-0-benchmark/02-rtt-p99-paced-10ms.png">
+<meta property="og:image" content="https://liorenyuhang.github.io/images/9-ros2-rmw-zenoh-0-13-0-benchmark/04-rtt-p99-back-to-back.png">
+<meta property="og:image" content="https://liorenyuhang.github.io/images/9-ros2-rmw-zenoh-0-13-0-benchmark/05-rtt-ecdf-64b-1mib.png">
+<meta property="og:image" content="https://liorenyuhang.github.io/images/9-ros2-rmw-zenoh-0-13-0-benchmark/06-tail-amplification.png">
+<meta property="og:image" content="https://liorenyuhang.github.io/images/9-ros2-rmw-zenoh-0-13-0-benchmark/07-rtt-ecdf-64kib.png">
+<meta property="article:published_time" content="2026-10-06T16:00:00.000Z">
+<meta property="article:author" content="刘宇杭">
+<meta property="article:tag" content="ROS 2">
+<meta property="article:tag" content="Zenoh">
+<meta property="article:tag" content="性能测试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://liorenyuhang.github.io/images/9-ros2-rmw-zenoh-0-13-0-benchmark/00-rmw-abstraction.svg">
+
+
+<link rel="canonical" href="https://liorenyuhang.github.io/2026/10/06/ros2-rmw-zenoh-0-13-0-benchmark/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://liorenyuhang.github.io/2026/10/06/ros2-rmw-zenoh-0-13-0-benchmark/","path":"2026/10/06/ros2-rmw-zenoh-0-13-0-benchmark/","title":"ROS 2 换掉 DDS 会发生什么？实测 rmw_zenoh 0.13.0、Fast DDS 与 Cyclone DDS"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>ROS 2 换掉 DDS 会发生什么？实测 rmw_zenoh 0.13.0、Fast DDS 与 Cyclone DDS | 吾性自足，不假外求<br>明心见性，知行合一</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+<script>document.title = "刘宇杭";</script>
+<script>
+(function() {
+  if (!location.pathname.includes('/about')) return;
+  document.documentElement.className += ' is-about-page';
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var overview = document.querySelector('.site-overview-wrap');
+    if (!overview) return;
+
+    var author = overview.querySelector('.site-author');
+    var links = overview.querySelector('.links-of-author');
+    if (author && !overview.querySelector('.about-profile-card')) {
+      var profile = document.createElement('div');
+      profile.className = 'about-profile-card';
+      overview.insertBefore(profile, author);
+      profile.appendChild(author);
+      author.innerHTML = '<p class="about-profile-name">刘宇杭</p><p class="about-profile-role">博士研究生</p><p class="about-profile-focus">Robotics · Control · Sensing</p>';
+    }
+
+    if (links) links.remove();
+  });
+})();
+</script>
+<style>
+/* 关于页默认显示个人概览，隐藏文章目录 */
+html.is-about-page .site-overview-wrap { display: block !important; opacity: 1 !important; visibility: visible !important; height: auto !important; transform: none !important; }
+html.is-about-page .post-toc-wrap { display: none !important; }
+html.is-about-page .sidebar-nav { display: none !important; }
+html.is-about-page .sidebar-nav-overview { font-weight: bold; }
+html.is-about-page .sidebar-nav-toc { font-weight: normal; }
+</style>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">吾性自足，不假外求<br>明心见性，知行合一</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-文章"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>文章</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-rmw-zenoh-0-13-0-%E5%8F%91%E5%B8%83%E5%90%8E%EF%BC%8C%E6%88%91%E9%87%8D%E6%96%B0%E5%81%9A%E4%BA%86%E4%B8%80%E6%AC%A1-RMW-%E5%AF%B9%E6%AF%94"><span class="nav-text">1. rmw_zenoh 0.13.0 发布后，我重新做了一次 RMW 对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-RMW%EF%BC%9AROS-2-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%83%BD%E2%80%9C%E5%8F%AA%E6%8D%A2%E5%BA%95%E5%B1%82%E2%80%9D"><span class="nav-text">2. RMW：ROS 2 为什么能“只换底层”</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%88%91%E6%80%8E%E4%B9%88%E6%8A%8A%E4%B8%89%E7%A7%8D-RMW-%E6%94%BE%E5%88%B0%E5%90%8C%E4%B8%80%E6%9D%A1%E8%B5%B7%E8%B7%91%E7%BA%BF%E4%B8%8A"><span class="nav-text">3. 我怎么把三种 RMW 放到同一条起跑线上</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E7%AC%AC%E4%B8%80%E7%9C%BC%EF%BC%9A%E5%8F%AA%E7%9C%8B-Median%EF%BC%8C%E4%BC%9A%E5%BE%97%E5%88%B0%E4%BB%80%E4%B9%88%E7%AD%94%E6%A1%88"><span class="nav-text">4. 第一眼：只看 Median，会得到什么答案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E7%9C%9F%E6%AD%A3%E6%94%B9%E5%8F%98%E5%88%A4%E6%96%AD%E7%9A%84%E6%98%AF-P99"><span class="nav-text">5. 真正改变判断的是 P99</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E5%A4%A7%E5%8C%85%E5%92%8C%E9%80%9A%E4%BF%A1%E8%8A%82%E5%A5%8F%E5%A6%82%E4%BD%95%E6%94%BE%E5%A4%A7%E5%B0%BE%E9%83%A8"><span class="nav-text">6. 大包和通信节奏如何放大尾部</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E5%86%8D%E7%9C%8B-Repeat%EF%BC%9Apooled-%E7%BB%93%E6%9E%9C%E4%B8%8D%E7%AD%89%E4%BA%8E%E7%A8%B3%E5%AE%9A%E4%BC%98%E5%8A%BF"><span class="nav-text">7. 再看 Repeat：pooled 结果不等于稳定优势</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-rmw-zenoh-0-13-0-%E5%88%B0%E5%BA%95%E8%A1%A8%E7%8E%B0%E5%88%B0%E4%BB%80%E4%B9%88%E7%A8%8B%E5%BA%A6"><span class="nav-text">8. rmw_zenoh 0.13.0 到底表现到什么程度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-%E4%BB%8E%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C%E5%88%B0-RMW-%E9%80%89%E5%9E%8B"><span class="nav-text">9. 从实验结果到 RMW 选型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-%E7%BB%93%E8%AF%AD"><span class="nav-text">10. 结语</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="刘宇杭"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">刘宇杭</p>
+  <div class="site-description" itemprop="description">机器人方向博士生 · 医工交叉 · 感知与控制</div>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/LiorenYuhang" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;LiorenYuhang" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:liu999yh@qq.com" title="E-Mail → mailto:liu999yh@qq.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://liorenyuhang.github.io/2026/10/06/ros2-rmw-zenoh-0-13-0-benchmark/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="刘宇杭">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="吾性自足，不假外求<br>明心见性，知行合一">
+      <meta itemprop="description" content="机器人方向博士生 · 医工交叉 · 感知与控制">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="ROS 2 换掉 DDS 会发生什么？实测 rmw_zenoh 0.13.0、Fast DDS 与 Cyclone DDS | 吾性自足，不假外求<br>明心见性，知行合一">
+      <meta itemprop="description" content="在同一套 ROS 2 Rolling 应用、二进制、消息和 QoS 下，对比 Fast DDS、Cyclone DDS 与 rmw_zenoh_cpp 0.13.0 的 RTT，观察载荷、发送节奏、尾延迟与重复性如何改变工程选型判断。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ROS 2 换掉 DDS 会发生什么？实测 rmw_zenoh 0.13.0、Fast DDS 与 Cyclone DDS
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-10-07 00:00:00" itemprop="dateCreated datePublished" datetime="2026-10-07T00:00:00+08:00">2026-10-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%BA%E5%99%A8%E4%BA%BA/" itemprop="url" rel="index"><span itemprop="name">机器人</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">在同一套 ROS 2 Rolling 应用、二进制、消息和 QoS 下，对比 Fast DDS、Cyclone DDS 与 rmw_zenoh_cpp 0.13.0 的 RTT，观察载荷、发送节奏、尾延迟与重复性如何改变工程选型判断。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="1-rmw-zenoh-0-13-0-发布后，我重新做了一次-RMW-对比"><a href="#1-rmw-zenoh-0-13-0-发布后，我重新做了一次-RMW-对比" class="headerlink" title="1. rmw_zenoh 0.13.0 发布后，我重新做了一次 RMW 对比"></a>1. rmw_zenoh 0.13.0 发布后，我重新做了一次 RMW 对比</h2><p><code>rmw_zenoh_cpp 0.13.0</code> 在 <strong>2026 年 9 月 11 日</strong>发布时，我已经注意到了这次更新。可惜 9 月开学后，科研、项目和其他事情比较集中，真正抽出完整时间，在同一套 benchmark 下系统测试 Fast DDS、Cyclone DDS 和 Zenoh 0.13.0，已经到了 10 月。</p>
+<p>截至本文整理时的 <strong>2026-10-07</strong>，0.13.0 是当时最新的正式发布版本。日期可查<a target="_blank" rel="noopener" href="https://github.com/ros2/rmw_zenoh/blob/0.13.0/rmw_zenoh_cpp/CHANGELOG.rst">官方 changelog</a> 的 <code>0.13.0 (2026-09-11)</code> 条目，以及对应的 <a target="_blank" rel="noopener" href="https://github.com/ros2/rmw_zenoh/tree/0.13.0">0.13.0 release tag</a>。我测的是这个明确的版本包，不是不断变化的 Rolling HEAD。</p>
+<p>我关注它，是因为 Zenoh 已经通过 RMW 接到了 ROS 2 的应用接口下。对一个已有的机器人软件项目，这意味着一个值得实测的问题：<strong>如果 application、消息和业务逻辑完全不变，只替换 RMW，往返通信会发生什么？</strong></p>
+<p>先透露一组结果：1 MiB、back-to-back request&#x2F;reply 下，Fast DDS 的 pooled median 约 <strong>2.01 ms</strong>，P99 约 <strong>24.26 ms</strong>；Zenoh 0.13.0 的 median 约 <strong>2.76 ms</strong>，P99 约 <strong>5.37 ms</strong>。只看 median，Fast DDS 更低；换成 P99，Zenoh 又明显更低。</p>
+<p>同一组对照里，Cyclone DDS 的 median 约 <strong>1.61 ms</strong>，P99 约 <strong>3.84 ms</strong>。这些数值来自同一套应用条件，但选择看分布的哪个位置，会改变我对其中两个实现的判断。</p>
+<p>所以我想问的不只是“谁更快”，还包括：小包和大包会不会得到不同答案？回复后停一段时间，与立即继续发送有什么差别？一条漂亮的汇总曲线能否经得住重复运行？下面从 RMW 的可替换位置出发，把这几个问题拆开看。</p>
+<span id="more"></span>
+
+<h2 id="2-RMW：ROS-2-为什么能“只换底层”"><a href="#2-RMW：ROS-2-为什么能“只换底层”" class="headerlink" title="2. RMW：ROS 2 为什么能“只换底层”"></a>2. RMW：ROS 2 为什么能“只换底层”</h2><p>要让“应用不变，只换底层”成为一个有意义的实验，先要知道切换发生在哪里。用 <code>rclcpp</code> 写节点时，应用面对的是 ROS 2 的消息、节点和通信接口；下面经过 <code>rcl</code>，再由 RMW 对接具体中间件。业务逻辑因此不必直接绑定到某一家 DDS 的 API。</p>
+<p>这一层也给非 DDS 实现留下了位置：<code>rmw_fastrtps_cpp</code> 对接 Fast DDS，<code>rmw_cyclonedds_cpp</code> 对接 Cyclone DDS，<code>rmw_zenoh_cpp</code> 则对接 Zenoh。ROS 2 官方的 <a target="_blank" rel="noopener" href="https://github.com/ros2/ros2_documentation/blob/rolling/source/ROS-Framework/client-libraries/About-Middleware-Implementations.rst">RMW 实现说明</a> 已将两类实现放在同一接口体系中讨论。</p>
+<figure>
+  <img src="/images/9-ros2-rmw-zenoh-0-13-0-benchmark/00-rmw-abstraction.svg" alt="ROS 2 Application 经 rclcpp、rcl 和 RMW 选择 Fast DDS、Cyclone DDS 或 Zenoh 的分层架构">
+  <figcaption>
+图 1：同一应用下的三种 RMW 可替换方案。每次运行选择一个分支，三个分支不是同时参与同一次测量。<br>
+<em>Fig. 1. ROS 2 RMW abstraction and interchangeable middleware implementations.</em>
+</figcaption>
+</figure>
+
+<p>在支持运行时选择、已安装对应实现和消息 type support 的环境里，可以在进程启动前设置 <code>RMW_IMPLEMENTATION</code>。例如下面三行分别代表三种运行选择，不是一起执行的启动脚本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> RMW_IMPLEMENTATION=rmw_fastrtps_cpp</span><br><span class="line"><span class="built_in">export</span> RMW_IMPLEMENTATION=rmw_cyclonedds_cpp</span><br><span class="line"><span class="built_in">export</span> RMW_IMPLEMENTATION=rmw_zenoh_cpp</span><br></pre></td></tr></table></figure>
+
+<p>官方的<a target="_blank" rel="noopener" href="https://github.com/ros2/ros2_documentation/blob/rolling/source/Get-Started/Installation/RMW-Implementations/Working-with-multiple-RMW-implementations.rst">多 RMW 使用说明</a>解释了这种选择方式；<a target="_blank" rel="noopener" href="https://github.com/ros2/ros2_documentation/blob/rolling/source/ROS-Framework/client-libraries/Working-with-Client-Libraries/Creating-An-RMW-Implementation.rst">RMW 实现指南</a>进一步说明了运行时加载机制。</p>
+<p>这里切换的是进程启动时使用的实现，不是对一个正在运行的节点做热切换。Ping 和 Pong 也始终使用同一个 RMW；这里不讨论不同实现之间能否互通。</p>
+<p>图 1 要表达的就是这个替换位置：上面保留同一套应用，下面每次选择一个分支。这样做 same-source benchmark，我就不用拿三份实现方式不同的 Ping&#x2F;Pong 程序比较，而能让同一套源码和二进制走不同 RMW，观察应用最终看到的 RTT。</p>
+<h2 id="3-我怎么把三种-RMW-放到同一条起跑线上"><a href="#3-我怎么把三种-RMW-放到同一条起跑线上" class="headerlink" title="3. 我怎么把三种 RMW 放到同一条起跑线上"></a>3. 我怎么把三种 RMW 放到同一条起跑线上</h2><p>我先遇到的其实是环境问题。实验 Host 原本承担 ROS 2 Jazzy 和机器人实机任务，我不想为一次中间件比较打乱它。因此保留 Host Jazzy，在 Docker 中准备 <strong>基于 Ubuntu 26.04.1 LTS 的 ROS 2 Rolling 环境</strong>，再冻结实验 image。</p>
+<p>三个实现使用<strong>同一 image、相同源码、同一次构建生成的 Ping&#x2F;Pong 二进制、相同消息和 QoS</strong>。Ping 发布 <code>BenchmarkPacket</code>，Pong 收到后原样回发，组成 <strong>Ping → Pong → Ping</strong>。固定载荷和发送节奏后，应用通过 <code>RMW_IMPLEMENTATION</code> 选择实现；程序也检查 requested 与 actual RMW identifier，确认真正加载的中间件。</p>
+<p>QoS 统一为 <strong>KEEP_LAST、depth 10、RELIABLE、VOLATILE</strong>。中间件保持各自默认配置，Zenoh 使用默认的 <code>rmw_zenohd</code>。这条“起跑线”约束的是应用与环境，不代表三种实现内部走相同的传输路径。</p>
+<p>我选了 <strong>64 B、1 KiB、16 KiB、64 KiB、1 MiB</strong> 五档 payload，搭配两种节奏：</p>
+<ul>
+<li><strong>paced_10ms</strong>：收到回复并完成处理后，等待 10,000 μs 再发下一条。周期还包含 RTT 和处理时间，因此不是严格 100 Hz。</li>
+<li><strong>back_to_back</strong>：回复处理完就立即发送下一条，但始终只有 <strong>1 个 request in flight</strong>。它仍是 request&#x2F;reply，不是 streaming throughput 或最大吞吐量测试。</li>
+</ul>
+<p>每个 RMW × payload × mode 组合称为一个 cell。矩阵为 <strong>3 middleware × 5 payload × 2 modes × 5 repeats</strong>，共 <strong>150 个 clean runs、30 个 experimental cells、150,000 个有效 RTT samples</strong>，<strong>0 timeout、0 invalid echo</strong>。每个 cell 合并 5,000 个 samples 用来描述分布，重复运行的单位是 <strong>5 repeats</strong>，不能称为 5,000 次独立实验，也不假定五次运行在统计上完全独立。</p>
+<p>RTT 用同一个 Ping 的 <code>std::chrono::steady_clock</code> 计时，衡量应用端到端往返时间。它不是 one-way latency，也不能直接除以二当成单向延迟。实验期间曾检测到一次环境冲突，对应结果被排除并重新完成测试。正式统计只纳入 clean runs，没有按延迟高低筛选数据，也没有删除 outlier。</p>
+<p>理解这些条件，就可以继续看结果。精确版本、计时边界和统计实现放在下面，方便需要复核时展开。</p>
+<details>
+<summary>展开查看完整实验版本与统计口径</summary>
+
+<p>版本选择还有一个具体原因：这台 Host 的早期 Jazzy 环境记录中，<code>rmw_zenoh_cpp</code> 为 <strong>0.2.10</strong>。它与本文要测试的 0.13.0 不是同一个版本。为获取当时可用的官方 0.13.0 二进制包，我选择 Docker 内的 ROS 2 Rolling 环境，而不是改变 Host 的 Jazzy。</p>
+<p>正式实验使用<strong>基于 Ubuntu 26.04.1 LTS 的 ROS 2 Rolling 环境</strong>，运行参数包含 <code>--network host --init --rm</code>。三个实现共用冻结后的 image：<code>ros2-rmw-benchmark:rolling-zenoh-0.13.0-20261006</code>。</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>本次正式实验版本</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Host &#x2F; CPU</td>
+<td>Ubuntu 24.04.4 LTS &#x2F; Intel Core i5-1340P</td>
+</tr>
+<tr>
+<td>Host CPU 状态</td>
+<td>intel_pstate &#x2F; powersave</td>
+</tr>
+<tr>
+<td>Fast DDS &#x2F; RMW</td>
+<td>3.6.2 &#x2F; rmw_fastrtps_cpp 9.6.0</td>
+</tr>
+<tr>
+<td>Cyclone DDS &#x2F; RMW</td>
+<td>11.0.1 &#x2F; rmw_cyclonedds_cpp 4.2.1</td>
+</tr>
+<tr>
+<td>Zenoh RMW &#x2F; vendor</td>
+<td>rmw_zenoh_cpp 0.13.0 &#x2F; zenoh_cpp_vendor 0.13.0</td>
+</tr>
+<tr>
+<td>Zenoh 底层库</td>
+<td>zenoh-c 1.8.0 &#x2F; zenoh-cpp 1.9.0</td>
+</tr>
+</tbody></table>
+<p>0.13.0 是 RMW 包版本，不能把它当成底层 Zenoh 库的版本。本次安装的 <code>ros-rolling-rmw-zenoh-cpp</code> Debian 包为 <code>0.13.0-1resolute.20260915.140302</code>，来自官方 image 配置的 ROS <strong>testing channel</strong>。上游正式版本、二进制发布渠道和 ROS 发行版是三件事；这不意味着 Rolling 是稳定发行版。</p>
+<p>Docker 在这里承担的是环境隔离和快照作用。<code>--network host</code> 使容器使用 Linux Host 的网络命名空间，但测量仍包含容器、进程、ROS 调用和中间件的整体条件，不能据此把结果称为裸机或纯网络延迟。</p>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>设置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>消息 payload 字段</td>
+<td>64 B、1 KiB、16 KiB、64 KiB、1 MiB</td>
+</tr>
+<tr>
+<td>应用节奏</td>
+<td>paced_10ms、back_to_back</td>
+</tr>
+<tr>
+<td>QoS</td>
+<td>KEEP_LAST，depth 10，RELIABLE，VOLATILE</td>
+</tr>
+<tr>
+<td>在途请求</td>
+<td>始终只有 1 个 request in flight</td>
+</tr>
+<tr>
+<td>每次 run</td>
+<td>100 次 warmup + 1,000 次正式测量</td>
+</tr>
+<tr>
+<td>每个 cell</td>
+<td>同一 RMW × payload × mode，重复运行 5 次</td>
+</tr>
+<tr>
+<td>超时门限</td>
+<td>每请求 2,000 ms</td>
+</tr>
+<tr>
+<td>进程条件</td>
+<td>每个 run 使用全新容器与全新 ROS 进程</td>
+</tr>
+</tbody></table>
+<p>环境冲突对应的结果没有进入正式统计，重新完成对应测试后，最终纳入完整的 150 个 clean runs。数据没有按延迟高低筛选，也没有删除 outlier、trim 或 winsorization。</p>
+<p>RTT 由同一个 Ping 进程的 <code>std::chrono::steady_clock</code> 计时：发送前取时，包含 deadline reset 和 publish 路径，结束于回复接收回调入口。当前回复的 payload 校验和实验结束后的 CSV 写入不计入该条 RTT。它衡量的是<strong>应用端到端往返时间</strong>，不能当成 one-way latency，也不能除以二就认定单向延迟。</p>
+<p>这里的 payload 是消息中 payload 字段的长度，不是 serialized size 或 wire size。统计使用 Type 7 线性插值百分位；下文主曲线为每个 cell 的 5,000 个 samples 合并后得到的 <strong>pooled median &#x2F; P99</strong>，图中阴影是 5 次重复运行对应指标的 min–max，不是置信区间。</p>
+<p>5,000 个 samples 用于描述分布，重复运行的单位是 <strong>5 repeats</strong>。我不会把它写成 5,000 次独立实验，也不假定这 5 次运行在统计上完全独立；本次没有做显著性检验。</p>
+<p>repeat median CV 使用五个 repeat median 的 population std &#x2F; mean，描述重复之间的相对波动；它与 cell 内 raw RTT 的 CV 不是同一个指标，也不是预设合格门限。</p>
+<p>实验期间还有约 <strong>138.79 分钟</strong>的中断恢复间隔。排除已识别的冲突数据，并不代表不同时段的 Host 状态完全相同。执行顺序做了确定性轮转，但不是随机化实验，因此这里采用描述性结论，不把同编号 repeat 的顺序比较当成严格配对试验。</p>
+</details>
+
+<p>Docker 和 Agent 在这里都是搭建与验证环境的工具，本文关注的仍是 RMW 的表现。下面的提示词只用于建立隔离环境并验证三个实现能否运行，不会重跑完整 benchmark，也不能用来复现本文的 RTT 数值；它采用独立容器网络，与上面实验的 host network 条件不同。</p>
+<details>
+<summary>用 Agent 搭建三种 RMW 的隔离验证环境</summary>
+
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">请建立一套隔离的 ROS 2 Rolling RMW 测试环境，只完成运行验证。</span><br><span class="line">不要运行本文的 150 次正式 benchmark，也不要做性能排名。</span><br><span class="line">先阅读官方 rmw_zenoh 0.13.0 的安装和 Test 说明：</span><br><span class="line">https://github.com/ros2/rmw_zenoh/blob/0.13.0/README.md</span><br><span class="line"></span><br><span class="line">先做 Host 只读检查：</span><br><span class="line">记录操作系统、CPU 架构、已有 ROS 发行版与当前 RMW 设置。</span><br><span class="line">检查 Docker CLI、daemon、当前 context 和已有容器，避免名称冲突。</span><br><span class="line">不要启动、停止或修改已有机器人 ROS 2 项目及其容器。</span><br><span class="line">若 Docker 不可用或权限不足，报告缺口并停止，不自行改系统。</span><br><span class="line">不要在 Host 安装 ROS 包、修改默认 RMW 或写入 .bashrc。</span><br><span class="line">不要挂载已有 ROS workspace，也不要读取或改写项目凭据。</span><br><span class="line"></span><br><span class="line">准备 Docker 环境：</span><br><span class="line">使用官方 ros:rolling-ros-base image，并记录 digest 和容器系统版本。</span><br><span class="line">为本测试建立独立命名的网络和容器，不使用 host network / host IPC。</span><br><span class="line">所有 smoke test 进程都在同一个测试容器内，不映射端口到 Host。</span><br><span class="line">将所用 Dockerfile、安装命令和测试日志保存在独立工作目录。</span><br><span class="line">仅在 Dockerfile / 容器内执行 apt-get update，再通过官方 ROS apt 源安装：</span><br><span class="line">ros-rolling-rmw-fastrtps-cpp</span><br><span class="line">ros-rolling-rmw-cyclonedds-cpp</span><br><span class="line">ros-rolling-rmw-zenoh-cpp</span><br><span class="line">ros-rolling-demo-nodes-cpp</span><br><span class="line">记录 apt 源、三个 RMW 的完整 Debian 包版本及相关依赖版本。</span><br><span class="line">source /opt/ros/rolling/setup.bash 后，检查三个包均能被 ROS 找到。</span><br><span class="line">通过安装目录的 package.xml 确认 rmw_zenoh_cpp 为 0.13.0。</span><br><span class="line">只有版本确认为 0.13.0 才继续；否则停止并报告可用版本。</span><br><span class="line">若官方源仍提供所需版本，可显式指定完整 Deb 版本并重新核验。</span><br><span class="line">不要用其他版本冒充 0.13.0，不混装未知来源或偷偷改成源码构建。</span><br><span class="line"></span><br><span class="line">分别验证三个 RMW：</span><br><span class="line">为本测试选择独立 ROS_DOMAIN_ID，talker、listener、router 保持一致。</span><br><span class="line">每种实现单独启动全新进程，切换前结束本测试上一组进程。</span><br><span class="line">只在容器内处理测试 daemon；不要对 Host 执行全局 pkill。</span><br><span class="line">每个进程在临时 shell 中 source Rolling，并设置 RMW_IMPLEMENTATION。</span><br><span class="line">依次选择 rmw_fastrtps_cpp、rmw_cyclonedds_cpp、rmw_zenoh_cpp。</span><br><span class="line">对 Zenoh，按官方说明先执行 ros2 run rmw_zenoh_cpp rmw_zenohd。</span><br><span class="line">确认 router 正常运行后，再启动 Zenoh 的 talker 与 listener。</span><br><span class="line">talker 命令：ros2 run demo_nodes_cpp talker</span><br><span class="line">listener 命令：ros2 run demo_nodes_cpp listener</span><br><span class="line">为每组设置有限测试时长，以 listener 连续收到对应消息为 PASS 证据。</span><br><span class="line">保存发送、接收与进程错误日志；仅能列出包或节点不算 PASS。</span><br><span class="line">若某组失败，标记 FAIL 并定位当前失败层，不改 Host 来绕过问题。</span><br><span class="line"></span><br><span class="line">三种 RMW 均 PASS 后停止，不扩展为完整 benchmark。</span><br><span class="line">输出 image digest、实际版本、每组命令、PASS / FAIL 和日志路径。</span><br><span class="line">结束本测试创建的进程和容器；保留复现文件，不清理已有资源。</span><br><span class="line">若有版本或运行缺口，如实报告，不宣称复现了文章的性能结果。</span><br></pre></td></tr></table></figure>
+
+</details>
+
+<h2 id="4-第一眼：只看-Median，会得到什么答案"><a href="#4-第一眼：只看-Median，会得到什么答案" class="headerlink" title="4. 第一眼：只看 Median，会得到什么答案"></a>4. 第一眼：只看 Median，会得到什么答案</h2><p>如果先不看开头的 P99，只问“典型的一次往返要多久”，median 是一个直观的入口。图 2 的横轴是 payload 字段长度（log2），纵轴是 RTT，单位 μs（log10）；主线是每个 cell 的 pooled median，阴影是 5 次 repeat 的 min–max，不是置信区间。后面三张总览图沿用这个读法。</p>
+<figure>
+  <img src="/images/9-ros2-rmw-zenoh-0-13-0-benchmark/01-rtt-median-paced-10ms.png" alt="paced_10ms 下三个 RMW 的 pooled median RTT 随 payload 变化，阴影显示五次重复范围">
+  <figcaption>
+图 2：paced_10ms 的 median RTT。主线是每个 cell 的 pooled median，阴影是 5 次 repeat 的 min–max；坐标使用对数尺度。<br>
+<em>Fig. 2. Median RTT versus payload under paced_10ms.</em>
+</figcaption>
+</figure>
+
+<p>在全部 5 个 payload 下，<strong>Cyclone DDS 的 pooled median 最低</strong>。64 B 到 64 KiB 时，Zenoh 0.13.0 的 pooled median 高于两种 DDS；到 1 MiB，Zenoh 为约 <strong>5.14 ms</strong>，低于 Fast DDS 的约 <strong>13.12 ms</strong>，但仍高于 Cyclone DDS 的约 <strong>4.39 ms</strong>。</p>
+<p>如果只看到这里，我会倾向于先验证 Cyclone DDS。但图 2 还有一处值得记住：Zenoh 与 Fast DDS 在大包处交换了相对位置，不能拿一个小包数值概括整个载荷范围。</p>
+<p>接着只改变发送节奏，收到回复后立即继续。图 3 与图 2 共用 median 的纵轴范围，可以直接看出曲线整体下移了多少；再沿横轴看，相对顺序有没有变化。</p>
+<figure>
+  <img src="/images/9-ros2-rmw-zenoh-0-13-0-benchmark/03-rtt-median-back-to-back.png" alt="back_to_back 下三个 RMW 的 pooled median RTT 随 payload 变化，使用与 paced median 图相同的纵轴范围">
+  <figcaption>
+图 3：back_to_back 的 median RTT。与图 2 共用 median 的纵轴范围，便于比较发送节奏造成的变化。<br>
+<em>Fig. 3. Median RTT versus payload under back-to-back request/reply.</em>
+</figcaption>
+</figure>
+
+<p>64 B 时，Fast DDS 的 pooled median 约 <strong>63.46 μs</strong>，Cyclone DDS 约 <strong>70.59 μs</strong>；其余 4 个 payload 则是 Cyclone DDS 更低。仅看汇总表，小包处像是一次排名反转。</p>
+<p>但这两个 64 B 数字之间只差约 <strong>7.14 μs</strong>。按同编号 repeat 比较，Fast DDS 在 3&#x2F;5 次更低，Cyclone DDS 在 2&#x2F;5 次更低。这只是 pooled 排序的局部变化，还不足以支持迁移中间件：这个小差异在重复运行中也会反转。</p>
+<h2 id="5-真正改变判断的是-P99"><a href="#5-真正改变判断的是-P99" class="headerlink" title="5. 真正改变判断的是 P99"></a>5. 真正改变判断的是 P99</h2><p>到这里，典型往返的表现已经比较清楚。但如果系统在意较慢的那部分请求，一个 median 还不够；平均值虽然会受尾部影响，也不能单独告诉我尾部到了哪里。</p>
+<p>我把 P95、P99 放进来继续看。图 4、图 5 的主线改为 pooled P99，阴影相应变为五次 repeat 的 P99 范围；横轴仍为 log2、纵轴仍为 μs 的 log10，这两张 P99 图共用纵轴范围。P95&#x2F;P99 是经验分位数，不是未来运行的硬性上界或 real-time deadline 保证。</p>
+<figure>
+  <img src="/images/9-ros2-rmw-zenoh-0-13-0-benchmark/02-rtt-p99-paced-10ms.png" alt="paced_10ms 下三个 RMW 的 pooled P99 RTT，展示大 payload 的尾延迟差异">
+  <figcaption>
+图 4：paced_10ms 的 P99 RTT。阴影为 5 次 repeat 的 P99 范围，不能解读为置信区间。<br>
+<em>Fig. 4. P99 RTT versus payload under paced_10ms.</em>
+</figcaption>
+</figure>
+
+<p>paced 下，Cyclone DDS 在全部 5 个 payload 的 <strong>pooled P95 和 P99 都最低</strong>。不过，“这次 pooled 值最低”和“每次都稳定领先”仍然不同。例如 1 MiB paced 的 Cyclone 与 Zenoh P99 约为 <strong>7.12 ms</strong> 和 <strong>7.44 ms</strong>，两者 repeat 范围重叠，Zenoh 在 2&#x2F;5 次 repeat 的 P99 更低，不能夸大这里的微小排序。</p>
+<figure>
+  <img src="/images/9-ros2-rmw-zenoh-0-13-0-benchmark/04-rtt-p99-back-to-back.png" alt="back_to_back 下三个 RMW 的 pooled P99 RTT，Fast DDS 在 1 MiB 处保持较高尾延迟">
+  <figcaption>
+图 5：back_to_back 的 P99 RTT。与图 4 共用 P99 的纵轴范围；1 MiB 下 median 的下降没有消除 Fast DDS 的高尾部。<br>
+<em>Fig. 5. P99 RTT versus payload under back-to-back request/reply.</em>
+</figcaption>
+</figure>
+
+<p>1 MiB back-to-back 是本文最值得放在一起看的一组对照。下面数值取自正式汇总，单位统一为 ms，显示到两位小数：</p>
+<table>
+<thead>
+<tr>
+<th>Middleware</th>
+<th align="right">Median (ms)</th>
+<th align="right">P95 (ms)</th>
+<th align="right">P99 (ms)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Fast DDS</td>
+<td align="right">2.01</td>
+<td align="right">23.18</td>
+<td align="right">24.26</td>
+</tr>
+<tr>
+<td>Cyclone DDS</td>
+<td align="right">1.61</td>
+<td align="right">2.92</td>
+<td align="right">3.84</td>
+</tr>
+<tr>
+<td>Zenoh 0.13.0</td>
+<td align="right">2.76</td>
+<td align="right">4.42</td>
+<td align="right">5.37</td>
+</tr>
+</tbody></table>
+<p>如果只看 median，Fast DDS 比 Zenoh 更低；看 P99，Zenoh 又明显低于 Fast DDS。Cyclone DDS 在这组 pooled median 和 P99 上都更低。</p>
+<p>这就是开头那组结果最值得展开的地方：<strong>同一工况，只把评价指标从 median 换成 P99，Zenoh 与 Fast DDS 的工程判断就发生了变化</strong>。相对 Fast DDS，Zenoh 的典型往返更慢，尾延迟却更低。选择哪个，取决于应用在意分布的哪一部分；“Zenoh 比 Fast DDS 快”无法表达这件事。</p>
+<p>back-to-back 的 64 KiB 还有一个局部交叉：Fast DDS 的 pooled P95&#x2F;P99 低于 Cyclone DDS，其余 payload 是 Cyclone DDS 更低。这个点的 P99 顺序也会在 repeats 间反转，同样不能泛化成稳定优势。</p>
+<h2 id="6-大包和通信节奏如何放大尾部"><a href="#6-大包和通信节奏如何放大尾部" class="headerlink" title="6. 大包和通信节奏如何放大尾部"></a>6. 大包和通信节奏如何放大尾部</h2><p>图 5 的大包尾部让我想继续追问：这种差距是怎样拉开的？从 64 B 增大到 1 MiB，Fast DDS 在 back-to-back 下的 pooled P99 增长约 <strong>119.44 倍</strong>。其中 64 KiB → 1 MiB 这段，P99 增长约 <strong>64.98 倍</strong>，是当前离散矩阵中很明显的尾部陡增区间。</p>
+<p>我没有据此给出某个精确 payload 阈值：64 KiB 和 1 MiB 之间没有其他测点，连接两点的线只能帮助阅读，不能证明中间载荷的变化路径。</p>
+<p>接下来要看完整分布，而不是仅盯着一个最大值。ECDF 的纵轴表示“不超过当前 RTT 的样本比例”；同一比例下，曲线越靠左表示对应 RTT 越低，曲线交叉则意味着不同分位数可能给出不同排序。</p>
+<figure>
+  <img src="/images/9-ros2-rmw-zenoh-0-13-0-benchmark/05-rtt-ecdf-64b-1mib.png" alt="64 B 与 1 MiB 在两种发送节奏下的完整 RTT ECDF，保留所有样本及最大值端点">
+  <figcaption>
+图 6：64 B 与 1 MiB 的 RTT ECDF。每条曲线包含该 cell 全部 5,000 个 samples，横轴为 log10，纵轴覆盖完整 0–1，不裁剪尾部。<br>
+<em>Fig. 6. RTT ECDFs for 64 B and 1 MiB payloads.</em>
+</figcaption>
+</figure>
+
+<p>Fast DDS 1 MiB 的 ECDF 有平台和分段上升，主体与较高 RTT 区间存在分离。这说明一个 median 无法充分表达其分布形状，但 pooled 曲线本身仍可能混合了 repeat 之间的差异。</p>
+<p>要判断是不是某一个异常 run 拉高了 P99，还需要回到重复级结果。Fast DDS 1 MiB 的五次 repeat 中，paced P99 均在约 <strong>24.90–25.12 ms</strong>，back-to-back P99 均在约 <strong>23.84–24.35 ms</strong>。结合 ECDF，持续的高尾部不能只归结为一个 max 或一个特别差的 repeat。</p>
+<p>目前能确认的是分布现象。本次没有做正式多峰检验，也没有测 allocator、scheduler、copy 或 SHM 各自的耗时。将平台或分段形状直接解释成某个底层机制，会超出这组数据能支持的范围。</p>
+<p>再把两种发送节奏放在一起看，全部 <strong>15 个 RMW × payload 组合</strong>的 back-to-back pooled median、P95、P99 都低于 paced。但不同指标下降的幅度并不一致，应用节奏也改变了部分 middleware 的相对顺序。</p>
+<p>Fast DDS 1 MiB 是一个清楚的例子：从 paced 切到 back-to-back，median 从约 <strong>13.12 ms</strong> 降到 <strong>2.01 ms</strong>，降幅约 <strong>84.65%</strong>；P99 从约 <strong>25.08 ms</strong> 到 <strong>24.26 ms</strong>，只降低约 <strong>3.24%</strong>。</p>
+<p>典型 RTT 因而大幅改善，尾部却仍然处于较高区间。我用 pooled P99 &#x2F; pooled median 定义 tail amplification，两种节奏下分别约为 <strong>1.91×</strong> 和 <strong>12.04×</strong>。图 7 将这个比值放到整个载荷范围里看：横轴仍为 payload 的 log2，纵轴改为从 0 开始的线性尺度。</p>
+<figure>
+  <img src="/images/9-ros2-rmw-zenoh-0-13-0-benchmark/06-tail-amplification.png" alt="两种发送节奏下各 RMW 的 pooled P99 与 pooled median 比值，Fast DDS 1 MiB back-to-back 约为 12.04">
+  <figcaption>
+图 7：尾部放大比 P99/median。纵轴为从 0 开始的线性尺度；比值描述相对尾部，不是绝对延迟，也不是 repeat 置信区间。<br>
+<em>Fig. 7. Tail amplification ratio (P99/median) across payloads and communication modes.</em>
+</figcaption>
+</figure>
+
+<p>这并不意味着 back-to-back 让 Fast DDS 的绝对 P99 更差：它实际上略有下降。真正变化的是 median 大幅降低，而 P99 没有同比改善，因此尾部相对主体显得更突出。</p>
+<p>同样，较小的 P99&#x2F;median 也不自动代表更低的绝对 RTT；如果 median 本来就高，比值可以较小。选型时仍需把两项绝对值放回来看。</p>
+<p>发送节奏也是测试条件的一部分：回复之后停一段时间，与持续 request&#x2F;reply，观察到的 RTT 并不等价。这是已有结果支持的条件差异；具体为何出现，还需要另外测量，不能凭本次数据猜测 CPU 电源状态或调度路径。</p>
+<h2 id="7-再看-Repeat：pooled-结果不等于稳定优势"><a href="#7-再看-Repeat：pooled-结果不等于稳定优势" class="headerlink" title="7. 再看 Repeat：pooled 结果不等于稳定优势"></a>7. 再看 Repeat：pooled 结果不等于稳定优势</h2><p>看完这些曲线，我还不能直接按 pooled 值选实现。把 5 次 run 的 5,000 个 samples 合在一起，可能会把一次较快、一次较慢的运行揉成一条平滑曲线；重复运行能否得到相近结果，需要另看。</p>
+<p>这组结果中，paced 的 <strong>repeat median CV</strong> 范围约为 <strong>1.48%–6.92%</strong>，back-to-back 为 <strong>5.97%–45.28%</strong>。这里看的是五次 median 之间的波动，不是单个 cell 内样本的离散程度；计算口径见前面的折叠区。</p>
+<p>例如 Cyclone DDS 的 64 KiB back-to-back，五次 median 分别约为 <strong>122.02、94.09、69.99、110.25、235.27 μs</strong>，整体范围为 <strong>69.99–235.27 μs</strong>。它的 pooled median 仍然很低，但不能因此说这个点的重复性最好。</p>
+<figure>
+  <img src="/images/9-ros2-rmw-zenoh-0-13-0-benchmark/07-rtt-ecdf-64kib.png" alt="补充分析：64 KiB 两种发送节奏下的完整 RTT ECDF，展示分布平台与相对顺序交叉">
+  <figcaption>
+图 8（补充）：64 KiB 的 ECDF。用于观察 pooled 分布交叉；判断重复波动仍要结合每个 run 的 median/P99，不能只看这张合并曲线。<br>
+<em>Fig. 8. RTT ECDFs for 64 KiB payloads.</em>
+</figcaption>
+</figure>
+
+<p>图 8 的读法沿用前面的 ECDF，可以看到 pooled 分布的平台与交叉；判断重复性仍需结合上面的 run 级数值。<strong>pooled ranking 不等于 repeatability</strong>，只展示最好的一次运行会漏掉这种波动。</p>
+<h2 id="8-rmw-zenoh-0-13-0-到底表现到什么程度"><a href="#8-rmw-zenoh-0-13-0-到底表现到什么程度" class="headerlink" title="8. rmw_zenoh 0.13.0 到底表现到什么程度"></a>8. rmw_zenoh 0.13.0 到底表现到什么程度</h2><p>在这组 localhost RTT 对照中，Cyclone DDS 的 pooled median&#x2F;P95&#x2F;P99 整体更有优势；Zenoh 0.13.0 的特点则出现在部分大包尾部与 Fast DDS 的取舍上。它值得进入后续候选，但是否适合复杂网络仍需要单独验证。这里需要区分三类结论：实验直接测得的结果、由结果引出的工程判断，以及当前数据无法回答的问题。</p>
+<p><strong>已测得（MEASURED）</strong>：在这里的默认配置、Rolling、localhost 和固定硬件下，Zenoh 0.13.0 在 64 B–64 KiB 范围内的 pooled median&#x2F;P95&#x2F;P99，没有形成对 Fast DDS 和 Cyclone DDS 的整体优势。paced 全部 payload 的这三项 pooled 指标都是 Cyclone DDS 更低。</p>
+<p>到了 1 MiB paced，Zenoh 的 pooled median 和 P99 均低于 Fast DDS，但高于 Cyclone DDS 的对应 pooled 值。Zenoh 相比 Fast DDS 的 P99 降低约 <strong>70.32%</strong>；在 1 MiB back-to-back，Zenoh 的 median 高于 Fast DDS，P99 则降低约 <strong>77.86%</strong>。这两种节奏下的 P99 比较均为 5&#x2F;5 repeats 同方向。</p>
+<p>三种实现都完成了这套受限协议的功能与 RTT 测试，但还没有回答长时间稳定性、全量 ROS 功能兼容性或生产系统验证的问题。</p>
+<p><strong>由结果引出的判断（INFERRED）</strong>：Zenoh 在部分大 payload 尾部指标上与 Fast DDS 呈现不同表现，值得将其作为有具体目标的候选继续评估。Fast DDS 的大包高尾部也给出了明确的后续诊断范围。这些判断用于决定下一步测什么，不能证明某个实现的设计天然优越或存在某个组件缺陷。</p>
+<p><strong>尚未确认（UNKNOWN）</strong>：scheduler、CPU 频率&#x2F;电源状态、allocator、copy、SHM、router 和 transport 各自贡献多少，当前没有分解测量。默认 router 是 Zenoh 部署的一部分，但本次 RTT 不能估计它单独的代价；同样也不能从 DDS 的 RTT 反推出实际走了哪条默认传输路径。</p>
+<p>在这些边界下，Zenoh 仍值得继续评估，但当前结果不足以支持“全面优于 DDS”这样的结论。是否用于具体机器人系统，还需要在目标系统的网络、功能和负载条件下进一步验证。</p>
+<h2 id="9-从实验结果到-RMW-选型"><a href="#9-从实验结果到-RMW-选型" class="headerlink" title="9. 从实验结果到 RMW 选型"></a>9. 从实验结果到 RMW 选型</h2><p>如果这是一个新的 ROS 2 项目，而且通信条件接近本文的 localhost request&#x2F;reply，我会先把 Cyclone DDS 作为验证起点。paced 全载荷的 pooled median&#x2F;P95&#x2F;P99，以及 1 MiB back-to-back 的 median&#x2F;P99 都较低，足以支持这个初步选择。但 64 KiB back-to-back 的 repeat 波动同样需要关注，较低的 pooled 值不等于所有场景下都更稳健。</p>
+<p>如果系统已经围绕 Fast DDS 跑得成熟，我不会因为这一次 benchmark 就迁移。它在某些典型延迟指标上仍有竞争力，已有系统还要考虑兼容性、维护成本和此前完成的验证。如果实际业务包含大 payload，或对尾延迟敏感，就需要在实际硬件和负载下做一次针对性复测。</p>
+<p>如果需求包含边缘设备、复杂网络、跨网段通信，或者明确需要 Zenoh router 与原生 Zenoh 能力，我会把 rmw_zenoh 0.13.0 纳入后续候选。官方 <a target="_blank" rel="noopener" href="https://github.com/ros2/rmw_zenoh/blob/0.13.0/README.md">0.13.0 README</a>提供了 router 与跨 Host 连接的配置说明；本文没有测试这些场景下的表现，仍需在目标拓扑中单独验证。</p>
+<p>新项目从哪里开始验证、已有系统是否值得迁移，以及哪些实现需要继续纳入候选，是三个不同的问题，不能压成一个 middleware 总排名。</p>
+<p>不过，这次实验仍有一组没有回答的问题：</p>
+<ul>
+<li>仅一台 Linux Host、一种硬件平台上的 localhost + Docker host network，没有跨设备、有线网络或 Wi-Fi 对照。</li>
+<li>仅测试精确版本和 default configs，没有寻找最优参数，也没有隔离 SHM、router 或传输组件。</li>
+<li>仅覆盖单请求在途的 echo，没有多节点并发或真实机器人控制链测试。</li>
+<li>没有正式 throughput、discovery 或 CPU&#x2F;RAM benchmark。</li>
+<li>只有 5 repeats，且有中断恢复间隔；未做显著性检验，min–max 不是置信区间。</li>
+<li>载荷点离散且间隔较大，不能确定 64 KiB 到 1 MiB 之间的精确阈值；ECDF 分段也不是多峰机制证明。</li>
+</ul>
+<p>这些结果不代表所有 DDS、所有 Zenoh 或所有 ROS 2 系统，也不提供机器人控制的实时性保证。</p>
+<h2 id="10-结语"><a href="#10-结语" class="headerlink" title="10. 结语"></a>10. 结语</h2><p>如果 ROS 2 application 不变，只替换 RMW，到底会发生什么？这组结果没有给出一个简单的“速度排名”：payload、通信节奏、典型延迟、尾延迟与重复性，会让同一次比较得到不同答案。</p>
+<p>Cyclone DDS 在这组 localhost RTT 测试中的 pooled 指标整体表现突出；Fast DDS 在 1 MiB 条件下出现了持续的高尾部；Zenoh 0.13.0 没有全面领先 DDS，但在大 payload 的 tail latency 上，与 Fast DDS 呈现出明显不同的取舍。这些现象限定在本文的实验条件内。</p>
+<p>如果继续这条线，下一步更值得做的是把同一套比较带到跨设备网络、throughput、discovery 和真实机器人通信链路里。RMW 让 middleware 从业务代码中抽离，成为可以独立测量、比较和重新选择的工程变量。这次测试没有找到适用于所有场景的“最快中间件”，但它把原本容易沿用默认值的 middleware 选择，变成了一个可以用数据检验的工程决策。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>刘宇杭
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://liorenyuhang.github.io/2026/10/06/ros2-rmw-zenoh-0-13-0-benchmark/" title="ROS 2 换掉 DDS 会发生什么？实测 rmw_zenoh 0.13.0、Fast DDS 与 Cyclone DDS">https://liorenyuhang.github.io/2026/10/06/ros2-rmw-zenoh-0-13-0-benchmark/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/ROS-2/" rel="tag"># ROS 2</a>
+              <a href="/tags/Zenoh/" rel="tag"># Zenoh</a>
+              <a href="/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/" rel="tag"># 性能测试</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/09/27/%E6%96%B0-Mac-%E5%88%B0%E6%89%8B%E4%B9%8B%E5%90%8E-%E6%88%91%E9%87%8D%E6%96%B0%E6%95%B4%E7%90%86%E4%BA%86%E4%B8%80%E9%81%8D%E8%87%AA%E5%B7%B1%E7%9A%84-Git-%E5%B7%A5%E4%BD%9C%E6%B5%81/" rel="prev" title="新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流">
+                  <i class="fa fa-angle-left"></i> 新 Mac 到手之后，我重新整理了一遍自己的 Git 工作流
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">LiorenYuhang</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script src="/js/click-effect.js"></script>
+<script src="/js/ai-markdown.js"></script>
+<script src="/js/ai-assistant.js"></script>
+<script>
+// 把顶部菜单移到侧边栏-社交链接之前
+(function() {
+  var menu = document.querySelector('.site-nav');
+  var overview = document.querySelector('.site-overview-wrap');
+  if (menu && overview) {
+    menu.classList.add('sidebar-menu');
+    // 菜单插到社交链接之前（统计已隐藏，直接找社交链接）
+    var social = overview.querySelector('.links-of-author');
+    if (social) {
+      social.before(menu);
+    } else {
+      overview.appendChild(menu);
+    }
+  }
+})();
+</script>
+
+<script>
+// 邮箱点击复制到剪贴板
+(function() {
+  // 归档页标语
+  (function() {
+    if (!window.location.pathname.includes('/archives')) return;
+    var header = document.querySelector('.collection-header');
+    if (header) header.textContent = '记录思考，对抗遗忘。';
+  })();
+
+  var emailLinks = document.querySelectorAll(
+    '.links-of-author-item a[href^="mailto:"], .email-copy-link[href^="mailto:"]'
+  );
+
+  emailLinks.forEach(function(emailLink) {
+    var email = emailLink.getAttribute('href').replace('mailto:', '');
+    var item = emailLink.closest('.links-of-author-item') || emailLink.parentElement;
+
+    emailLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      navigator.clipboard.writeText(email).then(function() {
+        var toast = document.createElement('span');
+        toast.className = 'email-copied-toast';
+        toast.textContent = '已复制';
+        item.style.position = 'relative';
+        item.appendChild(toast);
+        setTimeout(function() { toast.remove(); }, 1500);
+      });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
