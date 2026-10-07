@@ -30,7 +30,7 @@ description: 在同一套 ROS 2 Rolling 应用、二进制、消息和 QoS 下�
 这一层也给非 DDS 实现留下了位置：`rmw_fastrtps_cpp` 对接 Fast DDS，`rmw_cyclonedds_cpp` 对接 Cyclone DDS，`rmw_zenoh_cpp` 则对接 Zenoh。ROS 2 官方的 [RMW 实现说明](https://github.com/ros2/ros2_documentation/blob/rolling/source/ROS-Framework/client-libraries/About-Middleware-Implementations.rst) 已将两类实现放在同一接口体系中讨论。
 
 <figure>
-  <img src="/images/9-ros2-rmw-zenoh-0-13-0-benchmark/00-rmw-abstraction.svg" alt="ROS 2 Application 经 rclcpp、rcl 和 RMW 选择 Fast DDS、Cyclone DDS 或 Zenoh 的分层架构">
+  <img src="/images/9-ros2-rmw-zenoh-0-13-0-benchmark/01-rmw-abstraction.svg" alt="ROS 2 Application 经 rclcpp、rcl 和 RMW 选择 Fast DDS、Cyclone DDS 或 Zenoh 的分层架构">
   <figcaption>
 图 1：同一应用下的三种 RMW 可替换方案。每次运行选择一个分支，三个分支不是同时参与同一次测量。<br>
 <em>Fig. 1. ROS 2 RMW abstraction and interchangeable middleware implementations.</em>
@@ -178,7 +178,7 @@ listener 命令：ros2 run demo_nodes_cpp listener
 如果先不看开头的 P99，只问“典型的一次往返要多久”，median 是一个直观的入口。图 2 的横轴是 payload 字段长度（log2），纵轴是 RTT，单位 μs（log10）；主线是每个 cell 的 pooled median，阴影是 5 次 repeat 的 min–max，不是置信区间。后面三张总览图沿用这个读法。
 
 <figure>
-  <img src="/images/9-ros2-rmw-zenoh-0-13-0-benchmark/01-rtt-median-paced-10ms.png" alt="paced_10ms 下三个 RMW 的 pooled median RTT 随 payload 变化，阴影显示五次重复范围">
+  <img src="/images/9-ros2-rmw-zenoh-0-13-0-benchmark/02-rtt-median-paced-10ms.png" alt="paced_10ms 下三个 RMW 的 pooled median RTT 随 payload 变化，阴影显示五次重复范围">
   <figcaption>
 图 2：paced_10ms 的 median RTT。主线是每个 cell 的 pooled median，阴影是 5 次 repeat 的 min–max；坐标使用对数尺度。<br>
 <em>Fig. 2. Median RTT versus payload under paced_10ms.</em>
@@ -210,7 +210,7 @@ listener 命令：ros2 run demo_nodes_cpp listener
 我把 P95、P99 放进来继续看。图 4、图 5 的主线改为 pooled P99，阴影相应变为五次 repeat 的 P99 范围；横轴仍为 log2、纵轴仍为 μs 的 log10，这两张 P99 图共用纵轴范围。P95/P99 是经验分位数，不是未来运行的硬性上界或 real-time deadline 保证。
 
 <figure>
-  <img src="/images/9-ros2-rmw-zenoh-0-13-0-benchmark/02-rtt-p99-paced-10ms.png" alt="paced_10ms 下三个 RMW 的 pooled P99 RTT，展示大 payload 的尾延迟差异">
+  <img src="/images/9-ros2-rmw-zenoh-0-13-0-benchmark/04-rtt-p99-paced-10ms.png" alt="paced_10ms 下三个 RMW 的 pooled P99 RTT，展示大 payload 的尾延迟差异">
   <figcaption>
 图 4：paced_10ms 的 P99 RTT。阴影为 5 次 repeat 的 P99 范围，不能解读为置信区间。<br>
 <em>Fig. 4. P99 RTT versus payload under paced_10ms.</em>
@@ -220,7 +220,7 @@ listener 命令：ros2 run demo_nodes_cpp listener
 paced 下，Cyclone DDS 在全部 5 个 payload 的 **pooled P95 和 P99 都最低**。不过，“这次 pooled 值最低”和“每次都稳定领先”仍然不同。例如 1 MiB paced 的 Cyclone 与 Zenoh P99 约为 **7.12 ms** 和 **7.44 ms**，两者 repeat 范围重叠，Zenoh 在 2/5 次 repeat 的 P99 更低，不能夸大这里的微小排序。
 
 <figure>
-  <img src="/images/9-ros2-rmw-zenoh-0-13-0-benchmark/04-rtt-p99-back-to-back.png" alt="back_to_back 下三个 RMW 的 pooled P99 RTT，Fast DDS 在 1 MiB 处保持较高尾延迟">
+  <img src="/images/9-ros2-rmw-zenoh-0-13-0-benchmark/05-rtt-p99-back-to-back.png" alt="back_to_back 下三个 RMW 的 pooled P99 RTT，Fast DDS 在 1 MiB 处保持较高尾延迟">
   <figcaption>
 图 5：back_to_back 的 P99 RTT。与图 4 共用 P99 的纵轴范围；1 MiB 下 median 的下降没有消除 Fast DDS 的高尾部。<br>
 <em>Fig. 5. P99 RTT versus payload under back-to-back request/reply.</em>
@@ -250,7 +250,7 @@ back-to-back 的 64 KiB 还有一个局部交叉：Fast DDS 的 pooled P95/P99 �
 接下来要看完整分布，而不是仅盯着一个最大值。ECDF 的纵轴表示“不超过当前 RTT 的样本比例”；同一比例下，曲线越靠左表示对应 RTT 越低，曲线交叉则意味着不同分位数可能给出不同排序。
 
 <figure>
-  <img src="/images/9-ros2-rmw-zenoh-0-13-0-benchmark/05-rtt-ecdf-64b-1mib.png" alt="64 B 与 1 MiB 在两种发送节奏下的完整 RTT ECDF，保留所有样本及最大值端点">
+  <img src="/images/9-ros2-rmw-zenoh-0-13-0-benchmark/06-rtt-ecdf-64b-1mib.png" alt="64 B 与 1 MiB 在两种发送节奏下的完整 RTT ECDF，保留所有样本及最大值端点">
   <figcaption>
 图 6：64 B 与 1 MiB 的 RTT ECDF。每条曲线包含该 cell 全部 5,000 个 samples，横轴为 log10，纵轴覆盖完整 0–1，不裁剪尾部。<br>
 <em>Fig. 6. RTT ECDFs for 64 B and 1 MiB payloads.</em>
@@ -270,7 +270,7 @@ Fast DDS 1 MiB 是一个清楚的例子：从 paced 切到 back-to-back，median
 典型 RTT 因而大幅改善，尾部却仍然处于较高区间。我用 pooled P99 / pooled median 定义 tail amplification，两种节奏下分别约为 **1.91×** 和 **12.04×**。图 7 将这个比值放到整个载荷范围里看：横轴仍为 payload 的 log2，纵轴改为从 0 开始的线性尺度。
 
 <figure>
-  <img src="/images/9-ros2-rmw-zenoh-0-13-0-benchmark/06-tail-amplification.png" alt="两种发送节奏下各 RMW 的 pooled P99 与 pooled median 比值，Fast DDS 1 MiB back-to-back 约为 12.04">
+  <img src="/images/9-ros2-rmw-zenoh-0-13-0-benchmark/07-tail-amplification.png" alt="两种发送节奏下各 RMW 的 pooled P99 与 pooled median 比值，Fast DDS 1 MiB back-to-back 约为 12.04">
   <figcaption>
 图 7：尾部放大比 P99/median。纵轴为从 0 开始的线性尺度；比值描述相对尾部，不是绝对延迟，也不是 repeat 置信区间。<br>
 <em>Fig. 7. Tail amplification ratio (P99/median) across payloads and communication modes.</em>
@@ -292,7 +292,7 @@ Fast DDS 1 MiB 是一个清楚的例子：从 paced 切到 back-to-back，median
 例如 Cyclone DDS 的 64 KiB back-to-back，五次 median 分别约为 **122.02、94.09、69.99、110.25、235.27 μs**，整体范围为 **69.99–235.27 μs**。它的 pooled median 仍然很低，但不能因此说这个点的重复性最好。
 
 <figure>
-  <img src="/images/9-ros2-rmw-zenoh-0-13-0-benchmark/07-rtt-ecdf-64kib.png" alt="补充分析：64 KiB 两种发送节奏下的完整 RTT ECDF，展示分布平台与相对顺序交叉">
+  <img src="/images/9-ros2-rmw-zenoh-0-13-0-benchmark/08-rtt-ecdf-64kib.png" alt="补充分析：64 KiB 两种发送节奏下的完整 RTT ECDF，展示分布平台与相对顺序交叉">
   <figcaption>
 图 8（补充）：64 KiB 的 ECDF。用于观察 pooled 分布交叉；判断重复波动仍要结合每个 run 的 median/P99，不能只看这张合并曲线。<br>
 <em>Fig. 8. RTT ECDFs for 64 KiB payloads.</em>
