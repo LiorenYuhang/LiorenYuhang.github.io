@@ -5,6 +5,10 @@
 scheme: Gemini
 darkmode: true
 
+# 文章图片放大
+mediumzoom: true
+fancybox: false
+
 # 自定义文件
 custom_file_path:
   head: source/_data/head.njk
