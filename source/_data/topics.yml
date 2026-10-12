@@ -6,6 +6,7 @@ active-stabilization:
   description: 围绕运动平台在外部扰动和基座运动条件下的主动稳定控制问题，记录从机构建模、动力学仿真、状态感知到主动补偿与控制算法的研究过程。
   hero: /images/topics/active-stabilization/hero.webp
   posts:
+    - 6-pus-stewart-4-attitude-stabilization
     - 6-PUS Stewart并联机构研究（一）：从SolidWorks三维模型到运动学建模与工作空间分析
     - 6-pus-stewart-2-simscape-pid-adrc
     - 6-pus-stewart-3-ros2-real-hardware
@@ -17,6 +18,7 @@ robotics-systems:
   description: 记录机器人软件从开发环境、通信链路、执行器与传感器接入，到 ROS 系统集成和真实硬件部署的工程实践。
   hero: /images/topics/robotics-systems/hero.webp
   posts:
+    - 6-pus-stewart-4-attitude-stabilization
     - ros2-runtime-reliability-diagnostics
     - ros2-rmw-zenoh-0-13-0-benchmark
     - ros-docker-cross-ubuntu-development
