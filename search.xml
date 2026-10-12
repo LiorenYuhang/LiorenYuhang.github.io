@@ -246,9 +246,9 @@
             
             <tag> 仿真 </tag>
             
-            <tag> PID控制 </tag>
-            
             <tag> Simscape </tag>
+            
+            <tag> PID控制 </tag>
             
             <tag> 自抗扰控制 </tag>
             
@@ -427,9 +427,9 @@
       
         <tags>
             
-            <tag> Hexo </tag>
-            
             <tag> 教程 </tag>
+            
+            <tag> Hexo </tag>
             
             <tag> GitHub Pages </tag>
             
