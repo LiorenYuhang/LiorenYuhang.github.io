@@ -132,6 +132,8 @@ tagcloud:
 motion:
   enable: true
   transition:
+    # 避免窄窗口加载后切换到桌面宽度时，侧栏因未初始化入场动画而隐藏。
+    sidebar: false
     post_block: fade
     post_header: fade
     post_body: fade
