@@ -17,7 +17,7 @@
     "version": "8.1.2"
   },
   "devDependencies": {
-    "miniflare": "3.20241218.0",
+    "miniflare": "4.20260730.0",
     "wrangler": "3.99.0"
   },
   "dependencies": {
