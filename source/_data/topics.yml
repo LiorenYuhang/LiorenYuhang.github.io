@@ -32,6 +32,7 @@ web-ai:
   description: 记录个人数字系统、智能工具与科研工作流的设计、搭建、使用和持续迭代。
   hero: /images/topics/web-ai-engineering/hero.webp
   posts:
+    - 我想给她完整的鱼生
     - 从零搭建个人网站-Hexo-NexT-GitHub-Pages-完整教程
     - 从一个想法到可用系统：Hexo 个人网站站内 AI 助手开发复盘
     - QQ邮箱Agently-Mail-AI-Agent数字身份证
