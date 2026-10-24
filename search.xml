@@ -244,11 +244,11 @@
             
             <tag> 实机控制 </tag>
             
-            <tag> 双IMU </tag>
-            
             <tag> 逆运动学 </tag>
             
             <tag> 正运动学 </tag>
+            
+            <tag> 双IMU </tag>
             
         </tags>
       
@@ -316,11 +316,11 @@
             
             <tag> Hexo </tag>
             
-            <tag> DeepSeek </tag>
-            
             <tag> Cloudflare Pages </tag>
             
             <tag> AI助手 </tag>
+            
+            <tag> DeepSeek </tag>
             
             <tag> JavaScript </tag>
             
@@ -462,9 +462,9 @@
       
         <tags>
             
-            <tag> 教程 </tag>
-            
             <tag> Hexo </tag>
+            
+            <tag> 教程 </tag>
             
             <tag> GitHub Pages </tag>
             
