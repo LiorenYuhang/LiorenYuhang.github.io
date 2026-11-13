@@ -14,24 +14,24 @@ sidebar: true
 
 ## <i class="fa-solid fa-compass"></i> 研究方向 / Research Focus
 
-<div class="about-projects">
-  <article class="about-project">
-    <header class="about-project-heading">
-      <h3>并联机器人与主动稳定控制</h3>
-    </header>
-    <p>并联机构、任务空间控制、主动稳定、扰动抑制与智能控制。</p>
+<div class="research-focus-grid">
+  <article class="research-focus-card">
+    <div class="research-focus-marker"><span>01</span><i class="fa-solid fa-diagram-project" aria-hidden="true"></i></div>
+    <h3>并联机器人与主动稳定控制</h3>
+    <p class="research-focus-keywords">并联机构 · 任务空间控制 · 主动稳定 · 扰动抑制 · 智能控制</p>
+    <p>研究并联机构的运动控制，以及扰动下的主动姿态稳定。</p>
   </article>
-  <article class="about-project">
-    <header class="about-project-heading">
-      <h3>机器人感知与系统工程</h3>
-    </header>
-    <p>ROS、执行器与传感器集成、多源反馈、实时控制与机器人软件系统。</p>
+  <article class="research-focus-card">
+    <div class="research-focus-marker"><span>02</span><i class="fa-solid fa-microchip" aria-hidden="true"></i></div>
+    <h3>机器人感知与系统工程</h3>
+    <p class="research-focus-keywords">ROS 2 · 传感器融合 · 多源反馈 · 实时控制 · 机器人软件系统</p>
+    <p>关注多源感知与实时控制的协同，以及机器人软件与硬件的集成。</p>
   </article>
-  <article class="about-project">
-    <header class="about-project-heading">
-      <h3>医工交叉与医疗装备</h3>
-    </header>
-    <p>聚焦超声、医疗设备、智能感知与机器人技术在医学工程中的交叉应用。</p>
+  <article class="research-focus-card">
+    <div class="research-focus-marker"><span>03</span><i class="fa-solid fa-wave-square" aria-hidden="true"></i></div>
+    <h3>医工交叉与医疗装备</h3>
+    <p class="research-focus-keywords">聚焦超声 · 医疗设备 · 智能感知 · 医学工程</p>
+    <p>关注聚焦超声装备，以及智能感知与机器人技术在医疗设备中的应用。</p>
   </article>
 </div>
 
