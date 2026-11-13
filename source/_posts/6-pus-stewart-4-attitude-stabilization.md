@@ -20,15 +20,7 @@ mathjax: true
 
 在前面的研究中，我已经完成了 6-PUS Stewart 平台的运动学建模、仿真以及 [ROS 2 实机控制](/2026/09/16/6-pus-stewart-3-ros2-real-hardware/)。接下来，就要让这套机构真正发挥主动姿态稳定的作用：当手持基座发生倾斜或晃动时，如何让动平台尽可能保持原来的姿态？
 
-仅依靠运动学补偿是否足够？加入姿态反馈和扰动估计后，又能带来怎样的变化？为了回答这些问题，我分别尝试了前馈、PID 和 LADRC 控制，并开展了一系列真机实验。在介绍具体方法之前，先看一段主动稳定的实际效果（图 1）。
-
-<figure style="display: flex; flex-direction: column; align-items: center; margin: 1.5em auto;">
-  <picture style="display: block; width: 100%; max-width: 360px; line-height: 0; flex: none;">
-    <source srcset="/images/11-stewart-4/01-attitude-stabilization.webp" type="image/webp">
-    <img src="/images/11-stewart-4/01-attitude-stabilization.gif" alt="手动倾斜定平台时，6-PUS 动平台主动补偿姿态的 PID 实机演示" style="display: block; width: 100%; height: auto; margin: 0;">
-  </picture>
-  <figcaption style="position: static; display: block; width: 100%; margin: 12px auto 0; line-height: 1.6; font-weight: normal; text-align: center;">图 1：6-PUS Stewart 平台主动姿态稳定实机演示。<br>Figure 1. 6-PUS Stewart platform attitude-stabilization demonstration.</figcaption>
-</figure>
+仅依靠运动学补偿是否足够？加入姿态反馈和扰动估计后，又能带来怎样的变化？为了回答这些问题，我分别尝试了前馈、PID 和 LADRC 控制，并开展了一系列真机实验。
 
 <!-- more -->
 
@@ -181,7 +173,7 @@ $$
 三种方案共享 SO(3) 前馈和执行链路。纯前馈不启用附加姿态反馈；PID 与 LADRC 则是二选一的残差控制器，只有选中的输出进入旋转变换与 SO(3) 姿态合成，再由 IK 和实际执行链路完成运动（图 2）。
 
 <figure>
-  <img src="/images/11-stewart-4/02-unified-control-architecture.png" alt="共同 SO(3) 前馈链路与 PID 或 LADRC 残差反馈分支的统一架构" style="width: 100%; height: auto;">
+  <img src="/images/14-stewart-5/02-unified-control-architecture.png" alt="共同 SO(3) 前馈链路与 PID 或 LADRC 残差反馈分支的统一架构" style="width: 100%; height: auto;">
   <figcaption style="position: static; display: block; width: 100%; margin: 12px auto 0; line-height: 1.6; font-weight: normal; text-align: center;">图 2：三种主动姿态稳定控制方案的统一架构。<br>Figure 2. Unified architecture of three attitude-stabilization modes.</figcaption>
 </figure>
 
@@ -231,7 +223,7 @@ RMS 不去均值，反映所选窗口中偏差的整体水平，参考偏置和�
 先看纯前馈与 PID 控制时，基座姿态变化和动平台响应（图 3）。前馈统计完整 ACTIVE，共 5929 点、118.580 s；PID 采用 2604 点、52.080 s 的有效窗口，完整 ACTIVE 共 2946 点。两列横轴从各自统计窗口起点计时。
 
 <figure>
-  <img src="/images/11-stewart-4/03-feedforward-pid-responses.png" alt="历史统计窗口内纯前馈与 PID 的基座输入及平台三轴欧拉角响应" style="width: 100%; height: auto;">
+  <img src="/images/14-stewart-5/03-feedforward-pid-responses.png" alt="历史统计窗口内纯前馈与 PID 的基座输入及平台三轴欧拉角响应" style="width: 100%; height: auto;">
   <figcaption style="position: static; display: block; width: 100%; margin: 12px auto 0; line-height: 1.6; font-weight: normal; text-align: center;">图 3：纯前馈与 PID 控制下的姿态响应对比。<br>Figure 3. Attitude responses with feedforward only and PID feedback.</figcaption>
 </figure>
 
@@ -289,7 +281,7 @@ Roll、Pitch、Yaw 的归一化 RMS 分别下降 34.6%、37.2%、21.1%，整体 
 PID 已经能利用平台姿态残余进行补偿，引入扰动估计后会发生什么变化？先看一段没有额外偏心负载的 LADRC 短测：总记录约 10 s，其中 ACTIVE 为 430 点、8.580 s，三轴实际运动命令由 LADRC 的残差输出生成。图 4 展示平台响应与限幅后的实际输出。
 
 <figure>
-  <img src="/images/11-stewart-4/04-ladrc-no-load-response.png" alt="空载 LADRC 运行时的平台姿态响应和实际选用残差" style="width: 100%; height: auto;">
+  <img src="/images/12-stewart-4/04-ladrc-no-load-response.png" alt="空载 LADRC 运行时的平台姿态响应和实际选用残差" style="width: 100%; height: auto;">
   <figcaption style="position: static; display: block; width: 100%; margin: 12px auto 0; line-height: 1.6; font-weight: normal; text-align: center;">图 4：LADRC 短测中的姿态响应与残差输出。<br>Figure 4. Attitude response and residual output during a short LADRC test.</figcaption>
 </figure>
 
@@ -315,7 +307,7 @@ Yaw 的基座 RMS 仅为 0.728°，平台 RMS 为 1.818°，因此响应比值�
 将各自首次进入 ACTIVE 设为零时刻，取约 23.24 s 的共同持续时间，两组各 1163 个样本；PID 完整 ACTIVE 中多出的 52 点不进入统计。图 5 同时展示基座输入与平台响应，共同窗口统一了统计长度，人工扰动仍未同步回放。
 
 <figure>
-  <img src="/images/11-stewart-4/05-common-window-comparison.png" alt="PID 与 LADRC 共同持续时间窗口中的基座输入和平台相对欧拉角残余" style="width: 100%; height: auto;">
+  <img src="/images/12-stewart-4/05-common-window-comparison.png" alt="PID 与 LADRC 共同持续时间窗口中的基座输入和平台相对欧拉角残余" style="width: 100%; height: auto;">
   <figcaption style="position: static; display: block; width: 100%; margin: 12px auto 0; line-height: 1.6; font-weight: normal; text-align: center;">图 5：共同统计窗口内的 PID 与 LADRC 姿态响应。<br>Figure 5. PID and LADRC attitude responses over a common-duration window.</figcaption>
 </figure>
 
@@ -338,7 +330,7 @@ G\_{\mathrm{RMS},i}=\frac{\mathrm{RMS}(\theta\_{P,i})}{\mathrm{RMS}(\theta\_{B,i
 $$
 
 <figure>
-  <img src="/images/11-stewart-4/06-normalized-residual-ratios.png" alt="共同统计窗口内 PID 与 LADRC 三轴平台 RMS 除以基座 RMS 的归一化比值" style="width: 100%; height: auto;">
+  <img src="/images/12-stewart-4/06-normalized-residual-ratios.png" alt="共同统计窗口内 PID 与 LADRC 三轴平台 RMS 除以基座 RMS 的归一化比值" style="width: 100%; height: auto;">
   <figcaption style="position: static; display: block; width: 100%; margin: 12px auto 0; line-height: 1.6; font-weight: normal; text-align: center;">图 6：PID 与 LADRC 的逐轴归一化 RMS 响应比值。<br>Figure 6. Per-axis normalized RMS response ratios for PID and LADRC.</figcaption>
 </figure>
 
@@ -353,7 +345,7 @@ LADRC 增加了对综合影响的估计，那么负载改变后，这一机制�
 图 7 左侧展示基座欧拉角，右侧展示世界系 SO(3) 误差向量分量。PID 与 LADRC 的 ACTIVE 分别为 429 点、8.560 s 和 446 点、8.901 s，时间均从各自 ACTIVE 起点计。
 
 <figure>
-  <img src="/images/11-stewart-4/07-eccentric-payload-comparison.png" alt="固定偏心负载下 PID 和 LADRC 的基座欧拉角输入及世界系 SO(3) 误差向量分量" style="width: 100%; height: auto;">
+  <img src="/images/14-stewart-5/07-eccentric-payload-comparison.png" alt="固定偏心负载下 PID 和 LADRC 的基座欧拉角输入及世界系 SO(3) 误差向量分量" style="width: 100%; height: auto;">
   <figcaption style="position: static; display: block; width: 100%; margin: 12px auto 0; line-height: 1.6; font-weight: normal; text-align: center;">图 7：偏心负载下的基座输入与平台姿态误差。<br>Figure 7. Base inputs and platform attitude errors with eccentric payload.</figcaption>
 </figure>
 
@@ -382,7 +374,7 @@ ESO 已经在更新，LADRC 也生成了补偿命令，但平台仍有明显的�
 图 8 把偏心负载和共同窗口 LADRC 记录中的 Pitch 响应放在一起：原始控制输出表示计算出的需求，限幅后输出表示软件实际选用的补偿。两条曲线分开时，就有一部分需求被截去了。图中同时保留实测误差、LESO 状态 $z\_1$、$z\_2$，以及反馈项和扰动补偿项；其中 $z\_2/b\_0$ 是从状态换算的角度补偿贡献。对照 $z\_1$ 与实测误差，可以看估计是否跟上变化；再看两个补偿项与限幅后输出，可以区分估计在变化和补偿被实际选用。
 
 <figure>
-  <img src="/images/11-stewart-4/08-ladrc-limits-and-observer.png" alt="两段 LADRC 记录中 Pitch 原始与限幅输出、误差估计及控制贡献" style="width: 100%; height: auto;">
+  <img src="/images/14-stewart-5/08-ladrc-limits-and-observer.png" alt="两段 LADRC 记录中 Pitch 原始与限幅输出、误差估计及控制贡献" style="width: 100%; height: auto;">
   <figcaption style="position: static; display: block; width: 100%; margin: 12px auto 0; line-height: 1.6; font-weight: normal; text-align: center;">图 8：LADRC 的残差限幅、误差估计与控制贡献。<br>Figure 8. LADRC residual limits, error estimates and control contributions.</figcaption>
 </figure>
 
@@ -405,7 +397,7 @@ ESO 已经在更新，LADRC 也生成了补偿命令，但平台仍有明显的�
 图 9 展示全部 2007 个 ACTIVE 样本中的基座姿态幅值、平台姿态误差，以及每点六轴命令与反馈的最大快照差。
 
 <figure>
-  <img src="/images/11-stewart-4/09-high-dynamic-pid-response.png" alt="高动态 PID 手持扰动中的基座 SO(3) 幅值、平台姿态误差与执行器命令反馈快照差" style="width: 100%; height: auto;">
+  <img src="/images/14-stewart-5/09-high-dynamic-pid-response.png" alt="高动态 PID 手持扰动中的基座 SO(3) 幅值、平台姿态误差与执行器命令反馈快照差" style="width: 100%; height: auto;">
   <figcaption style="position: static; display: block; width: 100%; margin: 12px auto 0; line-height: 1.6; font-weight: normal; text-align: center;">图 9：高动态手持扰动下的姿态响应与执行器快照偏差。<br>Figure 9. Attitude responses and actuator snapshot differences during dynamic manual disturbance.</figcaption>
 </figure>
 
@@ -440,7 +432,7 @@ ESO 已经在更新，LADRC 也生成了补偿命令，但平台仍有明显的�
 保护触发前的最后一次有效姿态记录中，基座 Roll 为 −38.113°，基座系命令 Roll/Pitch/Yaw 为 38.140°、−4.825°、1.496°，第五路执行器电流为 487 mA。随后故障记录中的电流达到 503 mA，超过当时 500 mA 的软件保护门限。姿态与 503 mA 来自前后两次记录，不能视作同步观测；故障行的默认零姿态也不代表平台已回到参考。
 
 <figure>
-  <img src="/images/11-stewart-4/10-large-angle-overcurrent.png" alt="过流前两秒的有效 Roll 姿态命令与六执行器电流，区分最后有效姿态和故障行" style="width: 100%; height: auto;">
+  <img src="/images/12-stewart-4/10-large-angle-overcurrent.png" alt="过流前两秒的有效 Roll 姿态命令与六执行器电流，区分最后有效姿态和故障行" style="width: 100%; height: auto;">
   <figcaption style="position: static; display: block; width: 100%; margin: 12px auto 0; line-height: 1.6; font-weight: normal; text-align: center;">图 10：大角度补偿时的姿态命令与过流停止。<br>Figure 10. Attitude commands and overcurrent stop during large-angle compensation.</figcaption>
 </figure>
 
@@ -492,8 +484,8 @@ LADRC 故障后，六轴 Pause 均得到应答，串口释放，没有遗留进�
 
 <figure style="display: flex; flex-direction: column; align-items: center; margin: 1.5em auto;">
   <picture style="display: block; width: 100%; max-width: 360px; line-height: 0; flex: none;">
-    <source srcset="/images/11-stewart-4/11-pid-toy-demonstration.webp" type="image/webp">
-    <img src="/images/11-stewart-4/11-pid-toy-demonstration.gif" alt="直立麻将玩具放在动平台上，PID 控制在人工移动基座时主动补偿姿态" style="display: block; width: 100%; height: auto; margin: 0;">
+    <source srcset="/images/12-stewart-4/11-pid-toy-demonstration.webp" type="image/webp">
+    <img src="/images/12-stewart-4/11-pid-toy-demonstration.gif" alt="直立麻将玩具放在动平台上，PID 控制在人工移动基座时主动补偿姿态" style="display: block; width: 100%; height: auto; margin: 0;">
   </picture>
   <figcaption style="position: static; display: block; width: 100%; margin: 12px auto 0; line-height: 1.6; font-weight: normal; text-align: center;">图 11：动平台麻将玩具保持站立的 PID 实机演示。<br>Figure 11. PID demonstration with a standing toy on the moving platform.</figcaption>
 </figure>
