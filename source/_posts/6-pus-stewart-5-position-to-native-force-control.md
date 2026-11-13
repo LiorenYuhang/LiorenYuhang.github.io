@@ -1,5 +1,6 @@
 ---
 title: "6-PUS Stewart 并联机构研究（五）：从位置伺服到原生力控"
+date: 2026-11-13 15:32:20
 lang: zh-CN
 tags: [Stewart平台, 并联机器人, 6-PUS, 位置伺服, 原生轴向力控, 实机控制]
 categories: 机器人
