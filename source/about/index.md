@@ -92,7 +92,7 @@ C 题：小车跟随行驶系统
 
 - <i class="fa-brands fa-github"></i> GitHub：[LiorenYuhang](https://github.com/LiorenYuhang)
 - <i class="fa-solid fa-graduation-cap"></i> 学校邮箱：<a class="email-copy-link" href="mailto:2026020503003@mails.zstu.edu.cn">2026020503003@mails.zstu.edu.cn</a>
-- <i class="fa-solid fa-envelope"></i> 个人邮箱：<a class="email-copy-link" href="mailto:liu999yh@qq.com">liu999yh@qq.com</a>
+- <i class="fa-solid fa-envelope"></i> 个人邮箱：<a class="email-copy-link" href="mailto:lyhlink@qq.com">lyhlink@qq.com</a>
 
 ## <i class="fa-solid fa-globe"></i> 关于本站 / About This Site
 
