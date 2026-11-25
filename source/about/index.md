@@ -8,7 +8,7 @@ sidebar: true
 ---
 
 <section class="about-intro">
-  <p class="about-kicker">博士研究生 · Robotics · Control · ROS 2</p>
+  <p class="about-kicker">博士研究生 · Robotics · Perception &amp; Control · Medical Applications</p>
   <p>我目前就读于浙江理工大学（Zhejiang Sci-Tech University，ZSTU），是一名在读博士生。</p>
 </section>
 

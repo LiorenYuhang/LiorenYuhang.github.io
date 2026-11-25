@@ -1,6 +1,6 @@
 intro:
   title: 研究札记
-  subtitle: Robotics · Control · ROS 2
+  subtitle: Robotics · Perception & Control · Medical Applications
   description: 记录研究与实践中的思考、实现与迭代。
 start_here:
   - title: 主动稳定与扰动抑制
